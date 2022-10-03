@@ -100,8 +100,4 @@
 			break;
 		}
 	}
-
-	if (!@$isWhitelisted) {
-		header("location: https://varo/");
-	}
 ?>
