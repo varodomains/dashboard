@@ -1494,6 +1494,10 @@ select {
 	tr:hover > td {
 		background-color: transparent !important;
 	}
+
+	#domainTable .actionHolder {
+		display: none;
+	}
 }
 
 @media (max-width: 400px) {
