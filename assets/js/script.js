@@ -814,7 +814,7 @@ function emojifyIfNeeded(name) {
 
 function domainRow(data, reserved=false) {
 	if (reserved) {
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="transferReserved">Transfer</div><div class="actionHolder"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteReserved" title="Hold to delete"></div></div></div></div></div>';
+		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="transferReserved">Transfer</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteReserved" title="Hold to delete"></div></div></div></div></div>';
 	}
 	else if (isSLD(data.id)) {
 		var autoRenew = "";
@@ -828,7 +828,7 @@ function domainRow(data, reserved=false) {
 		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.tld)+'</div><div class="link" data-action="tldLink">Direct Link</div><div class="link" data-action="manageDomain">Manage</div></div></div>';
 	}
 	else {
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="manageDomain">Manage</div><div class="actionHolder"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteDomain" title="Hold to delete"></div></div></div></div></div>';
+		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="manageDomain">Manage</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteDomain" title="Hold to delete"></div></div></div></div></div>';
 	}
 }
 
@@ -879,7 +879,7 @@ function dnsRecordRow(record) {
 		        <div class="content item"><div class="edit">${record.content}</div></div>
 		        <div class="prio item"><div class="edit">${prio}</div></div>
 		        <div class="ttl item"><div class="edit">${record.ttl}</div></div>
-		        <div class="actionHolder">
+		        <div class="actionHolder item">
 		            <div class="actions">
 		                <div class="circle"></div>
 		                <div class="icon delete" data-action="deleteRecord" title="Hold to delete"></div>
@@ -912,7 +912,7 @@ function notificationRow(notification) {
 		        <div class="type item">${notification.type.toUpperCase()}</div>
 		        <div class="name item"><div class="edit">${notification.name}</div></div>
 		        <div class="value item"><div class="edit">${notification.value}</div></div>
-		        <div class="actionHolder">
+		        <div class="actionHolder item">
 		            <div class="actions">
 		                <div class="circle"></div>
 		                <div class="icon delete" data-action="deleteNotification" title="Hold to delete"></div>
@@ -944,7 +944,7 @@ function paymentMethodRow(data) {
 	if (data.default) {
 		def = "";
 	}
-	return '<div class="row" data-id="'+data.id+'"><div class="items"><div>'+data.brand+' *'+data.last4+' ('+data.expiration+')</div><div class="link" data-action="defaultPaymentMethod">Make Default</div><div class="actionHolder"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deletePaymentMethod" title="Hold to delete"></div></div></div></div></div>';
+	return '<div class="row" data-id="'+data.id+'"><div class="items"><div>'+data.brand+' *'+data.last4+' ('+data.expiration+')</div><div class="link" data-action="defaultPaymentMethod">Make Default</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deletePaymentMethod" title="Hold to delete"></div></div></div></div></div>';
 }
 
 function salesRow(data) {
@@ -2303,7 +2303,7 @@ function afterSubmit(form, response) {
 
 		case "transferDomain":
 			if (response.success) {
-				close();
+				close(action);
 
 				if (isStaked(zone)) {
 					let zoneID = form.find("input[name=zone]").val();
@@ -2318,9 +2318,15 @@ function afterSubmit(form, response) {
 			break;
 
 		case "addReserved":
+			if (response.success) {
+				close(action);
+				loadReserved();
+			}
+			break;
+
 		case "giftDomain":
 			if (response.success) {
-				close();
+				close(action);
 			}
 			break;
 
