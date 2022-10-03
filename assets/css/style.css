@@ -1414,6 +1414,13 @@ select {
 	display: none;
 }
 
+.menu {
+	overflow: auto;
+}
+.info {
+	margin-top: 10px;
+}
+
 @media (max-width: 1000px) {
 	.mobile {
 		display: block;
