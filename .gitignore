@@ -1,0 +1,15 @@
+.DS_Store
+._.DS_Store
+._*
+etc/.lastBlock
+etc/.scanning
+
+etc/config.php
+etc/test.php
+
+composer.lock
+etc/vendor/
+etc/node_modules
+package-lock.json
+
+assets/js/beta.js

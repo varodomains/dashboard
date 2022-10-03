@@ -1,0 +1,1503 @@
+:root {
+	--themeColor: #409aed;
+	--themeColorAlt: #409aedaa;
+	--deleteColor: #db4437;
+
+	--primaryBackground: #2d2d2d;
+	--secondaryBackground: #282828;
+	--tertiaryBackground: #474748;
+	--quarteraryBackground: #323232;
+	--quinaryBackground: #222;
+
+	--errorForeground: #db4437;
+	--errorBackground: #5d3737;
+
+	--positiveColor: #7cb517;
+	--negativeColor: #db4437;
+
+	--primaryForeground: #fff;
+	--secondaryForeground: #7a7a7a;
+
+	--borderColor: #222;
+	--borderColorAlt: #181818;
+
+	--blackoutColor: rgba(0,0,0,0.3);
+
+	--chartColor1: #409aed;
+	--chartColor2: #db4437;
+	--chartColor3: #ed8f40;
+	--chartColor4: #e9ed40;
+	--chartColor5: #40ed50;
+	--chartColor6: #6e40ed;
+	--chartColor7: #c640ed;
+
+	--handshakeIcon: url(/assets/img/icons/hns);
+
+	--userIcon: url(/assets/img/icons/user);
+
+	--homeIcon: url(/assets/img/icons/home);
+	--overviewIcon: url(/assets/img/icons/overview);
+	--domainsIcon: url(/assets/img/icons/domains);
+	--sitesIcon: url(/assets/img/icons/sites);
+	--dnsIcon: url(/assets/img/icons/records);
+	--notifyIcon: url(/assets/img/icons/notify);
+	--stakingIcon: url(/assets/img/icons/staking);
+	--hostingIcon: url(/assets/img/icons/hosting);
+	--supportIcon: url(/assets/img/icons/support);
+	--settingsIcon: url(/assets/img/icons/settings);
+	--discordIcon: url(/assets/img/icons/discord);
+	--adminIcon: url(/assets/img/icons/admin);
+	--logoutIcon: url(/assets/img/icons/logout);
+	
+	--addIcon: url(/assets/img/icons/add);
+	--downIcon: url(/assets/img/icons/down);
+	--editIcon: url(/assets/img/icons/edit);
+	--saveIcon: url(/assets/img/icons/save);
+	--checkIcon: url(/assets/img/icons/check);
+	--cancelIcon: url(/assets/img/icons/cancel);
+	--deleteIcon: url(/assets/img/icons/delete);
+	--searchIcon: url(/assets/img/icons/search);
+	--buyIcon: url(/assets/img/icons/buy);
+}
+
+*, *:before, *:after {
+	font-family: 'Rubik', sans-serif;
+	box-sizing: border-box;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	-webkit-mask-size: contain;
+	-webkit-mask-position: center;
+	-webkit-mask-repeat: no-repeat;
+	-moz-mask-size: contain;
+	-moz-mask-position: center;
+	-moz-mask-repeat: no-repeat;
+	mask-size: contain;
+	mask-position: center;
+	mask-repeat: no-repeat;
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+}
+
+::-webkit-scrollbar, iframe::-webkit-scrollbar {
+	width: 6px;
+	height: 6px;
+	border-radius: 50%;
+}
+::-webkit-scrollbar-track, iframe::-webkit-scrollbar-track {
+	background: rgba(--secondaryBackground);
+}
+::-webkit-scrollbar-thumb, iframe::-webkit-scrollbar-thumb {
+	background: var(--tertiaryBackground);
+}
+::-webkit-scrollbar-thumb:hover, iframe::-webkit-scrollbar-thumb:hover {
+	background: var(--themeColor);
+}
+::-webkit-scrollbar-corner { 
+	background: rgba(--secondaryBackground);
+}
+
+.select {
+	-webkit-user-select: text;
+	-moz-user-select: text;
+	user-select: text;
+}
+
+html {
+	color: var(--primaryForeground);
+	background-color: var(--primaryBackground);
+}
+html, body {
+	height: 100%;
+	min-width: 320px;
+	width: 100%;
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+body {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#blackout {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	background-color: var(--blackoutColor);
+	z-index: 9;
+	display: none;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.blackoutTable, .blackoutCell {
+	width: 100%;
+	height: 100%;
+}
+.blackoutTable {
+	display: table;
+	position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+}
+.blackoutCell {
+	display: table-cell;
+	vertical-align: middle;
+	padding: 20px;
+}
+
+input, select, textarea {
+	border: none;
+	outline: none;
+	background-color: transparent;
+	font-size: 16px;
+	color: var(--primaryForeground);
+	resize: none;
+}
+
+input, [contenteditable=true] {
+	-webkit-user-select: auto;
+}
+
+a {
+	color: var(--themeColor);
+	text-decoration: none;
+}
+a:hover {
+	opacity: 0.5;
+}
+
+.flex.right {
+	display: flex;
+}
+
+.shown:not(.flex) {
+	display: block !important;
+}
+.flex.shown {
+	display: flex !important;
+}
+
+.links {
+	display: flex;
+	justify-content: flex-end;
+	align-items: center;
+	text-align: center;
+}
+.links .link {
+	margin-left: 20px;
+}
+
+.link {
+	color: var(--themeColor) !important;
+}
+.link:hover, .icon:hover {
+	cursor: pointer;
+	opacity: 0.5;
+}
+
+.link.destructive {
+	color: var(--negativeColor) !important;
+}
+
+.header {
+	background-color: var(--secondaryBackground);
+	height: 60px;
+	width: 100%;
+	display: flex;
+	border-bottom: 1px solid var(--borderColor);
+	box-sizing: content-box;
+	flex-shrink: 0;
+}
+.header div {
+	height: 100%;
+}
+.header .section {
+	box-sizing: border-box;
+	padding: 10px 15px;
+}
+.header .logo {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 30px;
+}
+.header .section.right {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+}
+.header .domains, .header .staked {
+	width: 100%;
+	max-width: 180px;
+	flex-grow: 1;
+	padding: 10px;
+	font-size: 16px;
+	color: var(--primaryForeground);
+	visibility: hidden;
+	position: absolute;
+}
+.header .account {
+	display: flex;
+	align-items: center;
+	padding: 10px;
+	border-radius: 10px;
+	margin-left: 10px;
+}
+.header .account * {
+	pointer-events: none;
+}
+.header .account:hover {
+	background-color: var(--quarteraryBackground);
+	cursor: pointer;
+}
+.header .account .avatar {
+	width: 20px;
+	height: 20px;
+	border-radius: 50%;
+	-webkit-mask-image: var(--userIcon);
+	-moz-mask-image: var(--userIcon);
+	mask-image: var(--userIcon);
+	background-color: var(--primaryForeground);
+}
+.header .account .arrow {
+	width: 10px;
+	height: 10px;
+	margin-left: 5px;
+	-webkit-mask-image: var(--downIcon);
+	-moz-mask-image: var(--downIcon);
+	mask-image: var(--downIcon);
+	background-color: var(--primaryForeground);
+}
+
+#nextUpdate {
+    color: var(--secondaryForeground);
+    text-align: center;
+	display: flex;
+	flex-direction: column;
+}
+#nextUpdate span {
+	margin-top: 5px;
+	color: var(--primaryForeground);
+}
+
+.main {
+	height: 100%;
+	width: 100%;
+	display: flex;
+	overflow: hidden;
+	position: relative;
+}
+
+.main .menu {
+	background-color: var(--secondaryBackground);
+	width: 90px;
+	height: 100%;
+	padding: 10px;
+	flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+	border-right: 1px solid var(--borderColor);
+}
+.menu .item {
+	width: 100%;
+	text-align: center;
+}
+.disabled {
+	filter: saturate(0%);
+}
+.disabled:hover {
+	cursor: not-allowed !important;
+}
+.status {
+	padding: 0 5px;
+	border-radius: 5px;
+	color: var(--primaryForeground);
+	font-size: 12px;
+	height: 20px;
+	line-height: 20px;
+	margin-left: 8px;
+	word-break: normal;
+}
+.available {
+	background-color: var(--positiveColor);
+}
+.unavailable {
+	background-color: var(--negativeColor);
+}
+.hidden {
+	visibility: hidden;
+}
+.none {
+	display: none;
+}
+td.money:before, div.money:before, div.price:before, span.total:before {
+	content: "$";
+}
+div.price.HNS, span.total.HNS {
+	position: relative;
+}
+div.price.HNS:before, span.total.HNS:before {
+	content: "";
+	height: 16px;
+	width: 16px;
+	position: absolute;
+	background-image: var(--handshakeIcon);
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
+	opacity: 0.4;
+}
+td.price {
+    display: flex;
+    justify-content: center;
+}
+div.price.HNS:before, span.total.HNS:before {
+	top: 1px;
+	left: -20px;
+}
+td.price div.price.HNS, span.total.HNS {
+	padding-left: 20px;
+}
+td.price div.price.HNS:before, span.total.HNS:before {
+	left: 0;
+}
+div.price:after {
+	content: "/yr";
+}
+#domainTable .price {
+	margin-right: 10px;
+	color: var(--primaryForeground) !important;
+}
+.domain .edit, .sld .edit {
+	white-space: nowrap !important;
+	height: 20px;
+}
+.edit {
+    min-height: 20px;
+}
+.name:not(.editing) .edit, .content:not(.editing) .edit, .prio:not(.editing) .edit, .ttl:not(.editing) .edit {
+	height: 20px;
+}
+.section[data-section=slds] .actions {
+	right: 0;
+}
+.separator {
+	height: 1px;
+	margin: 10px;
+	background-color: var(--tertiaryBackground);
+}
+.main .menu .item {
+	height: 70px;
+	margin: 5px 0px 5px 0px;
+	border-radius: 10px;
+	font-size: 12px;
+	line-height: 70px;
+	position: relative;
+	color: rgba(0, 0, 0, 0);
+	transition: color .25s, line-height .25s;
+}
+.main .menu .item:first-child {
+	margin: 0px 0px 5px 0px;
+}
+.main .menu .item:last-child {
+	margin: 5px 0px 0px 0px;
+}
+.main .menu .item:hover {
+	line-height: 102.5px;
+	color: var(--primaryForeground);
+	cursor: pointer;
+	background-color: var(--primaryBackground);
+}
+.main .menu .item:hover, .main .menu .item.current {
+	line-height: 102.5px;
+	color: var(--primaryForeground);
+	cursor: pointer;
+}
+.main .menu .item.current {
+	background-color: var(--quarteraryBackground);
+}
+.main .menu .item.current, .main .menu .item.current .icon {
+	transition: unset !important;
+}
+.main .menu .item:hover > .icon, .main .menu .item.current > .icon {
+	-webkit-mask-position: center 12px;
+	-moz-mask-position: center 12px;
+	mask-position: center 12px;
+}
+.main .menu .item .icon {
+	-webkit-mask-size: 30px;
+	-moz-mask-size: 30px;
+	mask-size: 30px;
+	background-color: var(--themeColor);
+	height: 100%;
+	width: 100%;
+	position: absolute;
+	transition: -webkit-mask-position .25s, -moz-mask-position .25s, mask-position .25s;
+}
+
+.popover[data-name=account] .menu .item {
+	height: 40px;
+	line-height: 40px;
+}
+.popover[data-name=account] .menu .item:hover {
+	background-color: var(--quarteraryBackground);
+	cursor: pointer;
+}
+
+.circle {
+    width: 24px;
+    height: 24px;
+    position: absolute !important;
+}
+
+.main .body {
+    flex-grow: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.main .body .holder {
+	width: 100%;
+	min-width: 910px;
+	max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 40px;
+}
+.main[data-page=manage] .body .holder, .main[data-page=admin] .body .holder {
+	max-width: 1200px;
+}
+.main .body .holder .section:not(:last-child) {
+	margin-bottom: 32px;
+}
+.titleHolder {
+	display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.popover .titleHolder {
+	align-items: center;
+	width: 100%;
+	margin-bottom: 0;
+}
+.main .body .section .title {
+	height: 25px;
+	font-size: 20px;
+	margin: 0px 0px 10px 20px;
+	overflow: hidden;
+}
+.main .body .section .titleHolder > .title {
+	margin-bottom: 0;
+}
+.titleAction {
+	display: none;
+    justify-content: space-between;
+    margin-right: 20px;
+    align-items: center;
+    color: var(--secondaryForeground);
+    height: 25px;
+}
+.titleAction .cl-switch {
+	margin-left: 5px;
+}
+.main .body .section[data-section=slds], .main .body .section[data-section=domains], .main .body .section[data-section=reserved] {
+	display: none;
+}
+.main .body .section[data-section=actions], .main .body .section[data-section=nsds] {
+	display: none;
+}
+.section[data-section=billing] {
+	display: none;
+}
+.section[data-section=billing] #paymentMethods {
+	display: none;
+}
+.section[data-section=billing] #paymentMethods tr {
+	display: flex;
+}
+.section[data-section=billing] td.name {
+    flex-grow: 1;
+}
+
+#actionTable tr {
+	display: flex;
+}
+#actionTable td.expires {
+	width: auto;
+}
+.main .body .box {
+	width: 100%;
+	background-color: var(--secondaryBackground);
+	padding: 20px;
+	border-radius: 15px;
+	border: 1px solid var(--borderColor);
+}
+
+.main .footer {
+	text-align: center;
+	padding: 10px;
+	display: flex;
+	color: var(--secondaryForeground);
+	justify-content: center;
+}
+
+.right {
+	justify-content: flex-end;
+}
+.center {
+	text-align: center;
+}
+.between {
+	justify-content: space-between;
+}
+
+.sectionAction {
+	display: none;
+}
+
+.actions {
+	display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    flex-shrink: 0;
+    position: absolute;
+    top: 0;
+    right: 10px;
+    height: 100%;
+}
+
+.actions .icon {
+	width: 18px;
+	height: 18px;
+	margin: 0px 0px 0px 5px;
+	background-color: var(--themeColor);
+}
+.actions .icon:hover {
+	opacity: 0.5;
+	cursor: pointer;
+}
+
+.flex {
+	display: flex;
+}
+.column {
+	flex-direction: column;
+}
+
+.table {
+    display: flex;
+    flex-direction: column;
+	overflow: hidden;
+}
+.table .row:not(.noHover):hover {
+	background-color: var(--primaryBackground);
+	cursor: pointer;
+}
+.table .row .items, .table .head .items {
+	display: flex;
+    justify-content: space-between;
+	align-items: stretch;
+}
+.table .head .items > div {
+	color: var(--secondaryForeground) !important;
+}
+.table .row .items:not(.ignore) > div:nth-child(1), .table .head .items:not(.ignore) > div:nth-child(1) {
+	flex-grow: 1;
+	flex-shrink: 1;
+	word-break: break-all;
+	color: var(--primaryForeground);
+	display: flex;
+	align-items: center;
+}
+.table .row .items > div, .table .head .items > div {
+	position: relative;
+	padding: 10px;
+	flex-shrink: 0;
+	color: var(--secondaryForeground);
+	display: flex;
+	align-items: center;
+}
+.table .row .items > div .edit {
+    flex: 1;
+}
+.table .row .items .actionHolder {
+	margin-left: 20px;
+}
+.table .row .items .cl-switch {
+	margin-left: 5px;
+	align-self: center;
+}
+
+#earningsTable .money {
+	color: var(--primaryForeground);
+}
+
+#earningsTable .items {
+	flex-wrap: wrap;
+}
+
+table {
+	width: 100%;
+	text-align: left;
+	border-collapse: collapse;
+	table-layout: fixed;
+}
+table.auto {
+	table-layout: auto;
+}
+table.auto td {
+	white-space: nowrap;
+}
+table.auto td.stretch {
+	width: 100%;
+	white-space: normal;
+}
+th {
+	color: var(--secondaryForeground);
+}
+th.type {
+	width: 120px;
+}
+th.name {
+	width: 25%;
+}
+th.content {
+	width: 50%;
+}
+th.prio {
+	width: 90px;
+}
+th.ttl {
+	width: 100px;
+}
+th.action, #createZoneTable td.add, #searchDomainsTable td.add, td.delete, td.id {
+	width: 40px;
+}
+td.email input {
+	width: 100%;
+}
+th, td {
+	position: relative;
+	padding: 10px;
+}
+td .edit, div.edit {
+    overflow: hidden;
+    white-space: nowrap;
+    outline: none;
+    word-break: break-all;
+}
+#addNotificationTable .name .edit:empty:before {
+	content: "Optional";
+	opacity: 0.39;
+}
+td.domain .edit:empty:before {
+	content: "Domain";
+	opacity: 0.39;
+}
+td.sld .edit:empty:before {
+	content: "Search";
+	opacity: 0.39;
+}
+td.dns {
+	width: 80px;
+	flex-shrink: 0;
+}
+td.expires {
+	width: 180px;
+	flex-shrink: 0;
+	text-align: center;
+	color: var(--secondaryForeground);
+}
+td.expiresin {
+	color: var(--secondaryForeground);
+}
+span.expiry {
+	color: var(--primaryForeground);
+}
+td.renew {
+	width: 115px;
+	flex-shrink: 0;
+	text-align: center;
+	color: var(--secondaryForeground);
+	display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+td.live {
+    width: 105px;
+    flex-shrink: 0;
+    text-align: center;
+    color: var(--secondaryForeground);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+td.transfer, td.gift {
+	flex-grow: 1;
+	display: flex;
+	justify-content: flex-end;
+}
+td.spacer {
+	flex-grow: 1;
+}
+#domainTable td.name {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	display: flex;
+	align-items: center;
+	word-break: break-word;
+}
+.editable td:not(.editing) .edit {
+	pointer-events: none;
+}
+.editable div.item:not(.editing) .edit {
+	pointer-events: none;
+}
+div.item.editing:hover {
+    cursor: text;
+}
+div.item.editing .edit[contenteditable=true] {
+	white-space: normal;
+}
+.editable div.item.editing .edit[contenteditable=true]  {
+	padding-right: 50px;
+    width: 100%;
+}
+div.item .edit[contenteditable=true] {
+	text-overflow: clip;
+}
+div.item .edit:not([contenteditable=true]) {
+	text-overflow: ellipsis;
+}
+.editable div.item.editing {
+	background-color: var(--quarteraryBackground) !important;
+	position: relative;
+}
+
+table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr:hover > td {
+	background-color: var(--primaryBackground);
+	cursor: pointer;
+}
+
+table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr td:first-child {
+	border-radius: 10px 0 0 10px;
+}
+
+table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr td:last-child {
+	border-radius: 0 10px 10px 0;
+}
+
+table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr td:first-child:last-child, #settings td:first-child, #editTable td:first-child {
+	border-radius: 10px !important;
+}
+
+.table .row:hover {
+	border-radius: 10px;
+}
+
+select.type {
+	width: 100%;
+	color: var(--primaryForeground);
+	background-color: var(--secondaryBackground);
+}
+.row:hover select.type {
+	background-color: var(--primaryBackground);
+}
+div.ttl .edit:empty:before {
+	content: "20";
+	opacity: 0.39;
+}
+td.error, div.error {
+	background-color: var(--errorBackground) !important;
+}
+td.value {
+    word-break: break-all;
+}
+td.apply {
+	width: 62px;
+}
+td.coupon .edit {
+	text-overflow: clip;
+	white-space: nowrap !important;
+}
+input.error {
+	background-color: var(--errorBackground) !important;
+}
+.main[data-page=settings] table {
+	margin-bottom: 10px;
+}
+.main[data-page=settings] td {
+	padding: 0;
+}
+.main[data-page=settings] tr td:first-child {
+	padding: 10px;
+}
+.main[data-page=settings] input {
+	width: 100%;
+	height: 100%;
+	padding: 10px;
+}
+#nsTable, #dsTable {
+	margin-bottom: 10px;
+}
+.break {
+	word-break: break-all;
+}
+#paymentMethods td {
+	padding: 10px;
+}
+input[readonly]:not([name=domain]) {
+	color: var(--secondaryForeground);
+}
+input[name=domain][readonly] {
+	cursor: default;
+}
+.icon.home {
+	-webkit-mask-image: var(--homeIcon);
+	-moz-mask-image: var(--homeIcon);
+	mask-image: var(--homeIcon);
+}
+.icon.overview {
+	-webkit-mask-image: var(--overviewIcon);
+	-moz-mask-image: var(--overviewIcon);
+	mask-image: var(--overviewIcon);
+}
+.icon.domains {
+	-webkit-mask-image: var(--domainsIcon);
+	-moz-mask-image: var(--domainsIcon);
+	mask-image: var(--domainsIcon);
+}
+.icon.sites {
+	-webkit-mask-image: var(--sitesIcon);
+	-moz-mask-image: var(--sitesIcon);
+	mask-image: var(--sitesIcon);
+}
+.icon.dns {
+	-webkit-mask-image: var(--dnsIcon);
+	-moz-mask-image: var(--dnsIcon);
+	mask-image: var(--dnsIcon);
+}
+.icon.notify {
+	-webkit-mask-image: var(--notifyIcon);
+	-moz-mask-image: var(--notifyIcon);
+	mask-image: var(--notifyIcon);
+}
+.icon.staking {
+	-webkit-mask-image: var(--stakingIcon);
+	-moz-mask-image: var(--stakingIcon);
+	mask-image: var(--stakingIcon);
+}
+.icon.hosting {
+	-webkit-mask-image: var(--hostingIcon);
+	-moz-mask-image: var(--hostingIcon);
+	mask-image: var(--hostingIcon);
+}
+.icon.support {
+	-webkit-mask-image: var(--supportIcon);
+	-moz-mask-image: var(--supportIcon);
+	mask-image: var(--supportIcon);
+}
+.icon.settings {
+	-webkit-mask-image: var(--settingsIcon);
+	-moz-mask-image: var(--settingsIcon);
+	mask-image: var(--settingsIcon);
+}
+.icon.discord {
+	-webkit-mask-image: var(--discordIcon);
+	-moz-mask-image: var(--discordIcon);
+	mask-image: var(--discordIcon);
+}
+.icon.admin {
+	-webkit-mask-image: var(--adminIcon);
+	-moz-mask-image: var(--adminIcon);
+	mask-image: var(--adminIcon);
+}
+.icon.logout {
+	-webkit-mask-image: var(--logoutIcon);
+	-moz-mask-image: var(--logoutIcon);
+	mask-image: var(--logoutIcon);
+}
+.icon.edit {
+	-webkit-mask-image: var(--editIcon);
+	-moz-mask-image: var(--editIcon);
+	mask-image: var(--editIcon);
+}
+.icon.save {
+	-webkit-mask-image: var(--saveIcon);
+	-moz-mask-image: var(--saveIcon);
+	mask-image: var(--saveIcon);
+}
+.icon.check {
+	-webkit-mask-image: var(--checkIcon);
+	-moz-mask-image: var(--checkIcon);
+	mask-image: var(--checkIcon);
+}
+.icon.cancel {
+	-webkit-mask-image: var(--cancelIcon);
+	-moz-mask-image: var(--cancelIcon);
+	mask-image: var(--cancelIcon);
+}
+.icon.delete {
+	-webkit-mask-image: var(--deleteIcon);
+	-moz-mask-image: var(--deleteIcon);
+	mask-image: var(--deleteIcon);
+	position: absolute;
+    right: 4px;
+    width: 15px;
+    height: 15px;
+}
+.icon.add {
+	-webkit-mask-image: var(--addIcon);
+	-moz-mask-image: var(--addIcon);
+	mask-image: var(--addIcon);
+	-webkit-mask-size: 20px;
+	-moz-mask-size: 20px;
+	mask-size: 20px;
+}
+.icon.search {
+	-webkit-mask-image: var(--searchIcon);
+	-moz-mask-image: var(--searchIcon);
+	mask-image: var(--searchIcon);
+	-webkit-mask-size: 20px;
+	-moz-mask-size: 20px;
+	mask-size: 20px;
+}
+.icon.buy {
+	-webkit-mask-image: var(--buyIcon);
+	-moz-mask-image: var(--buyIcon);
+	mask-image: var(--buyIcon);
+	-webkit-mask-size: 20px;
+	-moz-mask-size: 20px;
+	mask-size: 20px;
+}
+
+.main .account {
+	width: 100%;
+	height: 100%;
+	text-align: center;
+    display: flex;
+    justify-content: center;
+}
+.main .account .title {
+	font-size: 50px;
+	color: var(--primaryForeground);
+}
+.main .account .subtitle {
+	margin-bottom: 20px;
+}
+td.defaultPaymentMethod {
+	display: none;
+}
+#accountForm, .popover #addPaymentMethod {
+	width: 100%;
+	max-width: 400px;
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+#accountForm input, .popover #addPaymentMethod input, #transferDomain input, #giftDomain input, #giftDomain select, #addReserved textarea, #addNotifications textarea {
+	height: 40px;
+	width: 100%;
+	margin-bottom: 10px;
+	padding: 10px;
+    border-radius: 10px;
+}
+
+#addReserved textarea, #addNotifications textarea {
+	height: 300px;
+}
+
+#giftDomain .years {
+	width: 70px;
+	padding-left: 10px;
+}
+#giftDomain .years select {
+    border-right: 8px solid transparent;
+    padding-right: 0;
+}
+
+.account #accountForm input {
+	background-color: var(--secondaryBackground);
+}
+
+.popover input, #giftDomain select, .popover textarea {
+	background-color: var(--quinaryBackground);
+}
+
+.popover .submit {
+	width: 100%;
+}
+
+.subtitle {
+	color: var(--secondaryForeground);
+}
+
+.popover .subtitle {
+	padding: 10px;
+}
+.subtitle .domain {
+	color: var(--primaryForeground);
+}
+#hnsPaymentTable td {
+	text-align: center;
+}
+
+.submit {
+	width: auto;
+	height: 40px;
+	background-color: var(--themeColor);
+	line-height: 40px;
+	text-align: center;
+	border-radius: 10px;
+	padding: 0 10px;
+	overflow: hidden;
+	color: var(--primaryForeground);
+}
+.submit:hover {
+	cursor: pointer;
+	opacity: 0.4;
+}
+.submit.disabled {
+	opacity: 0.4;
+}
+.buy {
+	width: 60px;
+    height: 30px;
+    line-height: 30px;
+}
+.submit[data-action=dashboard], .submit[data-action=unimpersonate] {
+	width: fit-content;
+}
+.submit[data-action=login], .submit[data-action=signup], .submit[data-action=forgot], .submit[data-action=reset] {
+	width: 100%;
+}
+#accountForm .message {
+	margin-top: 10px;
+}
+
+.popover {
+    display: none;
+    width: calc(100% - 20px);
+    max-width: 500px;
+    background-color: var(--secondaryBackground);
+    position: relative;
+    padding: 20px;
+    border-radius: 25px;
+    z-index: 10;
+	border: 1px solid var(--borderColor);
+    margin-left: auto;
+    margin-right: auto;
+}
+.popover .title {
+	width: 100%;
+	font-weight: bold;
+	font-size: 20px;
+}
+.popover .head {
+	width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px 10px 10px;
+}
+.popover .icon {
+	height: 20px;
+	width: 20px;
+	background-color: var(--primaryForeground);
+}
+.popover table:not(#couponTable,#totalTable,#giftTable,#hnsPaymentTable,.total) {
+	margin-bottom: 10px;
+}
+.popover th, .popover td {
+	text-align: center;
+}
+.popover th:first-child, .popover td:first-child {
+	text-align: left;
+}
+.popover th:not(:first-child):last-child, .popover td:not(:first-child):last-child {
+	text-align: right;
+}
+.popover td.coupon {
+	padding: 10px 10px 10px 0;
+}
+.popover[data-name=completePurchase] th.price {
+    width: 110px;
+}
+.popover[data-name=completePurchase] th.years {
+    width: 70px;
+}
+.popover[data-name=completePurchase] td.domain {
+	word-break: break-word;
+}
+.popover[data-name=account], .popover[data-name=addPaymentMethod] {
+	max-width: 400px;
+	z-index: 9999999;
+}
+#giftDomain table {
+	margin-bottom: 0;
+}
+#giftDomain td {
+	padding: 0;
+}
+.popover {
+	box-shadow: 0 8px 10px 1px rgb(0 0 0 / 14%), 0 3px 14px 2px rgb(0 0 0 / 12%), 0 5px 5px -3px rgb(0 0 0 / 20%);
+}
+
+#accountForm .link[data-action=accountAction] span {
+	pointer-events: none;
+}
+
+.customNameservers {
+	margin-top: 10px;
+}
+
+.cl-switch {
+	display: flex;
+}
+.cl-switch .switcher {
+	background-color: var(--quarteraryBackground) !important;
+}
+.cl-switch .switcher:before {
+	background-color: var(--tertiaryBackground) !important;
+}
+.custom input[type="checkbox"]:checked + .switcher {
+	background-color: var(--themeColorAlt) !important;
+}
+.custom input[type="checkbox"]:checked + .switcher:before {
+	background-color: var(--themeColor) !important;
+}
+
+.notificationTable .items, #nsTable .items, #dsTable .items, #nsTable .items, #dsTable .items, .dnsTable .items {
+	justify-content: initial;
+}
+.notificationTable .items > div, .dnsTable .items > div {
+	flex-shrink: 0;
+    flex-grow: 0;
+}
+.notificationTable .items > div:nth-child(1) {
+    width: 120px;
+}
+.notificationTable .items > div:nth-child(2) {
+    width: 25%;
+}
+.notificationTable .items > div:nth-child(3) {
+    width: calc(75% - 120px - 40px);
+}
+.notificationTable .items > div:nth-child(4) {
+    width: 40px;
+    margin-left: 0 !important;
+}
+.notificationTable .items > div {
+	color: var(--primaryForeground) !important;
+	overflow: hidden;
+    text-overflow: ellipsis;
+    display: flex;
+    align-items: center;
+}
+
+.dnsTable .items > div:nth-child(1) {
+    width: 120px !important;
+    flex-grow: 0 !important;
+    flex-shrink: 0 !important;
+}
+.dnsTable .items > div:nth-child(2) {
+    flex: 1;
+    padding-right: 0;
+}
+.dnsTable .items > div:nth-child(3) {
+    flex: 2;
+}
+.dnsTable .items > div:nth-child(4) {
+    width: 90px;
+}
+.dnsTable .items > div:nth-child(5) {
+    width: 100px;
+}
+.dnsTable .items > div:nth-child(6) {
+    width: 40px;
+    margin-left: 0 !important;
+}
+.dnsTable .items > div {
+	color: var(--primaryForeground) !important;
+	overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#nsTable .items > div:nth-child(1), #dsTable .items > div:nth-child(1) {
+    width: 120px;
+    flex-grow: 0;
+	flex-shrink: 0;
+}
+#nsTable .items > div, #dsTable .items > div {
+	color: var(--primaryForeground);
+	overflow: hidden;
+    text-overflow: ellipsis;
+    width: calc(100% - 120px);
+}
+
+.salesTable th {
+	width: 20%;
+	text-align: center;
+}
+.salesTable th.date {
+	text-align: left;
+}
+.salesTable th.net, .salesTable .items > div:nth-child(4) {
+    text-align: right;
+    justify-content: right;
+}
+.salesTable .items > div {
+	color: var(--primaryForeground) !important;
+	text-align: center;
+	width: 20%;
+}
+.salesTable th.name, .salesTable .items > div:nth-child(3) {
+    width: 40%;
+}
+.salesTable .items > div:nth-child(1) {
+	justify-content: left;
+}
+.salesTable .items > div {
+	justify-content: center;
+}
+
+#salesChart {
+	width: 640px;
+	height: 480px;
+}
+
+.hamburger {
+	width: 60px;
+	height: 45px;
+	position: relative;
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+	cursor: pointer;
+	transform: scale(0.4);
+	margin-left: 10px;
+}
+
+.hamburger span {
+	display: block;
+	position: absolute;
+	height: 4px;
+	width: 100%;
+	background-color: var(--primaryForeground);
+	border-radius: 9px;
+	opacity: 1;
+	left: 0;
+	-webkit-transform: rotate(0deg);
+	-moz-transform: rotate(0deg);
+	-o-transform: rotate(0deg);
+	transform: rotate(0deg);
+	-webkit-transition: .25s ease-in-out;
+	-moz-transition: .25s ease-in-out;
+	-o-transition: .25s ease-in-out;
+	transition: .25s ease-in-out;
+}
+
+.hamburger span:nth-child(1) {
+	top: 0px;
+}
+
+.hamburger span:nth-child(2),.hamburger span:nth-child(3) {
+	top: 18px;
+}
+
+.hamburger span:nth-child(4) {
+	top: 36px;
+}
+
+.hamburger.open span:nth-child(1) {
+	top: 18px;
+	width: 0%;
+	left: 50%;
+}
+
+.hamburger.open span:nth-child(2) {
+	-webkit-transform: rotate(45deg);
+	-moz-transform: rotate(45deg);
+	-o-transform: rotate(45deg);
+	transform: rotate(45deg);
+}
+
+.hamburger.open span:nth-child(3) {
+	-webkit-transform: rotate(-45deg);
+	-moz-transform: rotate(-45deg);
+	-o-transform: rotate(-45deg);
+	transform: rotate(-45deg);
+}
+
+.hamburger.open span:nth-child(4) {
+	top: 18px;
+	width: 0%;
+	left: 50%;
+}
+
+.mobileItems {
+	display: none;
+}
+
+.mobileItems > div {
+	padding: 10px;
+	align-items: center;
+	overflow: hidden;
+}
+
+.truncate {
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+}
+
+select {
+	outline: 0;
+	border: 0;
+	border-radius: 10px;
+	display: inline-block;
+	font: inherit;
+	line-height: 1.5em;
+	padding: 10px 35px 10px 10px !important;
+	background-image: linear-gradient(45deg,transparent 50%,var(--secondaryForeground) 50%),linear-gradient(135deg,var(--secondaryForeground) 50%,transparent 50%);
+	background-position: calc(100% - 20px) calc(1em + 2px),calc(100% - 15px) calc(1em + 2px),calc(100% - 2.5em) 0.5em;
+	background-size: 5px 5px,5px 5px,1px 1.5em;
+	margin: 0;
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+}
+
+.popover[data-name=newRecord] td, .popover[data-name=editRecord] td, .popover[data-name=newNotification] td, .popover[data-name=editNotification] td {
+	display: block;
+	padding: 0;
+}
+.popover[data-name=newRecord] input, .popover[data-name=newRecord] select, .popover[data-name=editRecord] input, .popover[data-name=newNotification] input, .popover[data-name=newNotification] select, .popover[data-name=editNotification] input {
+    background-color: var(--quinaryBackground);
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%;
+    height: 100%;
+}
+
+.popover[data-name=newRecord] tr td:first-child, .popover[data-name=editRecord] tr td:first-child, .popover[data-name=newNotification] tr td:first-child, .popover[data-name=editNotification] tr td:first-child {
+	padding: 10px;
+}
+
+.submit[data-action=editRecord], .submit[data-action=editNotification] {
+	margin-bottom: 10px;
+}
+
+.hamburger:hover {
+	opacity: 0.5;
+}
+
+.mobile {
+	display: none;
+}
+
+@media (max-width: 1000px) {
+	.mobile {
+		display: block;
+	}
+
+	.main .menu {
+		display: none;
+		width: 100%;
+		z-index: 9999;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+	.main .menu .item {
+		display: flex;
+		align-items: center;
+		padding: 10px;
+	}
+	.main .menu .item .icon {
+ 	    height: 40px;
+	    width: 40px;
+	    position: relative;
+	}
+	.main .menu .item .label {
+		line-height: initial;
+		color: var(--primaryForeground);
+		margin-left: 10px;
+	}
+	.main .menu .item:hover > .icon, .main .menu .item.current > .icon {
+		-webkit-mask-position: center;
+		-moz-mask-position: center;
+		mask-position: center;
+	}
+
+	.main .body .holder {
+		min-width: initial;
+		max-width: initial;
+		padding: 32px 10px;
+	}
+
+	.main[data-page=settings] td {
+		display: block;
+	}
+
+	.main[data-page=settings] input {
+	    background-color: var(--quinaryBackground);
+	    border-radius: 10px;
+	}
+	.submit {
+		width: 100%;
+	}
+
+	.section[data-section=slds] .table .items > div:not(:first-child,:last-child) {
+		display: none;
+	}
+	.section[data-section=record], .section[data-section=records] .row .items, .section[data-section=records] .table .head, .section[data-section=notification], .section[data-section=notifications] .row .items, .section[data-section=notifications] .table .head {
+		display: none !important;
+	}
+
+	.mobileItems {
+		display: flex;
+		justify-content: space-between;
+	}
+	.mobileItems .actionHolder {
+		width: 40px;
+		position: relative;
+	}
+
+	#editTable, #settings, #billing {
+		border-spacing: 0 10px;
+		border-collapse: separate;
+	}
+
+	#salesTable .items div:nth-child(2) {
+		display: none;
+	}
+
+	tr:hover > td {
+		background-color: transparent !important;
+	}
+}
+
+@media (max-width: 400px) {
+	.body, input, select, textarea {
+		font-size: 12px;
+	}
+}
