@@ -381,6 +381,7 @@ div.price:after {
 .domain .edit, .sld .edit {
 	white-space: nowrap !important;
 	height: 20px;
+	line-height: 20px;
 }
 .edit {
     min-height: 20px;
@@ -1370,20 +1371,19 @@ td.defaultPaymentMethod {
 select {
 	outline: 0;
 	border: 0;
-	border-radius: 10px;
 	display: inline-block;
 	font: inherit;
-	line-height: 1.5em;
-	padding: 10px 35px 10px 10px !important;
-	background-image: linear-gradient(45deg,transparent 50%,var(--secondaryForeground) 50%),linear-gradient(135deg,var(--secondaryForeground) 50%,transparent 50%);
-	background-position: calc(100% - 20px) calc(1em + 2px),calc(100% - 15px) calc(1em + 2px),calc(100% - 2.5em) 0.5em;
-	background-size: 5px 5px,5px 5px,1px 1.5em;
+	padding-right: 35px !important;
 	margin: 0;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
 	box-sizing: border-box;
 	-webkit-appearance: none;
 	-moz-appearance: none;
+	background-image: var(--downIcon);
+	background-repeat: no-repeat, repeat;
+	background-position: right .7em top 50%, 0 0;
+	background-size: .65em auto, 100%;	
 }
 
 .popover[data-name=newRecord] td, .popover[data-name=editRecord] td, .popover[data-name=newNotification] td, .popover[data-name=editNotification] td {
