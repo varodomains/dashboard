@@ -37,8 +37,8 @@ function setupQR(link) {
 		text: link,
 		width: 200,
 		height: 200,
-		colorDark: css.getPropertyValue("--secondaryBackground"),
-		colorLight: css.getPropertyValue("--primaryForeground"),
+		colorDark: css.getPropertyValue("--primaryForeground"),
+		colorLight: css.getPropertyValue("--secondaryBackground"),
 		correctLevel: QRCode.CorrectLevel.L
 	});
 }
