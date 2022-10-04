@@ -22,6 +22,7 @@
 <script type="text/javascript" src="/assets/js/mask.min.js?r=<?php echo $revision; ?>"></script>
 <script type="text/javascript" src="/assets/js/chart.min.js?r=<?php echo $revision; ?>"></script>
 <script type="text/javascript" src="/assets/js/punycode.js?r=<?php echo $revision; ?>"></script>
+<script type="text/javascript" src="/assets/js/qr.js?r=<?php echo $revision; ?>"></script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 	Stripe.setPublishableKey("<?php echo $config["stripePublicKey"]; ?>");

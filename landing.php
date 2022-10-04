@@ -18,15 +18,20 @@
 	?>
 </head>
 <body>
-	<?php
-		$popoverDirectory = "content/popovers/";
-		$popovers = getFiles($popoverDirectory);
+	<div id="blackout" class="flex">
+		<div class="blackoutTable">
+			<div class="blackoutCell">
+				<?php
+					$popoverDirectory = "content/popovers/";
+					$popovers = getFiles($popoverDirectory);
 
-		foreach ($popovers as $popover) {
-			include $popoverDirectory.$popover;
-		}
-	?>
-	<div id="blackout"></div>
+					foreach ($popovers as $popover) {
+						include $popoverDirectory.$popover;
+					}
+				?>
+			</div>
+		</div>
+	</div>
 	<div class="header">
 		<div class="section left">
 			<div class="logo">

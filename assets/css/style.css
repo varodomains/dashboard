@@ -1011,12 +1011,21 @@ td.defaultPaymentMethod {
     justify-content: center;
     align-items: center;
 }
-#accountForm input, .popover #addPaymentMethod input, #transferDomain input, #giftDomain input, #giftDomain select, #addReserved textarea, #addNotifications textarea {
+#accountForm input, .popover #addPaymentMethod input, .popover #setup2fa input, .popover #verify2fa input, #transferDomain input, #giftDomain input, #giftDomain select, #addReserved textarea, #addNotifications textarea {
 	height: 40px;
 	width: 100%;
 	margin-bottom: 10px;
 	padding: 10px;
     border-radius: 10px;
+}
+
+.popover #setup2fa > div:not(.subtitle) {
+	margin-bottom: 10px;
+}
+
+#qrcode {
+	display: flex;
+	justify-content: center;
 }
 
 #addReserved textarea, #addNotifications textarea {
@@ -1084,7 +1093,7 @@ td.defaultPaymentMethod {
 .submit[data-action=dashboard], .submit[data-action=unimpersonate] {
 	width: fit-content;
 }
-.submit[data-action=login], .submit[data-action=signup], .submit[data-action=forgot], .submit[data-action=reset] {
+.submit[data-action=login], .submit[data-action=signup], .submit[data-action=forgot], .submit[data-action=reset], .submit[data-action=verify2fa] {
 	width: 100%;
 }
 #accountForm .message {
@@ -1390,7 +1399,7 @@ select {
 	display: block;
 	padding: 0;
 }
-.popover[data-name=newRecord] input, .popover[data-name=newRecord] select, .popover[data-name=editRecord] input, .popover[data-name=newNotification] input, .popover[data-name=newNotification] select, .popover[data-name=editNotification] input {
+.popover[data-name=newRecord] input, .popover[data-name=newRecord] select, .popover[data-name=editRecord] input, .popover[data-name=newNotification] input, .popover[data-name=newNotification] select, .popover[data-name=editNotification] input, .popover[data-name=setup2fa] input {
     background-color: var(--quinaryBackground);
     border-radius: 10px;
     padding: 10px;

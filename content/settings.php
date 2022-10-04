@@ -30,6 +30,12 @@
 						<input type="password" name="new-password" autocomplete="new-password" />
 					</td>
 				</tr>
+				<tr>
+					<td>Two-Factor Authentication</td>
+					<td>
+						<label class="cl-switch custom"><input type="checkbox" name="2fa" class="2fa"<?php if ($userInfo["totp"]) { echo " checked"; } ?>><span class="switcher"></span></label>
+					</td>
+				</tr>
 			</table>
 			<input type="hidden" name="action" value="settings">
 			<div class="flex right">

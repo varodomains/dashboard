@@ -31,6 +31,18 @@ Object.defineProperty(String.prototype, 'capitalize', {
   enumerable: false
 });
 
+function setupQR(link) {
+	$("#qrcode").empty();
+	var qrcode = new QRCode($("#qrcode")[0], {
+		text: link,
+		width: 200,
+		height: 200,
+		colorDark: css.getPropertyValue("--secondaryBackground"),
+		colorLight: css.getPropertyValue("--primaryForeground"),
+		correctLevel: QRCode.CorrectLevel.L
+	});
+}
+
 async function api(data) {
 	if (isStaked(zone)) {
 		data["staked"] = true;
@@ -2080,6 +2092,32 @@ $("html").on("change", ".hnsPricing", function(e){
 	updatePrices();
 });
 
+function generate2fa() {
+	let data = {
+		action: "generate2fa"
+	};
+
+	return api(data);
+}
+
+$("html").on("change", ".2fa", function(e) {
+	let checked = $(this).prop("checked");
+	if (checked) {
+		generate2fa().then(function(response){
+			if (response.success) {
+				let data = response.data;
+				let link = data.link;
+				setupQR(link);
+				$(".popover[data-name=setup2fa] input[name=code]").val(data.code);
+				showPopover("setup2fa");
+			}
+			else {
+				$(e.target).prop("checked", false);
+			}
+		});
+	}
+});
+
 function canEditNameservers(bool) {
 	if (bool) {
 		customNameservers();
@@ -2187,6 +2225,7 @@ $("html").on("submit", "form", function(e){
 
 	if (form.attr("id") === "completePurchase" && !user.length) {
 		showPopover("account");
+		swapAccountAction("login");
 		resetButton(form);
 		return;
 	}
@@ -2251,6 +2290,18 @@ function cleanFields(form) {
 	form.find("input").removeAttr("data-com-onepassword-filled");
 }
 
+function afterLogin() {
+	switch (page) {
+		case "tld":
+			close("account");
+			break;
+
+		default:
+			goto("/sites");
+			break;
+	}
+}
+
 function afterSubmit(form, response) {
 	resetButton(form);
 
@@ -2263,15 +2314,18 @@ function afterSubmit(form, response) {
 				$(".main").data("user", user);
 				$(".main").attr("data-user", user);
 
-				switch (page) {
-					case "tld":
-						close("account");
-						break;
-
-					default:
-						goto("/sites");
-						break;
+				if (response.twofactor) {
+					swapAccountAction("twofactor");
 				}
+				else {
+					afterLogin();
+				}
+			}
+			break;
+
+		case "verify2fa":
+			if (response.success) {
+				afterLogin();
 			}
 			break;
 
@@ -2406,6 +2460,12 @@ function afterSubmit(form, response) {
 				close(action);
 			}
 			break;
+
+		case "setup2fa":
+			if (response.success) {
+				close(action);
+			}
+			break;
 	}
 }
 
@@ -2483,6 +2543,10 @@ $("html").on("keyup", "input", function(e){
 function swapAccountAction(action) {
 	let form = $("#accountForm");
 
+	if (action === "twofactor") {
+		action = "verify2fa";
+	}
+
 	form.find("input[name=action]").val(action);
 	form.find(".submit").data("action", action);
 	form.find(".submit").attr("data-action", action);
@@ -2497,6 +2561,7 @@ function swapAccountAction(action) {
 			form.find(".link[data-action=accountActionAlt]").removeClass("hidden");
 			form.find("input[name=email]").removeClass("none");
 			form.find("input[name=password]").removeClass("none");
+			form.find("input[name=twofactor]").addClass("none");
 			break;
 
 		case "signup":
@@ -2507,6 +2572,7 @@ function swapAccountAction(action) {
 			form.find(".link[data-action=accountActionAlt]").addClass("hidden");
 			form.find("input[name=email]").removeClass("none");
 			form.find("input[name=password]").removeClass("none");
+			form.find("input[name=twofactor]").addClass("none");
 			break;
 
 		case "forgot":
@@ -2517,6 +2583,7 @@ function swapAccountAction(action) {
 			form.find(".link[data-action=accountActionAlt]").addClass("hidden");
 			form.find("input[name=email]").removeClass("none");
 			form.find("input[name=password]").addClass("none");
+			form.find("input[name=twofactor]").addClass("none");
 			break;
 
 		case "reset":
@@ -2527,7 +2594,22 @@ function swapAccountAction(action) {
 			form.find("input[name=email]").addClass("none");
 			form.find("input[name=code]").val(code);
 			break;
+
+		case "verify2fa":
+			form.find("input").addClass("none");
+			form.find(".link").addClass("hidden");
+			form.find("input[name=twofactor]").removeClass("none");
+			form.find(".submit").html("Verify");
+			break;
 	}
+
+	if (page === "tld") {
+		form.find(".link.hidden").addClass("none");
+		form.find(".link.none:not(.hidden)").removeClass("none");
+	}
+
+	form.removeClass("hidden");
+	form.find("input:visible").first().focus();
 }
 
 function submitForm(el) {
@@ -2681,6 +2763,7 @@ $(function(){
 		case "signup":
 		case "forgot":
 		case "reset":
+		case "twofactor":
 			swapAccountAction(page);
 			break;
 

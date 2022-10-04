@@ -2,6 +2,7 @@
 	use PHPMailer\PHPMailer\PHPMailer;
 	use PHPMailer\PHPMailer\SMTP;
 	use PHPMailer\PHPMailer\Exception;
+	use lfkeitel\phptotp\{Base32,Totp};
 
 	function uuid($data = null) {
 		$data = $data ?? random_bytes(16);
@@ -18,6 +19,17 @@
 	    $pass = array();
 	    $alphaLength = strlen($alphabet) - 1;
 	    for ($i = 0; $i < $length; $i++) {
+	        $n = rand(0, $alphaLength);
+	        $pass[] = $alphabet[$n];
+	    }
+	    return implode($pass);
+	}
+
+	function generateBase32() {
+		$alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+	    $pass = array();
+	    $alphaLength = strlen($alphabet) - 1;
+	    for ($i = 0; $i < 32; $i++) {
 	        $n = rand(0, $alphaLength);
 	        $pass[] = $alphabet[$n];
 	    }
@@ -65,6 +77,30 @@
 		return ($ip & $mask) == $subnet;
 	}
 
+	function generateTwoFactor($user) {
+		$userInfo = userInfo($user);
+		$email = $userInfo["email"];
+		$code = generateBase32();
+		$secret = Base32::decode($code);
+		$key = (new Totp())->GenerateToken($secret);
+		$link = "otpauth://totp/Varo:".$email."?secret=".$code."&issuer=Varo&algorithm=SHA1&digits=6&period=30";
+
+		return [
+			"link" => $link,
+			"code" => $code
+		];
+	}
+
+	function verifyTwoFactor($base32, $code) {
+		$secret = Base32::decode($base32);
+		$key = (new Totp())->GenerateToken($secret);
+
+		if ($key == $code) {
+			return true;
+		}
+		return false;
+	}
+
 	function userInfoByEmail($email) {
 		$getUser = @sql("SELECT * FROM `users` WHERE `email` = ?", [$email])[0];
 		if ($getUser) {
@@ -74,7 +110,7 @@
 	}
 
 	function userInfo($id) {
-		$getUser = @sql("SELECT `email`,`token`,`uuid`,`stripe`,`admin`,`beta` FROM `users` WHERE `id` = ?", [$id])[0];
+		$getUser = @sql("SELECT `email`,`token`,`uuid`,`stripe`,`admin`,`beta`,`totp` FROM `users` WHERE `id` = ?", [$id])[0];
 		return $getUser;
 	}
 

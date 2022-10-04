@@ -7,7 +7,7 @@
 	$user = @$_SESSION["id"];
 	$userInfo = userInfo($user);
 
-	$revision = "20221002v1";
+	$revision = "20221004v1";
 
 	$self = @$_SERVER["PHP_SELF"]; 
 	$serverName = @$_SERVER["SERVER_NAME"]; 
@@ -73,12 +73,17 @@
 		die();
 	}
 
-	if (!in_array($page, ["login", "signup", "forgot", "reset"]) && @$self === "/account.php") {
+	if (!in_array($page, ["login", "signup", "forgot", "reset", "twofactor"]) && @$self === "/account.php") {
 		header("Location: /");
 		die();
 	}
 	if (!in_array($page, ["tld"]) && @$self === "/landing.php") {
 		header("Location: /");
+		die();
+	}
+
+	if (@$_SESSION["needs2fa"] && !in_array($page, ["twofactor", "api"])) {
+		header("Location: /twofactor");
 		die();
 	}
 

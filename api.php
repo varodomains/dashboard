@@ -64,6 +64,9 @@
 		case "addReserved":
 		case "deleteReserved":
 		case "transferDomain":
+		case "generate2fa":
+		case "setup2fa":
+		case "verify2fa":
 			$queryMutual = false;
 			break;
 
@@ -198,14 +201,22 @@
 			}
 
 			if (!@count(@$output["fields"])) {
-				$getUser = sql("SELECT `id`,`password`,`uuid` FROM `users` WHERE `email` = ?", [$data["email"]])[0];
+				$getUser = sql("SELECT `id`,`password`,`uuid`,`totp` FROM `users` WHERE `email` = ?", [$data["email"]])[0];
 				if (!password_verify($data["password"], @$getUser["password"])) {
 					$output["fields"][] = "email";
 					$output["fields"][] = "password";
 				}
 				else {
-					$_SESSION["id"] = $getUser["id"];
-					$output["uuid"] = $getUser["uuid"];
+					if ($getUser["totp"]) {
+						$_SESSION["needs2fa"] = true;
+						$_SESSION["id"] = $getUser["id"];
+						$output["uuid"] = $getUser["uuid"];
+						$output["twofactor"] = true;
+					}
+					else {
+						$_SESSION["id"] = $getUser["id"];
+						$output["uuid"] = $getUser["uuid"];
+					}
 				}
 			}
 			break;
@@ -331,6 +342,34 @@
 			}
 			break;
 
+		case "generate2fa":
+			$output["data"] = generateTwoFactor($user);
+			break;
+
+		case "setup2fa":
+			$valid = verifyTwoFactor($data["code"], $data["passcode"]);
+			if (!$valid) {
+				$output["success"] = false;
+				$output["message"] = "The code entered is invalid.";
+				goto end;
+			}
+
+			sql("UPDATE `users` SET `totp` = ? WHERE `id` = ?", [$data["code"], $user]);
+			break;
+
+		case "verify2fa":
+			$code = $userInfo["totp"];
+			$valid = verifyTwoFactor($code, $data["twofactor"]);
+
+			if (!$valid) {
+				$output["success"] = false;
+				$output["message"] = "The code entered is invalid.";
+				goto end;
+			}
+
+			$_SESSION["needs2fa"] = false;
+			break;
+
 		case "logout":
 			$_SESSION = [];
 			if (ini_get("session.use_cookies")) {
@@ -358,7 +397,7 @@
 			}
 
 			if (!@count(@$output["fields"])) {
-				$getUser = sql("SELECT `email`,`id`,`password` FROM `users` WHERE `id` = ?", [$user])[0];
+				$getUser = sql("SELECT `email`,`id`,`password`,`totp` FROM `users` WHERE `id` = ?", [$user])[0];
 				if (!password_verify($data["password"], @$getUser["password"])) {
 					$output["fields"][] = "password";
 				}
@@ -389,6 +428,9 @@
 							$output["message"] = "Password changed. Please login with your new password.";
 							$output["newPassword"] = true;
 						}
+					}
+					if ($getUser["totp"] && !$data["2fa"]) {
+						sql("UPDATE `users` SET `totp` = NULL WHERE `id` = ?", [$user]);
 					}
 				}
 			}
