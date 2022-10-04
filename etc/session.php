@@ -83,7 +83,8 @@
 	}
 
 	if (@$_SESSION["needs2fa"] && !in_array($page, ["twofactor", "api"])) {
-		header("Location: /twofactor");
+		$_SESSION = [];
+		header("Location: /login");
 		die();
 	}
 

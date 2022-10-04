@@ -2751,6 +2751,11 @@ $("html").on("click", ".hamburger", function(e){
 	}
 });
 
+function setupUpdateInfo() {
+	updateInfo();
+	setInterval(updateInfo, 300000);
+}
+
 $(function(){
 	user = $(".main").data("user");
 	page = $(".main").data("page");
@@ -2775,13 +2780,12 @@ $(function(){
 			else {
 				loadPage(1);
 			}
+			setupUpdateInfo();
 			break;
 
 		default:
 			loadZones();
+			setupUpdateInfo();
 			break;
 	}
-
-	updateInfo();
-	setInterval(updateInfo, 300000);
 });

@@ -104,6 +104,20 @@
 		}
 	}
 
+	// REQUIRE 2FA
+	if ($_SESSION["needs2fa"]) {
+		switch ($data["action"]) {
+			case "verify2fa":
+				break;
+			
+			default:
+				$output["message"] = "Two-Factor Authentication was not completed.";
+				$output["success"] = false;
+				goto end;
+				break;
+		}
+	}
+
 	// VERIFY PERMISSIONS
 	if ($queryMutual) {
 		switch ($data["action"]) {
