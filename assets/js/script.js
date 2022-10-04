@@ -2104,9 +2104,9 @@ $("html").on("change", ".2fa", function(e) {
 			if (response.success) {
 				let data = response.data;
 				let link = data.link;
-				setupQR(link);
 				$(".popover[data-name=setup2fa] input[name=code]").val(data.code);
 				showPopover("setup2fa");
+				setupQR(link);
 			}
 			else {
 				$(e.target).prop("checked", false);
