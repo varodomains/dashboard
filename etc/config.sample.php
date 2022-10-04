@@ -1,6 +1,10 @@
 <?php
 	$GLOBALS["path"] = "/var/www/html/varo";
 
+	$GLOBALS["hnsHostname"] = "varo";
+	$GLOBALS["icannHostname"] = "varo.domains";
+	$GLOBALS["betaHostname"] = "beta.varo";
+
 	$config["sqlHost"] = "ip";
 	$config["sqlUser"] = "username";
 	$config["sqlPass"] = "password";
@@ -16,13 +20,13 @@
 	$GLOBALS["sldFee"] = 15;
 	$GLOBALS["salesRowsPerPage"] = 20;
 
-	$GLOBALS["normalSOA"] = "ns1.hshub.io ops.hshub.io 1 10800 3600 604800 3600";
-	$GLOBALS["normalNS1"] = "ns1.hshub.io";
-	$GLOBALS["normalNS2"] = "ns2.hshub.io";
+	$GLOBALS["normalSOA"] = "ns1.".$GLOBALS["icannHostname"]." ops.".$GLOBALS["icannHostname"]." 1 10800 3600 604800 3600";
+	$GLOBALS["normalNS1"] = "ns1.".$GLOBALS["icannHostname"];
+	$GLOBALS["normalNS2"] = "ns2.".$GLOBALS["icannHostname"];
 	
-	$GLOBALS["handshakeSOA"] = "ns1.hshub ops.hshub.io 1 10800 3600 604800 3600";
-	$GLOBALS["handshakeNS1"] = "ns1.hshub.";
-	$GLOBALS["handshakeNS2"] = "ns2.hshub.";
+	$GLOBALS["handshakeSOA"] = "ns1.".$GLOBALS["hnsHostname"]." ops.".$GLOBALS["icannHostname"]." 1 10800 3600 604800 3600";
+	$GLOBALS["handshakeNS1"] = "ns1.".$GLOBALS["hnsHostname"].".";
+	$GLOBALS["handshakeNS2"] = "ns2.".$GLOBALS["hnsHostname"].".";
 
 	$GLOBALS["walletName"] = "wallet name here";
 	$GLOBALS["accountName"] = "account name here";

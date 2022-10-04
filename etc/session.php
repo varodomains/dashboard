@@ -17,7 +17,7 @@
 	$userAgent = @$_SERVER["HTTP_USER_AGENT"];
 
 	$isHandshake = true;
-	if (stripos($serverName, ".") !== false) {
+	if (stripos($serverName, ".") !== false && $serverName !== $GLOBALS["betaHostname"]) {
 		$isHandshake = false;
 	}
 
@@ -90,20 +90,20 @@
 
 	$GLOBALS["stripe"] = new \Stripe\StripeClient($config["stripeSecretKey"]);
 
-	if (stripos($serverName, "hshub") !== false) {
-		$redirectURL = "https://varo";
-		if (!$isHandshake) {
-			$redirectURL = "https://varo.domains";
-		}
-		$redirectURL .= $requestURI;
-
-		header("location: ".$redirectURL);
-	}
-
 	foreach ($GLOBALS["ipWhitelist"] as $cidr) {
 		if (cidrMatch($ipAddress, $cidr)) {
 			$isWhitelisted = true;
 			break;
 		}
+	}
+
+	if (stripos($serverName, "hshub") !== false || (!$isWhitelisted && $serverName == $GLOBALS["betaHostname"])) {
+		$redirectURL = "https://".$GLOBALS["hnsHostname"];
+		if (!$isHandshake) {
+			$redirectURL = "https://".$GLOBALS["icannHostname"];
+		}
+		$redirectURL .= $requestURI;
+
+		header("location: ".$redirectURL);
 	}
 ?>
