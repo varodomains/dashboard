@@ -948,7 +948,7 @@ function searchDomainsRow(data) {
 		unavailable = " disabled";
 		hidden = " hidden";
 	}
-	return '<div class="row" data-domain="'+data.domain+'"><div class="items"><div>'+emojifyIfNeeded(data.domain)+'<div class="status '+available.toLowerCase()+'">'+available+'</div></div><div class="actions'+hidden+'"><div class="price" data-price="'+data.price+'">'+data.price+'</div><div class="buy submit'+unavailable+'"" data-action="buyDomain" title="'+available+'">Buy</div></div></div>';
+	return '<div class="row" data-domain="'+data.domain+'"><div class="items"><div>'+emojifyIfNeeded(data.domain)+'<div class="status '+available.toLowerCase()+'">'+available+'</div></div><div class="actions'+hidden+'"><div class="price" data-price="'+data.price+'">'+data.price+'</div><div class="buy button'+unavailable+'"" data-action="buyDomain" title="'+available+'">Buy</div></div></div>';
 }
 
 function paymentMethodRow(data) {
@@ -1521,11 +1521,14 @@ function changeZone(id) {
 
 function showPopover(name) {
 	let z = topMostPopoverZ();
-	$(".popover[data-name="+name+"]").css("z-index", z + 1);
-
 	$("#blackout").addClass("shown");
-	$(".popover[data-name="+name+"]").addClass("shown");
-	$(".popover[data-name="+name+"]").find("input:not([readonly]),textarea").first().focus();
+	let popover = $(".popover[data-name="+name+"]").clone();
+	let cell = $('<div class="blackoutTable"><div class="blackoutCell"></div></div>');
+	cell.find(".blackoutCell").append(popover);
+	cell.find(".popover").addClass("shown");
+	cell.find(".popover").css("z-index", z + 1);
+	$("#blackout").append(cell);
+	cell.find(".popover").find("input:not([readonly]),textarea").first().focus();
 }
 
 function topMostPopoverZ() {
@@ -1557,16 +1560,10 @@ function topMostPopover() {
 
 function close(name) {
 	if (name) {
-		$(".popover[data-name="+name+"].shown").css("z-index", '');
-		$(".popover[data-name="+name+"].shown input.error").removeClass("error");
-		$(".popover[data-name="+name+"].shown form")[0].reset();
-		$(".popover[data-name="+name+"].shown").removeClass("shown");
+		$(".popover[data-name="+name+"].shown").closest(".blackoutTable").remove();
 	}
 	else {
-		$(".popover.shown").css("z-index", '');
-		$(".popover.shown input.error").removeClass("error");
-		$(".popover.shown form")[0].reset();
-		$(".popover.shown").removeClass("shown");
+		$("#blackout").empty();
 	}
 
 	if (!$(".popover.shown").length) {
@@ -1674,7 +1671,7 @@ function salesEnabled(domain, state) {
 }
 
 $("html").on("click", ".blackoutCell", function(e){
-	if ($(e.target)[0] === $(".blackoutCell")[0]) {
+	if ($(e.target).hasClass("blackoutCell")) {
 		close();
 	}
 });

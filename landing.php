@@ -18,19 +18,16 @@
 	?>
 </head>
 <body>
-	<div id="blackout" class="flex">
-		<div class="blackoutTable">
-			<div class="blackoutCell">
-				<?php
-					$popoverDirectory = "content/popovers/";
-					$popovers = getFiles($popoverDirectory);
+	<div id="blackout" class="flex"></div>
+	<div id="popovers">
+		<?php
+			$popoverDirectory = "content/popovers/";
+			$popovers = getFiles($popoverDirectory);
 
-					foreach ($popovers as $popover) {
-						include $popoverDirectory.$popover;
-					}
-				?>
-			</div>
-		</div>
+			foreach ($popovers as $popover) {
+				include $popoverDirectory.$popover;
+			}
+		?>
 	</div>
 	<div class="header">
 		<div class="section left">

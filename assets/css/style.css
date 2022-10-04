@@ -1067,7 +1067,7 @@ td.defaultPaymentMethod {
 	text-align: center;
 }
 
-.submit {
+.submit, .button {
 	width: auto;
 	height: 40px;
 	background-color: var(--themeColor);
@@ -1078,11 +1078,11 @@ td.defaultPaymentMethod {
 	overflow: hidden;
 	color: var(--primaryForeground);
 }
-.submit:hover {
+.submit:hover, .button:hover {
 	cursor: pointer;
 	opacity: 0.4;
 }
-.submit.disabled {
+.submit.disabled, .button.disabled {
 	opacity: 0.4;
 }
 .buy {
