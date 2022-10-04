@@ -98,6 +98,17 @@
 	background: rgba(--secondaryBackground);
 }
 
+::placeholder {
+	color: var(--secondaryForeground);
+	opacity: 1;
+}
+:-ms-input-placeholder {
+	color: var(--secondaryForeground);
+}
+::-ms-input-placeholder {
+	color: var(--secondaryForeground);
+}
+
 .select {
 	-webkit-user-select: text;
 	-moz-user-select: text;
@@ -866,6 +877,7 @@ input.error {
 }
 input[readonly]:not([name=domain]) {
 	color: var(--secondaryForeground);
+	opacity: 1;
 }
 input[name=domain][readonly] {
 	cursor: default;
