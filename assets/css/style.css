@@ -378,6 +378,9 @@ div.price:after {
 	margin-right: 10px;
 	color: var(--primaryForeground) !important;
 }
+#domainTable .price.HNS {
+	margin-left: 10px;
+}
 .domain .edit, .sld .edit {
 	white-space: nowrap !important;
 	height: 20px;
@@ -611,6 +614,7 @@ div.price:after {
 	display: flex;
     justify-content: space-between;
 	align-items: stretch;
+    align-items: center;
 }
 .table .head .items > div {
 	color: var(--secondaryForeground) !important;
