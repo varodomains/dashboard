@@ -1524,4 +1524,8 @@ select {
 	.body, input, select, textarea {
 		font-size: 12px;
 	}
+
+	div.price.HNS:before {
+		top: -2px;
+	}
 }
