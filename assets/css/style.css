@@ -816,7 +816,7 @@ table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr td:last-c
 	border-radius: 0 10px 10px 0;
 }
 
-table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr td:first-child:last-child, #settings td:first-child, #editTable td:first-child {
+table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr td:first-child:last-child, #editTable td:first-child {
 	border-radius: 10px !important;
 }
 
@@ -1444,6 +1444,11 @@ select {
 }
 .info {
 	margin-top: 10px;
+}
+
+#setup2fa input[name=code] {
+	text-align: center;
+	background-color: transparent !important;
 }
 
 @media (max-width: 1000px) {
