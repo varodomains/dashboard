@@ -2781,6 +2781,7 @@ $(function(){
 			break;
 
 		case "sites":
+		case "manage":
 			loadZones();
 			setupUpdateInfo();
 			break;
