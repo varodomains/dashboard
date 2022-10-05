@@ -318,7 +318,7 @@ function afterLoad(page) {
 						setDS(response.data);
 
 						if (!isStaked(zone)) {
-							$(".section[data-section=ns] .titleAction").addClass("shown");
+							$(".section[data-section=ns] .titleAction").removeClass("hidden");
 						}
 					}
 

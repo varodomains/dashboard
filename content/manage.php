@@ -87,7 +87,7 @@
 <div class="section" data-section="ns">
 	<div class="titleHolder">
 		<div class="title">Nameservers</div>
-		<div class="titleAction flex">Custom Nameservers: <label class="cl-switch custom"><input type="checkbox" class="customNameservers"><span class="switcher"></span></label></div>
+		<div class="titleAction hidden">Custom Nameservers: <label class="cl-switch custom"><input type="checkbox" class="customNameservers"><span class="switcher"></span></label></div>
 	</div>
 	<div class="box">
 		<div id="nsTable" class="table" data-neg="cancelEditNSDS" data-pos="acceptNSDS">

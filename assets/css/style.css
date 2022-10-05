@@ -517,7 +517,7 @@ div.price:after {
 	margin-bottom: 0;
 }
 .titleAction {
-	display: none;
+	display: flex;
     justify-content: space-between;
     margin-right: 20px;
     align-items: center;
