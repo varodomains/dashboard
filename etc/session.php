@@ -97,7 +97,7 @@
 		}
 	}
 
-	if (stripos($serverName, "hshub") !== false || (!$isWhitelisted && $serverName == $GLOBALS["betaHostname"])) {
+	if (stripos($serverName, "hshub") !== false || (!@$isWhitelisted && $serverName == $GLOBALS["betaHostname"])) {
 		$redirectURL = "https://".$GLOBALS["hnsHostname"];
 		if (!$isHandshake) {
 			$redirectURL = "https://".$GLOBALS["icannHostname"];

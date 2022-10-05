@@ -1347,6 +1347,8 @@
 				goto end;
 			}
 
+			sql("DELETE FROM `pdns`.`records` WHERE `name` = ? AND `domain_id` = ?", [$domain, $stakedID]);
+
 			$queryMutual = true;
 			$data["action"] = "deleteZone";
 			break;
