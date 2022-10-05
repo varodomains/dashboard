@@ -2780,8 +2780,13 @@ $(function(){
 			setupUpdateInfo();
 			break;
 
-		default:
+		case "sites":
 			loadZones();
+			setupUpdateInfo();
+			break;
+
+		default:
+			loadPage(1);
 			setupUpdateInfo();
 			break;
 	}
