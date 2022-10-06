@@ -12,7 +12,7 @@
 
 	$GLOBALS["pdnsApiHost"] = "your api server ip here";
 
-	$config["recordTypes"] = ["A", "AAAA", "ALIAS", "CAA", "CNAME", "DS", "MX", "NAPTR", "NS", "PTR", "SPF", "SRV", "SSHFP", "TLSA", "TXT"];
+	$config["recordTypes"] = ["A", "AAAA", "ALIAS", "CAA", "CNAME", "DS", "MX", "NAPTR", "NS", "PTR", "SPF", "SRV", "SSHFP", "TLSA", "TXT", "REDIRECT"];
 
 	$config["stripeSecretKey"] = "your stripe secret here";
 	$config["stripePublicKey"] = "your stripe public here";
