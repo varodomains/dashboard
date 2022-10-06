@@ -262,6 +262,14 @@
 		return false;
 	}
 
+	function startsWithHTTP($string) {
+		$validate = preg_match("/^http(s)?:\/\//", $string, $match);
+		if ($match) {
+			return true;
+		}
+		return false;
+	}
+
 	function sldForDomain($domain) {
 		$split = explode(".", $domain);
 		array_pop($split);

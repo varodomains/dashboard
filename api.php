@@ -582,6 +582,11 @@
 						$output["fields"][] = "content";
 					}
 					break;
+				case "REDIRECT":
+					if (!startsWithHTTP($data["content"])) {
+						$output["fields"][] = "content";
+					}
+					break;
 			}
 
 			if (!is_numeric($data["prio"])) {
@@ -617,6 +622,11 @@
 							break;
 						case "AAAA":
 							if (!filter_var($data["value"], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+								$output["fields"][] = $data["column"];
+							}
+							break;
+						case "REDIRECT":
+							if (!startsWithHTTP($data["value"])) {
 								$output["fields"][] = $data["column"];
 							}
 							break;
@@ -666,6 +676,11 @@
 
 				case "AAAA":
 					if (!filter_var($data["content"], FILTER_VALIDATE_IP, FILTER_FLAG_IPV6)) {
+						$output["fields"][] = "content";
+					}
+					break;
+				case "REDIRECT":
+					if (!startsWithHTTP($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;

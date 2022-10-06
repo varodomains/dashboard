@@ -685,7 +685,7 @@ th {
 	color: var(--secondaryForeground);
 }
 th.type {
-	width: 120px;
+	width: 130px;
 }
 th.name {
 	width: 25%;
@@ -1237,7 +1237,7 @@ td.defaultPaymentMethod {
 }
 
 .dnsTable .items > div:nth-child(1) {
-    width: 120px !important;
+    width: 130px !important;
     flex-grow: 0 !important;
     flex-shrink: 0 !important;
 }
