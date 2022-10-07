@@ -1462,7 +1462,14 @@ select {
 	text-overflow: ellipsis;
 }
 
-.section[data-section=record] .dnsTable .row .item .edit:empty:before, .section[data-section=notification] .notificationTable .row .item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=A] tr td:last-child {
+.edit:empty, .edit:empty:before {
+	color: var(--secondaryForeground);
+    white-space: nowrap !important;
+    text-overflow: ellipsis !important;
+    overflow: hidden;
+}
+
+.popover[data-name=newRecord] #editTable[data-type=A] tr td:last-child {
 	color: var(--secondaryForeground);
 }
 
@@ -1515,6 +1522,22 @@ select {
 }
 .section[data-section=record] .dnsTable .row[data-type=REDIRECT] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=REDIRECT] tr.content input:not(:valid) + .placeholder:before {
 	content: "https://example.com";
+}
+
+.section[data-section=ns] #nsTable .row:nth-of-type(2) .items .value.item .edit:empty:before {
+	content: "ns1.example.com";
+}
+.section[data-section=ns] #nsTable .row:nth-of-type(3) .items .value.item .edit:empty:before {
+	content: "ns2.example.com";
+}
+.section[data-section=ns] #nsTable .row:nth-of-type(4) .items .value.item .edit:empty:before {
+	content: "ns3.example.com";
+}
+.section[data-section=ns] #nsTable .row:nth-of-type(5) .items .value.item .edit:empty:before {
+	content: "ns4.example.com";
+}
+.section[data-section=ds] #dsTable .row .items .value.item .edit:empty:before {
+	content: "12345 12 3 abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234";
 }
 
 @media (max-width: 1000px) {
