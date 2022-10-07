@@ -1540,6 +1540,10 @@ select {
 	content: "12345 12 3 abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234";
 }
 
+#dnsTable .head, #notificationTable .head {
+	display: none;
+}
+
 @media (max-width: 1000px) {
 	.mobile {
 		display: block;

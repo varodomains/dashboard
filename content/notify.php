@@ -53,6 +53,7 @@
 					<div></div>
 				</div>
 			</div>
+			<div class="loading center">Loading...</div>
 		</div>
 	</div>
 </div>

@@ -355,6 +355,8 @@ function afterLoad(page) {
 
 		case "staking":
 			getEarnings().then(function(response){
+				$("#earningsTable .loading").remove();
+
 				if (response.success) {
 					let data = response.data
 					if (!$(".section[data-section=earnings] #earningsTable .row").length) {
@@ -364,6 +366,8 @@ function afterLoad(page) {
 			});
 
 			getSalesFor("chart").then(function(response){
+				$(".section[data-section=salesChart] .loading").remove();
+
 				if (response.success) {
 					let labels = response.data.labels;
 					salesChart.data.labels = labels;
@@ -414,6 +418,8 @@ function afterLoad(page) {
 			});
 
 			getMyStaked().then(function(response){
+				$("#stakedTable .loading").remove();
+
 				if (response.success) {
 					$.each(response.data, function(key, value){
 						if (!$("#stakedTable .row[data-id="+value.id+"]").length) {
@@ -424,6 +430,7 @@ function afterLoad(page) {
 			});
 
 			getSalesFor("table").then(function(response){
+				$("#salesTable .loading").remove();
 				handleSalesResponse(response);
 			});
 			break;
@@ -475,6 +482,8 @@ function showNSDS() {
 }
 
 function setNS(data) {
+	$("#nsTable .loading").remove();
+
 	if (data.custom) {
 		$(".section[data-section=ns] .customNameservers").prop("checked", true);
 		makeNameserversEditable(true);
@@ -503,6 +512,7 @@ function setNS(data) {
 }
 
 function setDS(data) {
+	$("#dsTable .loading").remove();
 	$("#dsTable .row").remove();
 
 	$.each(data, function(key, value){
@@ -702,28 +712,48 @@ function getInfo() {
 
 function loadRecords() {
 	getRecords(zone).then(function(response){
+		$("#dnsTable .loading").remove();
+
 		$.each(response.data, function(key, record){
 			if (!$("#dnsTable .row[data-id="+record.uuid+"]").length) {
 				records[record.uuid] = record;
 				$("#dnsTable").append(dnsRecordRow(record));
 			}
 		});
+
+		if ($("#dnsTable .row").length) {
+			$("#dnsTable .head").addClass("shown");
+		}
+		else {
+			$("#dnsTable").append('<div class="empty center">There are no records.</div>');
+		}
 	});
 }
 
 function loadNotifications() {
 	getNotifications().then(function(response){
+		$("#notificationTable .loading").remove();
+
 		$.each(response.data, function(key, notification){
 			if (!$("#notificationTable .row[data-id="+notification.uuid+"]").length) {
 				notifications[notification.uuid] = notification;
 				$("#notificationTable").append(notificationRow(notification));
 			}
 		});
+
+		if ($("#notificationTable .row").length) {
+			$("#notificationTable .head").addClass("shown");
+		}
+		else {
+			$("#notificationTable").append('<div class="empty center">There are no notifications.</div>');
+		}
 	});
 }
 
 function loadReserved() {
 	getReserved(zone).then(function(r){
+		$("#reservedTable .loading").remove();
+
 		if (r.success) {
 			$.each(r.data, function(key, value){
 				if (!$("#reservedTable .row[data-id="+value.id+"]").length) {
@@ -2800,6 +2830,7 @@ $(function(){
 
 		case "sites":
 		case "manage":
+		case "staking":
 			loadZones();
 			setupUpdateInfo();
 			break;
