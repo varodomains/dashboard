@@ -1470,7 +1470,7 @@ select {
 	color: var(--secondaryForeground);
 }
 
-.section[data-section=record] .dnsTable .row .name.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=A] tr.name input:not(:valid) + .placeholder:before {
+.section[data-section=record] .dnsTable .row .name.item .edit:empty:before, .popover[data-name=newRecord] #editTable tr.name input:not(:valid) + .placeholder:before {
 	content: "Use @ for root";
 }
 
