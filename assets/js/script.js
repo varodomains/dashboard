@@ -1272,7 +1272,7 @@ function handleAction(element, column, action) {
 			index = row.index();
 
 			if (type == "NS") {
-				let originalValue = nameservers[index];
+				let originalValue = nameservers[index] || '';
 				element.html(originalValue);
 			}
 			else {
