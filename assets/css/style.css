@@ -717,15 +717,15 @@ td .edit, div.edit {
 }
 #addNotificationTable .name .edit:empty:before {
 	content: "Optional";
-	opacity: 0.39;
+	color: var(--secondaryForeground);
 }
 td.domain .edit:empty:before {
 	content: "Domain";
-	opacity: 0.39;
+	color: var(--secondaryForeground);
 }
 td.sld .edit:empty:before {
 	content: "Search";
-	opacity: 0.39;
+	color: var(--secondaryForeground);
 }
 td.dns {
 	width: 80px;
@@ -834,7 +834,7 @@ select.type {
 }
 div.ttl .edit:empty:before {
 	content: "20";
-	opacity: 0.39;
+	color: var(--secondaryForeground);
 }
 td.error, div.error {
 	background-color: var(--errorBackground) !important;
@@ -1449,6 +1449,66 @@ select {
 #setup2fa input[name=code] {
 	text-align: center;
 	background-color: transparent !important;
+}
+
+.placeholder {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+	padding: 10px;
+	color: var(--secondaryForeground);
+	pointer-events: none;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.section[data-section=record] .dnsTable .row .item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=A] tr td:last-child {
+	color: var(--secondaryForeground);
+}
+
+.section[data-section=record] .dnsTable .row .name.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=A] tr.name input:not(:valid) + .placeholder:before {
+	content: "Use @ for root";
+}
+
+.section[data-section=record] .dnsTable .row[data-type=A] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=A] tr.content input:not(:valid) + .placeholder:before {
+	content: "0.0.0.0";
+}
+.section[data-section=record] .dnsTable .row[data-type=AAAA] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=AAAA] tr.content input:not(:valid) + .placeholder:before {
+	content: "0000:0000:0000:0000:0000:0000:0000:0001";
+}
+.section[data-section=record] .dnsTable .row[data-type=ALIAS] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=ALIAS] tr.content input:not(:valid) + .placeholder:before {
+	content: "example.com";
+}
+.section[data-section=record] .dnsTable .row[data-type=CNAME] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=CNAME] tr.content input:not(:valid) + .placeholder:before {
+	content: "example.com";
+}
+.section[data-section=record] .dnsTable .row[data-type=DS] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=DS] tr.content input:not(:valid) + .placeholder:before {
+	content: "12345 12 3 abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234";
+}
+.section[data-section=record] .dnsTable .row[data-type=MX] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=MX] tr.content input:not(:valid) + .placeholder:before {
+	content: "mail.example.com";
+}
+.section[data-section=record] .dnsTable .row[data-type=NS] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=NS] tr.content input:not(:valid) + .placeholder:before {
+	content: "ns1.example.com";
+}
+.section[data-section=record] .dnsTable .row[data-type=PTR] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=PTR] tr.content input:not(:valid) + .placeholder:before {
+	content: "example.com";
+}
+.section[data-section=record] .dnsTable .row[data-type=SPF] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=SPF] tr.content input:not(:valid) + .placeholder:before {
+	content: "v=spf1 include:example.com ~all";
+}
+.section[data-section=record] .dnsTable .row[data-type=TLSA] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=TLSA] tr.content input:not(:valid) + .placeholder:before {
+	content: "3 1 1 abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234";
+}
+.section[data-section=record] .dnsTable .row[data-type=TXT] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=TXT] tr.content input:not(:valid) + .placeholder:before {
+	content: "hnschat=abcd1234abcd1234abcd1234abcd1234";
+}
+.section[data-section=record] .dnsTable .row[data-type=REDIRECT] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=REDIRECT] tr.content input:not(:valid) + .placeholder:before {
+	content: "https://example.com";
 }
 
 @media (max-width: 1000px) {

@@ -2187,6 +2187,8 @@ $("html").on("change", ".section[data-section=record] .dnsTable div.type select"
 		field.text('');
 	}
 
+	$(this).closest(".row").data("type", $(this).val()).attr("data-type", $(this).val());
+
 	$(".section[data-section=record] .dnsTable div.name .edit").focus();
 });
 
@@ -2201,6 +2203,8 @@ $("html").on("change", ".popover[data-name=newRecord] select[name=type]", functi
 		prio.find("input").val('');
 		prio.addClass("none");
 	}
+
+	$(this).closest("table").data("type", $(this).val()).attr("data-type", $(this).val());
 });
 
 $("html").on("change", ".section[data-section=notification] .notificationTable div.type select", function(e){

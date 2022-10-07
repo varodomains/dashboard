@@ -32,7 +32,7 @@
 					<div></div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" data-type="<?php echo $config["recordTypes"][0]; ?>">
 				<div class="items">
 					<div class="type item">
 						<select class="type">
