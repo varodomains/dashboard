@@ -1735,6 +1735,8 @@ $("html").on("click", function(e){
 
 	var p;
 
+	var popover;
+
 	let target = $(e.target);
 	let action = target.data("action");
 	let parent = target.parent();
@@ -1786,12 +1788,18 @@ $("html").on("click", function(e){
 				break;
 
 			case "addNotifications":
+				showPopover(action);
+				break;
+
 			case "newNotification":
+				popover = $(".popover[data-name=newNotification]");
+
+				popover.find("select[name=type]").trigger("change");
 				showPopover(action);
 				break;
 
 			case "newRecord":
-				let popover = $(".popover[data-name=newRecord]");
+				popover = $(".popover[data-name=newRecord]");
 
 				popover.find("input[name=zone]").val(zone);
 				popover.find("select[name=type]").trigger("change");
@@ -2208,7 +2216,13 @@ $("html").on("change", ".popover[data-name=newRecord] select[name=type]", functi
 });
 
 $("html").on("change", ".section[data-section=notification] .notificationTable div.type select", function(e){
+	$(this).closest(".row").data("type", $(this).val()).attr("data-type", $(this).val());
 	$(".section[data-section=notification] .notificationTable div.name .edit").focus();
+});
+
+$("html").on("change", ".popover[data-name=newNotification] select[name=type]", function(e){
+	$(this).closest("table").data("type", $(this).val()).attr("data-type", $(this).val());
+	$(this).closest("table").find("tr.name input").focus();
 });
 
 $("html").on("submit", "form", function(e){

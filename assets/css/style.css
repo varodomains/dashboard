@@ -715,10 +715,6 @@ td .edit, div.edit {
     outline: none;
     word-break: break-all;
 }
-#addNotificationTable .name .edit:empty:before {
-	content: "Optional";
-	color: var(--secondaryForeground);
-}
 td.domain .edit:empty:before {
 	content: "Domain";
 	color: var(--secondaryForeground);
@@ -1466,8 +1462,18 @@ select {
 	text-overflow: ellipsis;
 }
 
-.section[data-section=record] .dnsTable .row .item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=A] tr td:last-child {
+.section[data-section=record] .dnsTable .row .item .edit:empty:before, .section[data-section=notification] .notificationTable .row .item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=A] tr td:last-child {
 	color: var(--secondaryForeground);
+}
+
+.section[data-section=notification] .notificationTable .row .name.item .edit:empty:before, .popover[data-name=newNotification] #editTable tr.name input:not(:valid) + .placeholder:before {
+	content: "Optional";
+}
+.section[data-section=notification] .notificationTable .row[data-type=NAME] .value.item .edit:empty:before, .popover[data-name=newNotification] #editTable[data-type=NAME] tr.value input:not(:valid) + .placeholder:before {
+	content: "varo";
+}
+.section[data-section=notification] .notificationTable .row[data-type=ADDRESS] .value.item .edit:empty:before, .popover[data-name=newNotification] #editTable[data-type=ADDRESS] tr.value input:not(:valid) + .placeholder:before {
+	content: "hs1q5gutz3haq7ec6a8lvte485jhhjg4samvkpl6y0";
 }
 
 .section[data-section=record] .dnsTable .row .name.item .edit:empty:before, .popover[data-name=newRecord] #editTable tr.name input:not(:valid) + .placeholder:before {

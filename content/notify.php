@@ -16,7 +16,7 @@
 					<div></div>
 				</div>
 			</div>
-			<div class="row">
+			<div class="row" data-type="NAME">
 				<div class="items">
 					<div class="type item">
 						<select>

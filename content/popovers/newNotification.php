@@ -6,7 +6,7 @@
 	<div class="body">
 		<form id="newNotification">
 			<table id="editTable">
-				<tr>
+				<tr class="type">
 					<td>Type</td>
 					<td>
 						<select name="type">
@@ -15,16 +15,18 @@
 						</select>
 					</td>
 				</tr>
-				<tr>
+				<tr class="name">
 					<td>Nickname</td>
 					<td>
-						<input type="text" name="name" />
+						<input type="text" name="name" required />
+						<div class="placeholder"></div>
 					</td>
 				</tr>
-				<tr>
+				<tr class="value">
 					<td>Match</td>
 					<td>
-						<input type="text" name="value" />
+						<input type="text" name="value" required />
+						<div class="placeholder"></div>
 					</td>
 				</tr>
 			</table>
