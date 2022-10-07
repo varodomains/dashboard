@@ -2188,7 +2188,6 @@ $("html").on("change", ".section[data-section=record] .dnsTable div.type select"
 	}
 
 	$(this).closest(".row").data("type", $(this).val()).attr("data-type", $(this).val());
-
 	$(".section[data-section=record] .dnsTable div.name .edit").focus();
 });
 
@@ -2205,6 +2204,7 @@ $("html").on("change", ".popover[data-name=newRecord] select[name=type]", functi
 	}
 
 	$(this).closest("table").data("type", $(this).val()).attr("data-type", $(this).val());
+	$(this).closest("table").find("tr.name input").focus();
 });
 
 $("html").on("change", ".section[data-section=notification] .notificationTable div.type select", function(e){
