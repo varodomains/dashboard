@@ -723,6 +723,7 @@ function loadRecords() {
 
 		if ($("#dnsTable .row").length) {
 			$("#dnsTable .head").addClass("shown");
+			$("#dnsTable .empty").remove();
 		}
 		else {
 			$("#dnsTable").append('<div class="empty center">There are no records.</div>');
@@ -743,6 +744,7 @@ function loadNotifications() {
 
 		if ($("#notificationTable .row").length) {
 			$("#notificationTable .head").addClass("shown");
+			$("#notificationTable .empty").remove();
 		}
 		else {
 			$("#notificationTable").append('<div class="empty center">There are no notifications.</div>');
