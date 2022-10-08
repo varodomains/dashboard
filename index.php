@@ -2,7 +2,16 @@
 	include "etc/includes.php";
 ?>
 <!DOCTYPE html>
-<html>
+<?php
+	if ($isWhitelisted) { ?>
+		<html data-theme="light">
+	<?php
+	}
+	else { ?>
+		<html>
+	<?php
+	}
+?>
 <head>
 	<?php
 		include "etc/head.php";
