@@ -1,11 +1,37 @@
 <?php
 	include "../etc/includes.php";
 ?>
-<div class="section" data-section="settings">
+<div class="section" data-section="appearance">
+	<div class="title">Appearance</div>
+	<div class="box">
+		<form>
+			<table id="appearance">
+				<tr>
+					<td>Theme</td>
+					<td>
+						<select name="theme">
+							<?php
+								foreach ($GLOBALS["themes"] as $theme) { ?>
+									<option<?php if (strtolower($theme) == $userInfo["theme"]) { echo " selected"; } ?>><?php echo $theme; ?></option>
+								<?php
+								}
+							?>
+						</select>
+					</td>
+				</tr>
+			</table>
+			<input type="hidden" name="action" value="appearance">
+			<div class="flex right">
+				<div class="submit" data-action="appearance">Save</div>
+			</div>
+		</form>
+	</div>
+</div>
+<div class="section" data-section="account">
 	<div class="title">Settings</div>
 	<div class="box">
 		<form>
-			<table id="settings">
+			<table id="account">
 				<tr>
 					<td>Support Token</td>
 					<td>
@@ -37,9 +63,9 @@
 					</td>
 				</tr>
 			</table>
-			<input type="hidden" name="action" value="settings">
+			<input type="hidden" name="action" value="account">
 			<div class="flex right">
-				<div class="submit" data-action="settings">Save</div>
+				<div class="submit" data-action="account">Save</div>
 			</div>
 		</form>
 	</div>

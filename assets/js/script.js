@@ -2513,6 +2513,17 @@ function afterSubmit(form, response) {
 				close(action);
 			}
 			break;
+
+		case "appearance":
+			if (response.success) {
+				let newTheme = response.data.theme;
+				let currentTheme = $("html").data("theme");
+
+				if (newTheme !== currentTheme) {
+					$("html").data("theme", newTheme).attr("data-theme", newTheme);
+				}
+			}
+			break;
 	}
 }
 

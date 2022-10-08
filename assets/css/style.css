@@ -9,7 +9,7 @@
 	--quarteraryBackground: #323232;
 	--quinaryBackground: #222;
 
-	--errorForeground: #db4437;
+	--errorForeground: #fff;
 	--errorBackground: #5d3737;
 
 	--positiveColor: #7cb517;
@@ -18,6 +18,7 @@
 	--primaryForeground: #fff;
 	--secondaryForeground: #7a7a7a;
 
+	--statusForeground: #fff;
 	--buttonForeground: #fff;
 
 	--borderColor: #222;
@@ -124,9 +125,13 @@ html[data-theme=light] {
 	--quarteraryBackground: #ddd;
 	--quinaryBackground: #e9e9e9;
 
+	--errorForeground: #fff;
+	--errorBackground: #e08686;
+
 	--primaryForeground: #000;
 	--secondaryForeground: #9f9f9f;
 
+	--statusForeground: #fff;
 	--buttonForeground: #fff;
 
 	--borderColor: #ddd;
@@ -355,7 +360,7 @@ a:hover {
 .status {
 	padding: 0 5px;
 	border-radius: 5px;
-	color: var(--primaryForeground);
+	color: var(--statusForeground);
 	font-size: 12px;
 	height: 20px;
 	line-height: 20px;
@@ -856,6 +861,7 @@ div.ttl .edit:empty:before {
 	color: var(--secondaryForeground);
 }
 td.error, div.error {
+	color: var(--errorForeground) !important;
 	background-color: var(--errorBackground) !important;
 }
 td.value {
@@ -869,6 +875,7 @@ td.coupon .edit {
 	white-space: nowrap !important;
 }
 input.error {
+	color: var(--errorForeground) !important;
 	background-color: var(--errorBackground) !important;
 }
 .main[data-page=settings] table {

@@ -1,5 +1,7 @@
 <?php
-	include "../etc/includes.php";
+	if (@$page !== "tld") {
+		include "../etc/includes.php";
+	}
 
 	$title = "Domains";
 	if (@$tldInfo) {

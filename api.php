@@ -33,7 +33,8 @@
 		case "forgot":
 		case "reset":
 		case "logout":
-		case "settings":
+		case "account":
+		case "appearance":
 		case "updateEmail":
 		case "getStaked":
 		case "getMyStaked":
@@ -396,7 +397,7 @@
 			session_destroy();
 			break;
 
-		case "settings":
+		case "account":
 			if (strlen($data["email"]) < 1) {
 				$output["fields"][] = "email";
 			}
@@ -447,6 +448,16 @@
 						sql("UPDATE `users` SET `totp` = NULL WHERE `id` = ?", [$user]);
 					}
 				}
+			}
+			break;
+
+		case "appearance":
+			if (in_array($data["theme"], $GLOBALS["themes"])) {
+				sql("UPDATE `users` SET `theme` = ? WHERE `id` = ?", [strtolower($data["theme"]), $user]);
+				$output["data"]["theme"] = strtolower($data["theme"]);
+			}
+			else {
+				$output["success"] = false;
 			}
 			break;
 

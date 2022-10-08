@@ -34,4 +34,6 @@
 	$GLOBALS["invoiceExpiration"] = 7200;
 
 	$GLOBALS["ipWhitelist"] = ["192.168.1.0/24"];
+
+	$GLOBALS["themes"] = ["Dark", "Light"];
 ?>

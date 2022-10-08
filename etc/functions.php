@@ -110,7 +110,7 @@
 	}
 
 	function userInfo($id) {
-		$getUser = @sql("SELECT `email`,`token`,`uuid`,`stripe`,`admin`,`beta`,`totp` FROM `users` WHERE `id` = ?", [$id])[0];
+		$getUser = @sql("SELECT `email`,`token`,`uuid`,`stripe`,`admin`,`beta`,`totp`,`theme` FROM `users` WHERE `id` = ?", [$id])[0];
 		return $getUser;
 	}
 

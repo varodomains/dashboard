@@ -2,7 +2,7 @@
 	include "etc/includes.php";
 ?>
 <!DOCTYPE html>
-<html>
+<html data-theme="<?php echo $userInfo["theme"]; ?>">
 <head>
 	<?php
 		include "etc/head.php";
