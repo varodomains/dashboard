@@ -12,16 +12,15 @@
 	if ($getInvoices) {
 		foreach ($getInvoices as $key => $data) {
 			$timeSince = time() - $data["time"];
-			if ($timeSince > $GLOBALS["invoiceExpiration"]) {
+			if ($timeSince > $GLOBALS["invoiceExpiration"] && !$data["override"]) {
 				sql("UPDATE `invoices` SET `expired` = 1 WHERE `id` = ?", [$data["id"]]);
 				continue;
 			}
 
 			$paid = verifyTransaction($data["address"], $data["amount"], $data["time"]);
-			if ($paid) {
+			if ($paid || $data["override"]) {
 				sql("UPDATE `invoices` SET `paid` = 1 WHERE `id` = ?", [$data["id"]]);
 
-				$expiration = time();
 				$user = $data["user"];
 				$domain = $data["domain"];
 				$sld = sldForDomain($domain);
@@ -29,9 +28,13 @@
 				$tldInfo = getStakedTLD($tld, true);
 				$type = "sale";
 				$price = @$tldInfo["price"];
-				$fee = $price * ($GLOBALS["sldFee"] / 100);
+				$years = @$data["years"];
+				$expiration = strtotime("+".$years." years");
 
-				registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $fee, 'hshub');
+				$total = $price * $years;
+				$fee = $total * ($GLOBALS["sldFee"] / 100);
+
+				registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
 			}
 		}
 	}

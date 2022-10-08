@@ -105,7 +105,7 @@
 	}
 
 	// REQUIRE 2FA
-	if ($_SESSION["needs2fa"]) {
+	if (@$_SESSION["needs2fa"]) {
 		switch ($data["action"]) {
 			case "verify2fa":
 				break;
