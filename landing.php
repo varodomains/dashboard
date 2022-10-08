@@ -11,7 +11,7 @@
 	}
 ?>
 <!DOCTYPE html>
-<html data-theme="<?php echo $userInfo["theme"]; ?>">
+<html data-theme="<?php echo @$userInfo["theme"]; ?>">
 <head>
 	<?php
 		include "etc/head.php";
