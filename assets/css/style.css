@@ -130,6 +130,11 @@ html[data-theme=the_shake] .separator {
 
 html[data-theme=the_shake] .button, html[data-theme=the_shake] .submit {
 	border: 1px solid var(--borderColorAlt);
+	line-height: 38px;
+}
+
+html[data-theme=the_shake] .buy {
+	line-height: 28px;
 }
 
 html[data-theme=the_shake] .button:hover, html[data-theme=the_shake] .submit:hover {
@@ -1186,7 +1191,6 @@ td.defaultPaymentMethod {
 	opacity: 0.4;
 }
 .buy {
-	width: 60px;
     height: 30px;
     line-height: 30px;
 }
