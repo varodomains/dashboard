@@ -142,6 +142,10 @@ html[data-theme=the_shake] .header, html[data-theme=the_shake] .menu {
 	background-color: var(--primaryBackground);
 }
 
+.submit .HNS:before {
+	background-color: var(--buttonForeground) !important;
+}
+
 *, *:before, *:after {
 	font-family: 'Rubik', sans-serif;
 	box-sizing: border-box;
