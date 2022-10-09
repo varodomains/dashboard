@@ -39,6 +39,13 @@
 		}
 	}
 
+	// MARK TOP 3 SELLING TLDS AS FEATURED
+	$getTopSales = sql("SELECT COUNT(*) AS `Rows`, `tld` FROM `sales` WHERE `type` = 'sale' GROUP BY `tld` ORDER BY `Rows` DESC LIMIT 3");
+	sql("UPDATE `staked` SET `featured` = 0");
+	foreach ($getTopSales as $key => $data) {
+		sql("UPDATE `staked` SET `featured` = 1 WHERE `tld` = ?", [$data["tld"]]);
+	}
+
 	// CHECK FOR NOTIFICATIONS
 	$scanning = $GLOBALS["path"]."/etc/.scanning";
 	$file = $GLOBALS["path"]."/etc/.lastBlock";
