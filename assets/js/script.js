@@ -988,7 +988,7 @@ function paymentMethodRow(data) {
 	if (data.default) {
 		def = "";
 	}
-	return '<div class="row" data-id="'+data.id+'"><div class="items"><div>'+data.brand+' *'+data.last4+' ('+data.expiration+')</div><div class="link" data-action="defaultPaymentMethod">Make Default</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deletePaymentMethod"></div></div></div></div></div>';
+	return '<div class="row" data-id="'+data.id+'"><div class="items"><div>'+data.brand+' *'+data.last4+' ('+data.expiration+')</div><div class="link defaultPaymentMethod'+def+'" data-action="defaultPaymentMethod">Make Default</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deletePaymentMethod"></div></div></div></div></div>';
 }
 
 function salesRow(data) {
@@ -1877,7 +1877,7 @@ $("html").on("click", function(e){
 			case "defaultPaymentMethod":
 				defaultPaymentMethod(row.data("id")).then(function(r){
 					if (r.success) {
-						row.closest("table").find(".defaultPaymentMethod:not(shown)").addClass("shown");
+						row.closest(".table").find(".defaultPaymentMethod:not(.shown)").addClass("shown");
 						row.find(".defaultPaymentMethod").removeClass("shown");
 					}
 					else {

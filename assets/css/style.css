@@ -734,8 +734,10 @@ div.price:after {
 	padding: 10px;
 	flex-shrink: 0;
 	color: var(--secondaryForeground);
-	display: flex;
 	align-items: center;
+}
+.table .row .items > div:not(.defaultPaymentMethod), .table .head .items > div {
+	display: flex;
 }
 .table .row .items > div .edit {
     flex: 1;
@@ -1104,7 +1106,7 @@ input[name=domain][readonly] {
 .main .account .subtitle {
 	margin-bottom: 20px;
 }
-td.defaultPaymentMethod {
+.defaultPaymentMethod {
 	display: none;
 }
 #accountForm, .popover #addPaymentMethod {
