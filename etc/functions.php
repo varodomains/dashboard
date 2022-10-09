@@ -616,7 +616,7 @@
 					if ($output["address"] === $address) {
 						$value = $output["value"] / 1000000;
 
-						if ($value == $amount) {
+						if ($value >= $amount) {
 							if ($confirmations >= 2) {
 								return true;
 							}

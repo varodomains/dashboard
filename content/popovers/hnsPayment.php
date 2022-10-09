@@ -5,7 +5,7 @@
 	</div>
 	<div class="body">
 		<form id="hnsPayment">
-			<div class="subtitle">Please make a payment with the following details to complete the <span class="domain"></span> registration.</div>
+			<div class="subtitle">Please make a payment with the following details to complete the <span class="domain"></span> registration.<br><br>If sending from Namebase, please add 1 HNS since they take the mining fee from the total you send.</div>
 			<table id="hnsPaymentTable">
 				<tbody>
 					<tr>
