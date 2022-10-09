@@ -858,7 +858,7 @@ function emojifyIfNeeded(name) {
 
 function domainRow(data, reserved=false) {
 	if (reserved) {
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="transferReserved">Transfer</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteReserved" title="Hold to delete"></div></div></div></div></div>';
+		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="transferReserved">Transfer</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteReserved"></div></div></div></div></div>';
 	}
 	else if (isSLD(data.id)) {
 		var autoRenew = "";
@@ -872,7 +872,7 @@ function domainRow(data, reserved=false) {
 		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.tld)+'</div><div class="link" data-action="tldLink">Direct Link</div><div class="link" data-action="manageDomain">Manage</div></div></div>';
 	}
 	else {
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="manageDomain">Manage</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteDomain" title="Hold to delete"></div></div></div></div></div>';
+		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="manageDomain">Manage</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteDomain"></div></div></div></div></div>';
 	}
 }
 
@@ -926,7 +926,7 @@ function dnsRecordRow(record) {
 		        <div class="actionHolder item">
 		            <div class="actions">
 		                <div class="circle"></div>
-		                <div class="icon delete" data-action="deleteRecord" title="Hold to delete"></div>
+		                <div class="icon delete" data-action="deleteRecord"></div>
 		            </div>
 		        </div>
 		    </div>
@@ -959,7 +959,7 @@ function notificationRow(notification) {
 		        <div class="actionHolder item">
 		            <div class="actions">
 		                <div class="circle"></div>
-		                <div class="icon delete" data-action="deleteNotification" title="Hold to delete"></div>
+		                <div class="icon delete" data-action="deleteNotification"></div>
 		            </div>
 		        </div>
 		    </div>
@@ -988,7 +988,7 @@ function paymentMethodRow(data) {
 	if (data.default) {
 		def = "";
 	}
-	return '<div class="row" data-id="'+data.id+'"><div class="items"><div>'+data.brand+' *'+data.last4+' ('+data.expiration+')</div><div class="link" data-action="defaultPaymentMethod">Make Default</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deletePaymentMethod" title="Hold to delete"></div></div></div></div></div>';
+	return '<div class="row" data-id="'+data.id+'"><div class="items"><div>'+data.brand+' *'+data.last4+' ('+data.expiration+')</div><div class="link" data-action="defaultPaymentMethod">Make Default</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deletePaymentMethod"></div></div></div></div></div>';
 }
 
 function salesRow(data) {
@@ -1426,6 +1426,7 @@ function handleAction(element, column, action) {
 
 		case "deleteRecord":
 			row.remove();
+			hideTooltip(id);
 			deleteRecord(zone, id);
 			break;
 
@@ -1445,11 +1446,13 @@ function handleAction(element, column, action) {
 
 		case "deleteNotification":
 			row.remove();
+			hideTooltip(id);
 			deleteNotification(id);
 			break;
 
 		case "deleteDomain":
 			row.remove();
+			hideTooltip(id);
 
 			let i = indexForZone(id);
 			delete zones[i];
@@ -1466,6 +1469,7 @@ function handleAction(element, column, action) {
 
 		case "deleteReserved":
 			row.remove();
+			hideTooltip(id);
 
 			deleteReserved(id);
 
@@ -1478,6 +1482,7 @@ function handleAction(element, column, action) {
 			deletePaymentMethod(id).then(function(response){
 				if (response.success) {
 					row.remove();
+					hideTooltip(id);
 					updatePaymentMethods();
 				}
 				else {
@@ -1732,6 +1737,10 @@ $(window).on("popstate", function(e) {
 });
 
 $("html").on("mousedown", ".icon.delete", function(e){
+	if (e.which !== 1) {
+		return;
+	}
+
 	let container = $(e.target).parent().find(".circle");
 	let action = $(e.target).data("action");
 
@@ -2783,6 +2792,45 @@ function updateInfo() {
 		}
 	});
 }
+
+function showTooltip(e, id, message) {
+	let tooltip = $('<div class="tooltip" data-id="'+id+'" />');
+	tooltip.html(message);
+
+	let arrow = $('<div class="arrow" />');
+	tooltip.append(arrow)
+
+	$("body").append(tooltip);
+	setTooltipPosition(e, tooltip);
+}
+
+function hideTooltip(id) {
+	$(".tooltip[data-id="+id+"]").remove();
+}
+
+function setTooltipPosition(e, tooltip) {
+	var hx = window.innerWidth / 2;
+	var hy = window.innerHeight / 2;
+
+	let w = tooltip.outerWidth();
+	let h = tooltip.outerHeight();
+	
+	var x  = $(e.target)[0].getBoundingClientRect().left + $(window)["scrollLeft"]() - ((w / 2) - 4);
+	var y  = $(e.target)[0].getBoundingClientRect().top + $(window)["scrollTop"]() - (h + 12);
+
+	tooltip.css({ top: y, left: x });
+	tooltip.find(":after").css({ left: (w / 2) - 4 });
+}
+
+$("html").on("mouseenter", ".icon.delete", function(e){
+	let id = $(this).closest(".row").data("id");
+	showTooltip(e, id, "Hold to delete");
+});
+
+$("html").on("mouseleave", ".icon.delete", function(e){
+	let id = $(this).closest(".row").data("id");
+	hideTooltip(id);
+});
 
 function isMobile() {
 	if ($(".hamburger").is(":visible")) {

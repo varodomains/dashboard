@@ -1578,6 +1578,26 @@ select {
 	display: none;
 }
 
+.tooltip {
+	position: absolute;
+	background-color: var(--quinaryBackground);
+	padding: 10px;
+	border-radius: 15px;
+	pointer-events: none;
+}
+.tooltip .arrow {
+	content: "";
+	position: absolute;
+	bottom: -16px;
+	left: 50%;
+	margin-left: -4px;
+	height: 0;
+	width: 0;
+	border: 8px solid transparent;
+	background-color: transparent;
+	border-top-color: var(--quinaryBackground);
+}
+
 @media (max-width: 1000px) {
 	.mobile {
 		display: block;
