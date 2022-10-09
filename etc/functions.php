@@ -168,7 +168,7 @@
 			}
 		}
 		else {
-			$tlds = getStaked();
+			$tlds = getFeaturedStaked();
 		}
 
 		if (!@$tlds) {
@@ -300,6 +300,20 @@
 		}
 		else {
 			$getStaked = @sql("SELECT `tld` FROM `staked` WHERE `live` = 1 ORDER BY `tld` ASC");
+		}
+
+		if ($getStaked) {
+			return $getStaked;
+		}
+		return false;
+	}
+
+	function getFeaturedStaked($withPrice=false) {
+		if ($withPrice) {
+			$getStaked = @sql("SELECT `tld`,`price` FROM `staked` WHERE `live` = 1 AND `featured` = 1 ORDER BY `tld` ASC");
+		}
+		else {
+			$getStaked = @sql("SELECT `tld` FROM `staked` WHERE `live` = 1 AND `featured` = 1 ORDER BY `tld` ASC");
 		}
 
 		if ($getStaked) {

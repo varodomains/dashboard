@@ -452,9 +452,10 @@
 			break;
 
 		case "appearance":
-			if (in_array($data["theme"], $GLOBALS["themes"])) {
-				sql("UPDATE `users` SET `theme` = ? WHERE `id` = ?", [strtolower($data["theme"]), $user]);
-				$output["data"]["theme"] = strtolower($data["theme"]);
+			$formatted = strtolower(str_replace(" ", "_", $data["theme"]));
+			if (in_array($formatted, $GLOBALS["themes"])) {
+				sql("UPDATE `users` SET `theme` = ? WHERE `id` = ?", [$formatted, $user]);
+				$output["data"]["theme"] = $formatted;
 			}
 			else {
 				$output["success"] = false;

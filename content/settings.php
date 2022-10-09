@@ -11,8 +11,10 @@
 					<td>
 						<select name="theme">
 							<?php
-								foreach ($GLOBALS["themes"] as $theme) { ?>
-									<option<?php if (strtolower($theme) == $userInfo["theme"]) { echo " selected"; } ?>><?php echo $theme; ?></option>
+								foreach ($GLOBALS["themes"] as $theme) { 
+									$formatted = ucwords(str_replace("_", " ", $theme));
+									?>
+									<option<?php if (strtolower($theme) == $userInfo["theme"]) { echo " selected"; } ?>><?php echo $formatted; ?></option>
 								<?php
 								}
 							?>

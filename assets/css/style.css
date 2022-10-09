@@ -18,8 +18,11 @@
 	--primaryForeground: #fff;
 	--secondaryForeground: #7a7a7a;
 
+	--hnsForeground: #fff;
 	--statusForeground: #fff;
 	--buttonForeground: #fff;
+	--buttonBackground: #409aed;
+	--tooltipBackground: #222;
 
 	--borderColor: #222;
 	--borderColorAlt: #181818;
@@ -61,6 +64,82 @@
 	--deleteIcon: url(/assets/img/icons/delete);
 	--searchIcon: url(/assets/img/icons/search);
 	--buyIcon: url(/assets/img/icons/buy);
+}
+
+html[data-theme=light] {
+	--primaryBackground: #fff;
+	--secondaryBackground: #f7f7f7;
+	--tertiaryBackground: #ccc;
+	--quarteraryBackground: #ddd;
+	--quinaryBackground: #e9e9e9;
+
+	--errorForeground: #fff;
+	--errorBackground: #e08686;
+
+	--primaryForeground: #000;
+	--secondaryForeground: #9f9f9f;
+
+	--hnsForeground: #000;
+	--statusForeground: #fff;
+	--buttonForeground: #fff;
+	--buttonBackground: #409aed;
+	--tooltipBackground: #e9e9e9;
+
+	--borderColor: #ddd;
+	--borderColorAlt: #181818;
+
+	--downIcon: url(/assets/img/icons/down-black);
+}
+
+html[data-theme=the_shake] {
+	--themeColor: #03FFB3;
+	--themeColorAlt: #03FFB3aa;
+
+	--primaryBackground: #1D2132;
+	--secondaryBackground: #1F2A40;
+	--tertiaryBackground: #8F9099;
+	--quarteraryBackground: #2B2F3F;
+	--quinaryBackground: #1D2132;
+
+	--errorForeground: #fff;
+	--errorBackground: #c23f3f;
+
+	--positiveColor: #24B488;
+	--negativeColor: #db4437;
+
+	--primaryForeground: #fff;
+	--secondaryForeground: #787A84;
+
+	--hnsForeground: #03FFB3;
+	--statusForeground: #fff;
+	--buttonForeground: #03FFB3;
+	--buttonBackground: transparent;
+	--buttonHoverBackground: #28665C;
+	--tooltipBackground: #2B2F3F;
+
+	--borderColor: transparent;
+	--borderColorAlt: #00ffb3;
+
+	--downIcon: url(/assets/img/icons/down-white);
+}
+
+html[data-theme=the_shake] .separator {
+	background: transparent;
+	border-top: 1px dotted var(--tertiaryBackground);
+}
+
+html[data-theme=the_shake] .button, html[data-theme=the_shake] .submit {
+	border: 1px solid var(--borderColorAlt);
+}
+
+html[data-theme=the_shake] .button:hover, html[data-theme=the_shake] .submit:hover {
+	background-color: var(--buttonHoverBackground);
+	opacity: 1;
+	transition: background-color .5s;
+}
+
+html[data-theme=the_shake] .header, html[data-theme=the_shake] .menu {
+	background-color: var(--primaryBackground);
 }
 
 *, *:before, *:after {
@@ -116,31 +195,6 @@
 	-webkit-user-select: text;
 	-moz-user-select: text;
 	user-select: text;
-}
-
-html[data-theme=light] {
-	--primaryBackground: #fff;
-	--secondaryBackground: #f7f7f7;
-	--tertiaryBackground: #ccc;
-	--quarteraryBackground: #ddd;
-	--quinaryBackground: #e9e9e9;
-
-	--errorForeground: #fff;
-	--errorBackground: #e08686;
-
-	--primaryForeground: #000;
-	--secondaryForeground: #9f9f9f;
-
-	--statusForeground: #fff;
-	--buttonForeground: #fff;
-
-	--borderColor: #ddd;
-	--borderColorAlt: #181818;
-
-	--downIcon: url(/assets/img/icons/down-black);
-}
-html[data-theme=light] .HNS:before {
-	filter: invert(1);
 }
 
 html {
@@ -390,10 +444,10 @@ div.price.HNS:before, span.total.HNS:before {
 	height: 16px;
 	width: 16px;
 	position: absolute;
-	background-image: var(--handshakeIcon);
-	background-size: contain;
-	background-position: center;
-	background-repeat: no-repeat;
+	-webkit-mask-image: var(--handshakeIcon);
+	-moz-mask-image: var(--handshakeIcon);
+	mask-image: var(--handshakeIcon);
+	background-color: var(--hnsForeground);
 	opacity: 0.4;
 }
 td.price {
@@ -1095,10 +1149,6 @@ td.defaultPaymentMethod {
 	width: 100%;
 }
 
-.submit .HNS:before {
-	filter: invert(0) !important;
-}
-
 .subtitle {
 	color: var(--secondaryForeground);
 }
@@ -1116,7 +1166,7 @@ td.defaultPaymentMethod {
 .submit, .button {
 	width: auto;
 	height: 40px;
-	background-color: var(--themeColor);
+	background-color: var(--buttonBackground);
 	line-height: 40px;
 	text-align: center;
 	border-radius: 10px;
@@ -1580,7 +1630,7 @@ select {
 
 .tooltip {
 	position: absolute;
-	background-color: var(--quinaryBackground);
+	background-color: var(--tooltipBackground);
 	padding: 10px;
 	border-radius: 15px;
 	pointer-events: none;
@@ -1595,7 +1645,7 @@ select {
 	width: 0;
 	border: 8px solid transparent;
 	background-color: transparent;
-	border-top-color: var(--quinaryBackground);
+	border-top-color: var(--tooltipBackground);
 }
 
 @media (max-width: 1000px) {
