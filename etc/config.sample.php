@@ -10,6 +10,10 @@
 	$config["sqlPass"] = "password";
 	$config["sqlDatabase"] = "db";
 
+	$GLOBALS["smtpHost"] = "host";
+	$GLOBALS["smtpUser"] = "username";
+	$GLOBALS["smtpPass"] = "password";
+
 	$GLOBALS["pdnsApiHost"] = "your api server ip here";
 
 	$config["recordTypes"] = ["A", "AAAA", "ALIAS", "CNAME", "DS", "MX", "NS", "PTR", "SPF", "TLSA", "TXT", "REDIRECT"];

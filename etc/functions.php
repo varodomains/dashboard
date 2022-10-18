@@ -880,11 +880,13 @@
 
 		$mail = new PHPMailer(true);
 	    $mail->isSMTP();
-	    $mail->Host       = '127.0.0.1';
-		$mail->SMTPAuth   = false;
-	    $mail->SMTPSecure = false;
-	    $mail->Port       = 25;
+	    $mail->Host       = $GLOBALS["smtpHost"];
+		$mail->SMTPAuth   = true;
+	    $mail->SMTPSecure = "tls";
+	    $mail->Port       = 587;
 	    $mail->setFrom("noreply@varo.domains", "varo/");
+	    $mail->Username   = $GLOBALS["smtpUser"];
+		$mail->Password   = $GLOBALS["smtpPass"];
 	    $mail->isHTML(true);
 	    $mail->XMailer = null;
 	    $mail->CharSet = 'UTF-8';
