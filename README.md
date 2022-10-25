@@ -13,6 +13,7 @@ All of the tables are listed in etc/tables.sql
 The TODO list for setting up Dashboard is:
 * Setup your web server and PHP (we run PHP 7.4)
 * `cd etc && cp config.sample.php config.php && vim config.php`
+* Add `*/1 * * * * /usr/bin/php /path/to/varo/etc/cron.php >/dev/null 2>&1` to crontab
 
 ## License
 [![CC BY-NC-SA](https://i.creativecommons.org/l/by-nc-nd/3.0/88x31.png)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
