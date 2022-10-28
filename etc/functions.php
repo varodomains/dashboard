@@ -640,7 +640,7 @@
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($data));
 		curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-Type:application/json"]);
-		curl_setopt($curl, CURLOPT_URL,"http://x:a831d3c59ce474d8e13a7cea3a3935d3d5a55b84698abe38f2eea2329327e2c50@127.0.0.1:12037");
+		curl_setopt($curl, CURLOPT_URL,"http://x:".$GLOBALS["hsdKey"]."@127.0.0.1:12037");
 		curl_setopt($curl, CURLOPT_POST, 1);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($curl);
@@ -674,7 +674,7 @@
 		}
 
 		curl_setopt($curl, CURLOPT_HTTPHEADER, ["Content-Type:application/json"]);
-		curl_setopt($curl, CURLOPT_URL,"http://x:a831d3c59ce474d8e13a7cea3a3935d3d5a55b84698abe38f2eea2329327e2c50@127.0.0.1:12039".$endpoint);
+		curl_setopt($curl, CURLOPT_URL,"http://x:".$GLOBALS["hsdKey"]."@127.0.0.1:12039".$endpoint);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 		$response = curl_exec($curl);
 		curl_close ($curl);
@@ -884,7 +884,7 @@
 		$mail->SMTPAuth   = true;
 	    $mail->SMTPSecure = "tls";
 	    $mail->Port       = 587;
-	    $mail->setFrom("noreply@varo.domains", "varo/");
+	    $mail->setFrom($GLOBALS["fromEmail"], $GLOBALS["fromName"]);
 	    $mail->Username   = $GLOBALS["smtpUser"];
 		$mail->Password   = $GLOBALS["smtpPass"];
 	    $mail->isHTML(true);

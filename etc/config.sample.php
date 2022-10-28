@@ -13,6 +13,10 @@
 	$GLOBALS["smtpHost"] = "host";
 	$GLOBALS["smtpUser"] = "username";
 	$GLOBALS["smtpPass"] = "password";
+	$GLOBALS["fromName"] = "varo/";
+	$GLOBALS["fromEmail"] = "noreply@varo.domains";
+
+	$GLOBALS["hsdKey"] = "keyhere";
 
 	$GLOBALS["pdnsApiHost"] = "your api server ip here";
 
