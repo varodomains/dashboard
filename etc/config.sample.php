@@ -1,6 +1,8 @@
 <?php
 	$GLOBALS["path"] = "/var/www/html/varo";
 
+	$GLOBALS["siteName"] = "varo";
+
 	$GLOBALS["hnsHostname"] = "varo";
 	$GLOBALS["icannHostname"] = "varo.domains";
 	$GLOBALS["betaHostname"] = "beta.varo";

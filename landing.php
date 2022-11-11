@@ -32,7 +32,7 @@
 	<div class="header">
 		<div class="section left">
 			<div class="logo">
-				<span><?php echo $siteName; ?></span>
+				<span><?php echo $GLOBALS["siteName"]; ?></span>
 			</div>
 		</div>
 		<div class="section right">

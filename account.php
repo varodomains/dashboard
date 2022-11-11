@@ -14,7 +14,7 @@
 			<div class="account">
 				<form id="accountForm" class="hidden">
 					<a href="/">
-						<div class="title"><?php echo $siteName; ?></div>
+						<div class="title"><?php echo $GLOBALS["siteName"]; ?></div>
 					</a>
 					<div class="subtitle">DNS hosting and SLD's for Handshake</div>
 					<input type="text" name="email" placeholder="Email">

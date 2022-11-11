@@ -21,8 +21,6 @@
 		$isHandshake = false;
 	}
 
-	$siteName = "varo";
-
 	$page = "sites";
 	if (@$_GET["page"]) {
 		$page = $_GET["page"];
