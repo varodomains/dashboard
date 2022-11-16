@@ -176,7 +176,7 @@ function loadPage(noState) {
 	}
 
 	var name;
-	var title = "varo";
+	var title = $("title").data("name");
 
 	switch (page) {
 		case "manage":
