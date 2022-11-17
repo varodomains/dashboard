@@ -2124,7 +2124,9 @@ $("html").on("change", ".salesEnabled", function(e){
 	}
 	let domain = row.data("id");
 	let checked = $(this).is(":checked");
-	salesEnabled(domain, checked);
+	salesEnabled(domain, checked).then(response => {
+		dataForStaked(zone).live = checked;
+	});
 });
 
 $("html").on("change", ".customNameservers", function(e){
