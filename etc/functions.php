@@ -294,6 +294,14 @@
 		return false;
 	}
 
+	function getUnstakedTLDs() {
+		$tlds = @sql("SELECT * FROM `pdns`.`domains` WHERE `handshake` = 1 AND `account` != 0 AND `name` NOT LIKE '%.%' ORDER BY `name` ASC");
+		if ($tlds) {
+			return $tlds;
+		}
+		return false;
+	}
+
 	function getStaked($withPrice=false) {
 		if ($withPrice) {
 			$getStaked = @sql("SELECT `tld`,`price` FROM `staked` WHERE `live` = 1 ORDER BY `tld` ASC");

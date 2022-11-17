@@ -451,6 +451,10 @@ function afterLoad(page) {
 				updatePaymentMethods();
 			});
 			break;
+
+		case "admin":
+			$(".section[data-section=actions]").addClass("shown");
+			break;
 	}
 
 	$(".body").scrollTop(0);
@@ -980,7 +984,7 @@ function searchDomainsRow(data) {
 		unavailable = " disabled";
 		hidden = " hidden";
 	}
-	return '<div class="row" data-domain="'+data.domain+'"><div class="items"><div>'+emojifyIfNeeded(data.domain)+'<div class="status '+available.toLowerCase()+'">'+available+'</div></div><div class="actions'+hidden+'"><div class="price" data-price="'+data.price+'">'+data.price+'</div><div class="buy button'+unavailable+'"" data-action="buyDomain" title="'+available+'">Buy</div></div></div>';
+	return '<div class="row" data-domain="'+data.domain+'"><div class="items"><div>'+emojifyIfNeeded(data.domain)+'<div class="status '+available.toLowerCase()+'">'+available+'</div></div><div class="actions'+hidden+'"><div class="price" data-price="'+data.price+'">'+data.price+'</div><div class="buy button'+unavailable+'" data-action="buyDomain" title="'+available+'">Buy</div></div></div>';
 }
 
 function paymentMethodRow(data) {

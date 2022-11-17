@@ -7,17 +7,12 @@
 		<div id="actionTable" class="table"></div>
 	</div>
 </div>
-<?php
-	if (@$userInfo["admin"]) { ?>
-		<div class="section" data-section="reserved">
-			<div class="title">Reserved</div>
-			<div class="box">
-				<div id="reservedTable" class="table"></div>
-			</div>
-		</div>
-	<?php
-	}
-?>
+<div class="section" data-section="reserved">
+	<div class="title">Reserved</div>
+	<div class="box">
+		<div id="reservedTable" class="table"></div>
+	</div>
+</div>
 <div class="section" data-section="record">
 	<div class="title">New Record</div>
 	<div class="box">

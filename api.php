@@ -68,6 +68,7 @@
 		case "generate2fa":
 		case "setup2fa":
 		case "verify2fa":
+		case "stakeTLD":
 			$queryMutual = false;
 			break;
 
@@ -143,6 +144,7 @@
 			case "updateEmail":
 			case "resetPassword":
 			case "impersonate":
+			case "stakeTLD":
 				if (!$userInfo["admin"]) {
 					$output["message"] = "You don't have permissions for this function.";
 					$output["success"] = false;
@@ -1378,6 +1380,30 @@
 
 			$queryMutual = true;
 			$data["action"] = "deleteZone";
+			break;
+
+		case "stakeTLD":
+			$uuid = $data["tld"];
+			$info = domainForZone($uuid);
+
+			if (!$info) {
+				$output["message"] = "Something went wrong. Try again.";
+				$output["success"] = false;
+				goto end;
+			}
+
+			$id = $info["id"];
+			$name = $info["name"];
+			$owner = $info["account"];
+
+			$stake = sql("INSERT INTO `staked` (tld, uuid, id, owner) VALUES (?,?,?,?)", [$name, uuid(), $id, $owner]);
+			if (!$stake) {
+				$output["message"] = "Something went wrong. Try again.";
+				$output["success"] = false;
+				goto end;
+				
+			}
+			sql("UPDATE `pdns`.`domains` SET `account` = 0 WHERE `uuid` = ?", [$uuid]);
 			break;
 
 		case "getInfo":

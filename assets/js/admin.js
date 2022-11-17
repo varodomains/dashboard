@@ -41,9 +41,27 @@ function adminAction(element, column, action) {
 			$.removeCookie("admin");
 			goto("/admin");
 			break;
+
+		case "stakeTLD":
+			let tld = element.parent().find(".domains").val();
+			stakeTLD(tld).then(r => {
+				if (r.success) {
+					alert("Success");
+				}
+			});
+			break;
 	}
 
 	makeUneditable(element);
+}
+
+function stakeTLD(tld) {
+	let data = {
+		action: "stakeTLD",
+		tld: tld
+	};
+
+	return api(data);
 }
 
 function updateEmail(user, email) {

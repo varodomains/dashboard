@@ -7,6 +7,28 @@
 	}
 ?>
 <script type="text/javascript" src="/assets/js/admin?r=<?php echo $revision; ?>"></script>
+<div class="section" data-section="actions">
+	<div class="title">Actions</div>
+	<div class="box">
+		<div id="actionTable" class="table stake">
+			<div>
+				<select class="domains">
+					<?php
+						$tlds = getUnstakedTLDs();
+
+						if ($tlds) {
+							foreach ($tlds as $key => $tld) { ?>
+								<option value="<?php echo $tld["uuid"]; ?>"><?php echo $tld["name"]; ?></option>
+							<?php
+							}
+						}
+					?>
+				</select>
+				<div class="button action" data-action="stakeTLD" title="Stake">Stake</div>
+			</div>
+		</div>
+	</div>
+</div>
 <div class="section">
 	<div class="title">Users</div>
 	<div class="box">
