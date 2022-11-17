@@ -21,7 +21,6 @@
 						</td>
 						<td class="token select"><?php echo $user["token"]; ?></td>
 						<td class="links">
-							<div class="link" data-action="resetPassword">Reset Password</div>
 							<div class="link" data-action="impersonate">Impersonate</div>
 						</td>
 					</tr>
