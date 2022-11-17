@@ -7,7 +7,7 @@
 	$user = @$_SESSION["id"];
 	$userInfo = userInfo($user);
 
-	$revision = "20221115v2";
+	$revision = "20221117v1";
 
 	$self = @$_SERVER["PHP_SELF"]; 
 	$serverName = @$_SERVER["SERVER_NAME"]; 
