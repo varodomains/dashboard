@@ -69,6 +69,7 @@
 		case "setup2fa":
 		case "verify2fa":
 		case "stakeTLD":
+		case "changePrice":
 			$queryMutual = false;
 			break;
 
@@ -719,7 +720,7 @@
 			break;
 
 		case "getMyStaked":
-			$getStaked = getMyStaked($user);
+			$getStaked = getMyStaked($user, true);
 
 			if (@count($getStaked)) {
 				$output["data"] = $getStaked;
@@ -1401,9 +1402,18 @@
 				$output["message"] = "Something went wrong. Try again.";
 				$output["success"] = false;
 				goto end;
-				
 			}
 			sql("UPDATE `pdns`.`domains` SET `account` = 0 WHERE `uuid` = ?", [$uuid]);
+			break;
+
+		case "changePrice":
+			$price = $data["price"] * 100;
+			$update = sql("UPDATE `staked` SET `price` = ? WHERE `uuid` = ? AND `owner` = ?", [$price, $data["zone"], $user]);
+			if (!$update) {
+				$output["message"] = "Something went wrong. Try again.";
+				$output["success"] = false;
+				goto end;
+			}
 			break;
 
 		case "getInfo":

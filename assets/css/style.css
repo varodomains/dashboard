@@ -1129,7 +1129,7 @@ input[name=domain][readonly] {
     justify-content: center;
     align-items: center;
 }
-#accountForm input, .popover #addPaymentMethod input, .popover #setup2fa input, .popover #verify2fa input, #transferDomain input, #giftDomain input, #giftDomain select, #addReserved textarea, #addNotifications textarea {
+#accountForm input, .popover #addPaymentMethod input, .popover #setup2fa input, .popover #verify2fa input, #transferDomain input, #giftDomain input, #changePrice input, #giftDomain select, #addReserved textarea, #addNotifications textarea {
 	height: 40px;
 	width: 100%;
 	margin-bottom: 10px;

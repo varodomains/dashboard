@@ -902,7 +902,7 @@ function manageDomainRow(data) {
 		if (data.live) {
 			live = " checked";
 		}
-		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div>Sales: <label class="cl-switch custom"><input type="checkbox" class="salesEnabled"'+live+'><span class="switcher"></span></label></div><div class="link" data-action="addReserved">Reserve Names</div><div class="link" data-action="giftDomain">Gift Domain</div></div></div>';
+		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div>Sales: <label class="cl-switch custom"><input type="checkbox" class="salesEnabled"'+live+'><span class="switcher"></span></label></div><div class="link" data-action="changePrice">Change Price</div><div class="link" data-action="addReserved">Reserve Names</div><div class="link" data-action="giftDomain">Gift Domain</div></div></div>';
 	}
 }
 
@@ -1827,6 +1827,13 @@ $("html").on("click", function(e){
 				showPopover("transferDomain");
 				break;
 
+			case "changePrice":
+				let price = prettyMoney(dataForStaked(zone).price / 100);
+				$("#changePrice input[name=price]").val(price);
+				$("#changePrice input[name=zone]").val(zone);
+				showPopover(action);
+				break;
+
 			case "addReserved":
 				$("#addReserved input[name=zone]").val(zone);
 				showPopover(action);
@@ -2435,6 +2442,15 @@ function afterSubmit(form, response) {
 			if (response.success) {
 				close(action);
 				loadReserved();
+			}
+			break;
+
+		case "changePrice":
+			if (response.success) {
+				let zone = form.find("input[name=zone]").val();
+				let price = form.find("input[name=price]").val() * 100;
+				dataForStaked(zone).price = price;
+				close(action);
 			}
 			break;
 
