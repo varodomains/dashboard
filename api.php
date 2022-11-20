@@ -10,6 +10,7 @@
 
 	$output = [
 		"success" => true,
+		"fields" => []
 	];
 
 	foreach ($data as $key => $value) {
@@ -748,7 +749,7 @@
 				}
 			}
 
-			if (!$getStaked) {
+			if (!isset($getStaked)) {
 				$getStaked = getStaked(true);
 			}
 
