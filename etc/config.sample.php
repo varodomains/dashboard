@@ -18,6 +18,8 @@
 	$GLOBALS["fromName"] = "varo/";
 	$GLOBALS["fromEmail"] = "noreply@varo.domains";
 
+	$GLOBALS["tweetSales"] = false;
+
 	$GLOBALS["hsdKey"] = "keyhere";
 
 	$GLOBALS["pdnsApiHost"] = "your api server ip here";
