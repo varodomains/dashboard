@@ -6,6 +6,7 @@ etc/.scanning
 
 etc/config.php
 etc/test.php
+.twurlrc
 
 composer.lock
 etc/vendor/
