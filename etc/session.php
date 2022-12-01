@@ -2,6 +2,7 @@
 	session_set_cookie_params([
 		'path' => '/',
 	]);
+	session_name("session");
 	session_start();
 
 	$user = @$_SESSION["id"];

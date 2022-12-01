@@ -377,7 +377,7 @@
 			break;
 
 		case "verify2fa":
-			$code = $userInfo["totp"];
+			$code = @$userInfo["totp"];
 			$valid = verifyTwoFactor($code, $data["twofactor"]);
 
 			if (!$valid) {
