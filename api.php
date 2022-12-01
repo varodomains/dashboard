@@ -377,7 +377,7 @@
 			break;
 
 		case "verify2fa":
-			$code = $userInfo["totp"];
+			$code = @$userInfo["totp"];
 			$valid = verifyTwoFactor($code, $data["twofactor"]);
 
 			if (!$valid) {
@@ -715,16 +715,20 @@
 		case "getStaked":
 			$getStaked = getStaked();
 
-			if (@count($getStaked)) {
-				$output["data"] = $getStaked;
+			if ($getStaked) {
+				if (@count($getStaked)) {
+					$output["data"] = $getStaked;
+				}
 			}
 			break;
 
 		case "getMyStaked":
 			$getStaked = getMyStaked($user, true);
 
-			if (@count($getStaked)) {
-				$output["data"] = $getStaked;
+			if ($getStaked) {
+				if (@count($getStaked)) {
+					$output["data"] = $getStaked;
+				}
 			}
 			break;
 
