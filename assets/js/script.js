@@ -478,6 +478,14 @@ $("html").on("keyup", "input[data-stripe=number]", function(e){
 	}
 });
 
+$("html").on("paste", "[contenteditable]", e => {
+	e.preventDefault();
+
+	let text = e.originalEvent.clipboardData.getData("text/plain")
+	$(e.target).text(text);
+	log(text);
+});
+
 function showNSDS() {
 	showZone(zone).then(function(response){
 		setNS(response.data);
