@@ -254,7 +254,7 @@
 	}
 
 	function containsInvalidCharacters($string) {
-		$invalidCharacters = preg_match("/[^a-zA-Z0-9-\.\_\*\/]/", $string, $match);
+		$invalidCharacters = preg_match("/[^a-zA-Z0-9\-\.\_\*\/]/", $string, $match);
 		if (count($match)) {
 			return true;
 		}

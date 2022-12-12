@@ -14,7 +14,7 @@
 	];
 
 	foreach ($data as $key => $value) {
-		$data[$key] = trim($value, ". ".chr(194).chr(160));
+		$data[$key] = trim($value, ". ".chr(194).chr(160).PHP_EOL);
 
 		switch ($key) {
 			case "email":
