@@ -2648,7 +2648,8 @@ function swapAccountAction(action) {
 	form.find(".submit").data("action", action);
 	form.find(".submit").attr("data-action", action);
 	form.find(".submit").html(action.capitalize());
-
+	form.find("input").addClass("none");
+	
 	switch (action) {
 		case "login":
 			form.find(".link[data-action=accountAction]").data("page", "signup");
@@ -2658,7 +2659,6 @@ function swapAccountAction(action) {
 			form.find(".link[data-action=accountActionAlt]").removeClass("hidden");
 			form.find("input[name=email]").removeClass("none");
 			form.find("input[name=password]").removeClass("none");
-			form.find("input[name=twofactor]").addClass("none");
 			break;
 
 		case "signup":
@@ -2669,7 +2669,6 @@ function swapAccountAction(action) {
 			form.find(".link[data-action=accountActionAlt]").addClass("hidden");
 			form.find("input[name=email]").removeClass("none");
 			form.find("input[name=password]").removeClass("none");
-			form.find("input[name=twofactor]").addClass("none");
 			break;
 
 		case "forgot":
@@ -2679,8 +2678,6 @@ function swapAccountAction(action) {
 			form.find(".link[data-action=accountAction]").removeClass("hidden");
 			form.find(".link[data-action=accountActionAlt]").addClass("hidden");
 			form.find("input[name=email]").removeClass("none");
-			form.find("input[name=password]").addClass("none");
-			form.find("input[name=twofactor]").addClass("none");
 			break;
 
 		case "reset":
@@ -2688,12 +2685,10 @@ function swapAccountAction(action) {
 			form.find(".link[data-action=accountActionAlt]").addClass("hidden");
 			form.find("input[name=password]").attr("autocomplete", "new-password").attr("name", "new-password");
 			form.find("input[name=new-password]").removeClass("none");
-			form.find("input[name=email]").addClass("none");
 			form.find("input[name=code]").val(code);
 			break;
 
 		case "verify2fa":
-			form.find("input").addClass("none");
 			form.find(".link").addClass("hidden");
 			form.find("input[name=twofactor]").removeClass("none");
 			form.find(".submit").html("Verify");

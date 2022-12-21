@@ -147,6 +147,10 @@ html[data-theme=the_shake] .header, html[data-theme=the_shake] .menu {
 	background-color: var(--primaryBackground);
 }
 
+html[data-theme=the_shake] .header select {
+	background-color: var(--primaryBackground);
+}
+
 .submit .HNS:before {
 	background-color: var(--buttonForeground) !important;
 }
@@ -346,6 +350,7 @@ a:hover {
 	color: var(--primaryForeground);
 	visibility: hidden;
 	position: absolute;
+	background-color: var(--secondaryBackground);
 }
 .main[data-page=admin] .domains {
 	width: 100%;
@@ -924,12 +929,12 @@ table:not(.domain,.total,#couponTable,#totalTable,#giftTable) tbody tr td:first-
 	border-radius: 10px;
 }
 
-select.type {
+select {
 	width: 100%;
 	color: var(--primaryForeground);
 	background-color: var(--secondaryBackground);
 }
-.row:hover select.type {
+.row:hover select, tr:hover select:not([name=years]) {
 	background-color: var(--primaryBackground);
 }
 div.ttl .edit:empty:before {
