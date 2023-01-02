@@ -534,6 +534,7 @@
 
 		case "createZone":
 			$data["domain"] = rtrim($data["domain"], "/");
+			$data["domain"] = idn_to_ascii($data["domain"]);
 
 			if (strlen($data["domain"]) < 1) {
 				$output["fields"][] = "domain";
@@ -541,6 +542,7 @@
 
 			if (containsInvalidCharacters($data["domain"])) {
 				$output["fields"][] = "domain";
+				$output["message"] = "This name contains invalid characters. Contact support if you think this is a mistake.";
 			}
 
 			$domainAvailable = domainAvailable($data["domain"]);
