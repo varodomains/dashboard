@@ -973,8 +973,8 @@ input.error {
 	height: 100%;
 	padding: 10px;
 }
-#nsTable, #dsTable {
-	margin-bottom: 10px;
+.section[data-section=ns] .sectionAction, .section[data-section=ds] .sectionAction, .section[data-section=ns] .subtitle {
+	margin-top: 10px;
 }
 .break {
 	word-break: break-all;

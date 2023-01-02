@@ -248,6 +248,14 @@ function loadPage(noState) {
 	}
 }
 
+function isSubDomain(zone) {
+	let data = dataForZone(zone);
+	if (data.name.includes(".")) {
+		return true;
+	}
+	return false;
+}
+
 function isSLD(zone) {
 	let data = dataForZone(zone);
 	if (typeof data.expiration !== "undefined") {
@@ -504,10 +512,9 @@ function setNS(data) {
 		$(".section[data-section=ns] .customNameservers").prop("checked", false);
 		makeNameserversEditable(false);
 
-		if (data.NS[0] == "ns1.varo." && !$(".section[data-section=ns] .titleAction.hidden").length) {
-			$(".section[data-section=ns] .box").append('<div class="subtitle center">Note: If adding these records into Namebase, leave the "Name" field blank.</div>');
+		if (!isSubDomain(zone) && data.NS[0] == "ns1.varo." && $(".section[data-section=ns] .titleAction.hidden").length) {
+			$(".section[data-section=ns] .box").append(`<div class="subtitle center">Note: If you're adding these records into Namebase, leave the "Name" field blank.</div>`);
 		}
-		
 	}
 
 	$("#nsTable .row").remove();
