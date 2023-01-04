@@ -41,6 +41,12 @@
 					</td>
 				</tr>
 				<tr>
+					<td>API Key</td>
+					<td>
+						<input type="text" name="api" value="<?php echo $userInfo["api"]; ?>" readonly />
+					</td>
+				</tr>
+				<tr>
 					<td>Email</td>
 					<td>
 						<input type="text" name="email" value="<?php echo $userInfo["email"]; ?>" autocomplete="email" />

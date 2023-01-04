@@ -258,6 +258,13 @@
 					$output["fields"][] = "email";
 				}
 
+				$userExists = userInfoByEmail($data["email"]);
+				if ($userExists) {
+					$output["fields"][] = "email";
+					$output["message"] = "An account with this email already exists.";
+					goto end;
+				}
+
 				$validPassword = validPassword($data["password"]);
 				if (!$validPassword) {
 					$output["fields"][] = "password";
@@ -268,7 +275,8 @@
 
 				if (!@count(@$output["fields"])) {
 					$token = generateID(16);
-					$insert = sql("INSERT INTO `users` (email, password, uuid, token) VALUES (?,?,?,?)", [$data["email"], $passwordHash, uuid(), $token]);
+					$api = uuid();
+					$insert = sql("INSERT INTO `users` (email, password, uuid, token, api) VALUES (?,?,?,?,?)", [$data["email"], $passwordHash, uuid(), $token, $api]);
 					if ($insert) {
 						$getUser = sql("SELECT `id` FROM `users` WHERE `email` = ?", [$data["email"]])[0];
 
@@ -280,7 +288,8 @@
 						$_SESSION["id"] = $getUser["id"];
 					}
 					else {
-						$output["fields"][] = "email";
+						$output["message"] = "Something went wrong. Try again?";
+						$output["success"] = false;
 					}
 				}
 			}

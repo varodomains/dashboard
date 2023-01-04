@@ -5,9 +5,17 @@
 	session_name("session");
 	session_start();
 
-	$user = @$_SESSION["id"];
-	$userInfo = userInfo($user);
-
+	$authHeader = @getallheaders()["Authorization"];
+	if ($authHeader) {
+		preg_match('/Bearer\s(?<key>.+)/', $authHeader, $authMatch);
+		$userInfo = userInfo(@$authMatch["key"], "api");
+		$user = @$userInfo["id"];
+	}
+	else {
+		$user = @$_SESSION["id"];
+		$userInfo = userInfo($user);
+	}
+	
 	$revision = "20230102v1";
 
 	$self = @$_SERVER["PHP_SELF"]; 
