@@ -1,9 +1,9 @@
 <?php
 	$GLOBALS["sqlInfo"] = [
-		"host" => $config["sqlHost"],
-		"user" => $config["sqlUser"],
-		"pass" => $config["sqlPass"],
-		"db" => $config["sqlDatabase"],
+		"host" => $GLOBALS["sqlHost"],
+		"user" => $GLOBALS["sqlUser"],
+		"pass" => $GLOBALS["sqlPass"],
+		"db" => $GLOBALS["sqlDatabase"],
 		"options" => [
 			PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
 			PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
@@ -60,6 +60,7 @@
 				goto retry;
 			}
 			else {
+				var_dump($message);
 				//error
 			}
 		}

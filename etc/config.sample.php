@@ -7,10 +7,11 @@
 	$GLOBALS["icannHostname"] = "varo.domains";
 	$GLOBALS["betaHostname"] = "beta.varo";
 
-	$config["sqlHost"] = "ip";
-	$config["sqlUser"] = "username";
-	$config["sqlPass"] = "password";
-	$config["sqlDatabase"] = "db";
+	$GLOBALS["sqlHost"] = "ip";
+	$GLOBALS["sqlUser"] = "username";
+	$GLOBALS["sqlPass"] = "password";
+	$GLOBALS["sqlDatabase"] = "hshub";
+	$GLOBALS["sqlDatabaseDNS"] = "pdns";
 
 	$GLOBALS["smtpHost"] = "host";
 	$GLOBALS["smtpUser"] = "username";

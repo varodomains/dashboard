@@ -979,7 +979,7 @@
 			if (@$data["state"]) {
 				$state = 1;
 			}
-			sql("UPDATE `pdns`.`domains` SET `renew` = ? WHERE `uuid` = ?", [$state, $data["zone"]]);
+			sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `renew` = ? WHERE `uuid` = ?", [$state, $data["zone"]]);
 			break;
 
 		case "salesEnabled":
@@ -998,7 +998,7 @@
 				goto end;
 			}
 
-			sql("UPDATE `pdns`.`domains` SET `account` = ? WHERE `uuid` = ?", [$recipientData["id"], $data["zone"]]);
+			sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = ? WHERE `uuid` = ?", [$recipientData["id"], $data["zone"]]);
 
 			if ($data["reserved"]) {
 				$zone = domainForZone($data["zone"]);
@@ -1006,7 +1006,7 @@
 				
 				if (!$currentExpiration) {
 					$expiration = strtotime("+1 years");
-					sql("UPDATE `pdns`.`domains` SET `expiration` = ? WHERE `uuid` = ?", [$expiration, $data["zone"]]);
+					sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `expiration` = ? WHERE `uuid` = ?", [$expiration, $data["zone"]]);
 				}
 			}
 			break;
@@ -1312,7 +1312,7 @@
 			$reserved = [];
 			$tldInfo = getStakedTLDByID($data["zone"]);
 			$tld = $tldInfo["tld"];
-			$getReserved = sql("SELECT `name`, `uuid` AS `id` FROM `pdns`.`domains` WHERE `account` IS NULL AND `registrar` IS NOT NULL AND `name` LIKE ?", ["%.".$tld]);
+			$getReserved = sql("SELECT `name`, `uuid` AS `id` FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NULL AND `registrar` IS NOT NULL AND `name` LIKE ?", ["%.".$tld]);
 			if ($getReserved) {
 				$reserved = $getReserved;
 			}
@@ -1384,7 +1384,7 @@
 				goto end;
 			}
 
-			sql("DELETE FROM `pdns`.`records` WHERE `name` = ? AND `domain_id` = ?", [$domain, $stakedID]);
+			sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `name` = ? AND `domain_id` = ?", [$domain, $stakedID]);
 
 			$queryMutual = true;
 			$data["action"] = "deleteZone";
@@ -1410,7 +1410,7 @@
 				$output["success"] = false;
 				goto end;
 			}
-			sql("UPDATE `pdns`.`domains` SET `account` = 0 WHERE `uuid` = ?", [$uuid]);
+			sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = 0 WHERE `uuid` = ?", [$uuid]);
 			break;
 
 		case "changePrice":

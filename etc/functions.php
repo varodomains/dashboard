@@ -115,7 +115,7 @@
 	}
 
 	function userCanAccessZone($zone, $user) {
-		$getZone = sql("SELECT * FROM `pdns`.`domains` WHERE `uuid` = ? AND `account` = ?", [$zone, $user]);
+		$getZone = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `uuid` = ? AND `account` = ?", [$zone, $user]);
 		if ($getZone) {
 			return true;
 		}
@@ -128,7 +128,7 @@
 	}
 
 	function domainExists($domain) {
-		$getDomain = sql("SELECT * FROM `pdns`.`domains` WHERE `name` = ?", [$domain]);
+		$getDomain = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `name` = ?", [$domain]);
 		if ($getDomain) {
 			return true;
 		}
@@ -150,7 +150,7 @@
 	}
 
 	function infoForSLD($domain) {
-		$getDomain = @sql("SELECT * FROM `pdns`.`domains` WHERE `name` = ? AND `registrar` IS NOT NULL", [$domain])[0];
+		$getDomain = @sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `name` = ? AND `registrar` IS NOT NULL", [$domain])[0];
 		if ($getDomain) {
 			return $getDomain;
 		}
@@ -203,7 +203,7 @@
 	}
 
 	function domainForZone($zone) {
-		$getDomain = @sql("SELECT * FROM `pdns`.`domains` WHERE `uuid` = ?", [$zone])[0];
+		$getDomain = @sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `uuid` = ?", [$zone])[0];
 		if ($getDomain) {
 			return $getDomain;
 		}
@@ -211,7 +211,7 @@
 	}
 
 	function zoneForID($id) {
-		$getZone = @sql("SELECT * FROM `pdns`.`domains` WHERE `id` = ?", [$id])[0];
+		$getZone = @sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `id` = ?", [$id])[0];
 		if ($getZone) {
 			return $getZone;
 		}
@@ -219,7 +219,7 @@
 	}
 
 	function dataForRecord($record) {
-		$getRecord = sql("SELECT * FROM `pdns`.`records` WHERE `uuid` = ?", [$record]);
+		$getRecord = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `uuid` = ?", [$record]);
 
 		return $getRecord[0];
 	}
@@ -295,7 +295,7 @@
 	}
 
 	function getUnstakedTLDs() {
-		$tlds = @sql("SELECT * FROM `pdns`.`domains` WHERE `handshake` = 1 AND `account` != 0 AND `name` NOT LIKE '%.%' ORDER BY `name` ASC");
+		$tlds = @sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `handshake` = 1 AND `account` != 0 AND `name` NOT LIKE '%.%' ORDER BY `name` ASC");
 		if ($tlds) {
 			return $tlds;
 		}
@@ -377,9 +377,9 @@
 	}
 
 	function stakeTLD($tld, $price, $owner) {
-		$zone = @sql("SELECT * FROM `pdns`.`domains` WHERE `name` = ?", [$tld])[0];
+		$zone = @sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `name` = ?", [$tld])[0];
 
-		sql("UPDATE `pdns`.`domains` SET `account `= 0 WHERE `uuid` = ?", [$zone["uuid"]]);
+		sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account `= 0 WHERE `uuid` = ?", [$zone["uuid"]]);
 		sql("INSERT INTO `staked` (tld, uuid, id, owner, price) VALUES (?,?,?,?,?)", [$tld, uuid(), $zone["id"], $owner, $price]);
 	}
 
@@ -392,7 +392,7 @@
 		];
 		$response = api($data);
 
-		$zone = @sql("SELECT * FROM `pdns`.`domains` WHERE `name` = ?", [$domain])[0]["uuid"];
+		$zone = @sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `name` = ?", [$domain])[0]["uuid"];
 		$data = [
 			"action" => "showZone",
 			"zone" => $zone
@@ -400,8 +400,8 @@
 		$response = api($data);
 		$ds = $response["DS"];
 
-		sql("INSERT INTO `pdns`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$id, $domain, "DS", $ds, 20, 0, uuid(), 1]);
-		sql("UPDATE `pdns`.`domains` SET `account` = ?, `expiration` = ?, `renew` = 1, `registrar` = ? WHERE `name` = ?", [$user, $expiration, $registrar, $domain]);
+		sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$id, $domain, "DS", $ds, 20, 0, uuid(), 1]);
+		sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = ?, `expiration` = ?, `renew` = 1, `registrar` = ? WHERE `name` = ?", [$user, $expiration, $registrar, $domain]);
 		sql("INSERT INTO `sales` (user, name, tld, type, price, total, fee, time, registrar) VALUES (?,?,?,?,?,?,?,?,?)", [$user, $sld, $tld, $type, $price, $total, $fee, time(), $registrar]);
 
 		if ($GLOBALS["tweetSales"] && $price > 0) {
@@ -419,20 +419,20 @@
 		$staked = getStakedTLD($tld);
 		$stakedID = $staked["id"];
 
-		sql("DELETE FROM `pdns`.`records` WHERE (`domain_id` = ? OR `domain_id` = ?) AND `name` = ? AND (`type` = 'NS' OR `type` = 'SOA') AND `system` = 1", [$stakedID, $domainID, $domain]);
+		sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE (`domain_id` = ? OR `domain_id` = ?) AND `name` = ? AND (`type` = 'NS' OR `type` = 'SOA') AND `system` = 1", [$stakedID, $domainID, $domain]);
 
 		$hasNS = false;
 		if (count($nameservers)) {
 			foreach ($nameservers as $ns) {
 				if (@$ns) {
 					$hasNS = true;
-					sql("INSERT INTO `pdns`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$stakedID, $domain, "NS", $ns, 20, 0, uuid(), 1]);
+					sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$stakedID, $domain, "NS", $ns, 20, 0, uuid(), 1]);
 				}
 			}
 		}
 
 		if ($hasNS) {
-			sql("DELETE FROM `pdns`.`records` WHERE `domain_id` = ? AND `name` = ? AND `type` = 'DS'", [$stakedID, $domain]);
+			sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `domain_id` = ? AND `name` = ? AND `type` = 'DS'", [$stakedID, $domain]);
 		}
 	}
 
@@ -443,10 +443,10 @@
 		$staked = getStakedTLD($tld);
 		$id = $staked["id"];
 
-		sql("DELETE FROM `pdns`.`records` WHERE `domain_id` = ? AND `name` = ? AND `type` = 'DS'", [$id, $domain]);
+		sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `domain_id` = ? AND `name` = ? AND `type` = 'DS'", [$id, $domain]);
 
 		if (@$ds) {
-			sql("INSERT INTO `pdns`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$id, $domain, "DS", @$ds, 20, 0, uuid(), 1]);
+			sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$id, $domain, "DS", @$ds, 20, 0, uuid(), 1]);
 		}
 	}
 
@@ -458,7 +458,7 @@
 		$staked = getStakedTLD($tld);
 		$stakedID = $staked["id"];
 
-		sql("DELETE FROM `pdns`.`records` WHERE (`domain_id` = ? OR `domain_id` = ?) AND `name` = ? AND (`type` = 'NS' OR `type` = 'DS' OR `type` = 'SOA') AND `system` = 1", [$stakedID, $domainID, $domain]);
+		sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE (`domain_id` = ? OR `domain_id` = ?) AND `name` = ? AND (`type` = 'NS' OR `type` = 'DS' OR `type` = 'SOA') AND `system` = 1", [$stakedID, $domainID, $domain]);
 
 		$data = [
 			"action" => "showZone",
@@ -466,17 +466,17 @@
 		];
 		$response = api($data);
 		$ds = $response["DS"];
-		sql("INSERT INTO `pdns`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$stakedID, $domain, "DS", $ds, 20, 0, uuid(), 1]);
-		sql("INSERT INTO `pdns`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$domainID, $domain, "NS", $GLOBALS["handshakeNS1"], 20, 0, uuid(), 1]);
-		sql("INSERT INTO `pdns`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$domainID, $domain, "NS", $GLOBALS["handshakeNS2"], 20, 0, uuid(), 1]);
-		sql("INSERT INTO `pdns`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$domainID, $domain, "SOA", $GLOBALS["handshakeSOA"], 20, 0, uuid(), 1]);
+		sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$stakedID, $domain, "DS", $ds, 20, 0, uuid(), 1]);
+		sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$domainID, $domain, "NS", $GLOBALS["handshakeNS1"], 20, 0, uuid(), 1]);
+		sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$domainID, $domain, "NS", $GLOBALS["handshakeNS2"], 20, 0, uuid(), 1]);
+		sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$domainID, $domain, "SOA", $GLOBALS["handshakeSOA"], 20, 0, uuid(), 1]);
 	}
 
 	function nsdsForDomain($tld, $name, $zone) {
 		$staked = getStakedTLD($tld);
 		$id = $staked["id"];
 
-		$getNSDS = sql("SELECT * FROM `pdns`.`records` WHERE `domain_id` = ? AND `name` = ? AND (`type` = 'NS' OR `type` = 'DS')", [$id, $name]);
+		$getNSDS = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `domain_id` = ? AND `name` = ? AND (`type` = 'NS' OR `type` = 'DS')", [$id, $name]);
 
 		$ns = [];
 		$ds = "";
@@ -518,7 +518,7 @@
 
 	function nsForDomain($domain) {
 		$nameservers = [];
-		$getNameservers = sql("SELECT * FROM `pdns`.`records` WHERE `name` = ? AND `type` = 'NS' AND `system` = 1", [$domain]);
+		$getNameservers = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `name` = ? AND `type` = 'NS' AND `system` = 1", [$domain]);
 
 		if ($getNameservers) {
 			foreach ($getNameservers as $key => $value) {
