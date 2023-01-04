@@ -1448,6 +1448,9 @@
 		$output["fields"] = array_unique($output["fields"]);
 		$output["success"] = false;
 	}
+	else {
+		unset($output["fields"]);
+	}
 
 	if (!$output["success"]) {
 		die(json_encode($output));
