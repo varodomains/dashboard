@@ -14,7 +14,9 @@
 	];
 
 	foreach ($data as $key => $value) {
-		$data[$key] = trim($value, ". ".chr(194).chr(160).PHP_EOL);
+		if (!is_array($data[$key])) {
+			$data[$key] = trim($value, ". ".chr(194).chr(160).PHP_EOL);
+		}
 
 		switch ($key) {
 			case "email":
@@ -26,6 +28,99 @@
 	}
 
 	$queryMutual = true;
+
+	// PREVENT CERTAIN FUNCTIONS WHEN NOT THROUGH THE DASHBOARD
+	if (!$throughDashboard) {
+		switch ($data["action"]) {
+			/** {"description":"Gets a list of staked TLDs.","request":"{\"action\":\"getStaked\"}","response":"{\"success\":true,\"data\":[{\"tld\":\"fuckyou\"},{\"tld\":\"handygo\"},{\"tld\":\"handyhub\"},{\"tld\":\"mastermind\"},{\"tld\":\"tlds\"},{\"tld\":\"uniwallet\"},{\"tld\":\"xp\"}]}"} */
+			case "getStaked":
+
+			/** {"description":"Gets a list of the user's staked TLDs.","request":"{\"action\":\"getMyStaked\"}","response":"{\"success\":true,\"data\":[{\"tld\":\"fuckyou\",\"price\":500,\"live\":1,\"id\":\"9a2aea6830ba482187a3c209bda0169a\"},{\"tld\":\"tlds\",\"price\":499,\"live\":1,\"id\":\"9dd25bd215984cc3901bbbf7bfd27574\"},{\"tld\":\"xp\",\"price\":999,\"live\":1,\"id\":\"4826bd33beda481194ab89d2b5cea7f0\"}]}"} */
+			case "getMyStaked":
+
+			/** {"description":"Retrieves basic information for a given zone.","request":"{\"action\":\"getZone\",\"zone\":\"60733325d683468b98878819fb654b01\",\"staked\":false}","response":"{\"success\":true,\"data\":{\"name\":\"hnschat\",\"staked\":false}}"} */
+			case "getZone":
+
+			/** {"description":"Retrieves NS/DS information for a given zone.","request":"{\"action\":\"showZone\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\",\"staked\":true}","response":"{\"success\":true,\"data\":{\"NS\":[\"ns1.varo.\",\"ns2.varo.\"],\"DS\":\"29441 13 2 fb75653a45667bed5f1a51d71578df4916e45c8f2afbdedf9bdf54393d3b797f\",\"editable\":false}}"} */
+			case "showZone":
+
+			/** {"description":"Retrieve DNS records for a given DNS zone.","request":"{\"action\":\"getRecords\",\"zone\":\"2b28ebd8d93149a9a83fdcae1e33dcef\"}","response":"{\"success\":true,\"data\":[{\"name\":\"certy\",\"type\":\"A\",\"content\":\"135.148.148.182\",\"ttl\":20,\"prio\":0,\"uuid\":\"3fcdce0472734549a165f11d78ae551d\"},{\"name\":\"_443._tcp.certy\",\"type\":\"TLSA\",\"content\":\"3 1 1 D950458F80A759348541B037470D4DED32D9C6D5CB1369B861D507B0BF57B861\",\"ttl\":20,\"prio\":0,\"uuid\":\"038450b5f79e49a89054294532ef34ed\"}]}"} */
+			case "getRecords":
+
+			/** {"description":"Updates the NS records for a zone.","request":"{\"action\":\"updateNS\",\"zone\":\"7ff1b63b8b484b0bb41040b14ccedbfb\",\"ns\":[\"ns1.example\",\"ns2.example\"]}","response":"{\"success\":true}"} */
+			case "updateNS":
+
+			/** {"description":"Updates the DS records for a zone.","request":"{\"action\":\"updateDS\",\"zone\":\"7ff1b63b8b484b0bb41040b14ccedbfb\",\"ds\":\"33245 13 2 d204bb9c1118e012b1788c1d61dbd28d416694ea99bcaece4029d75a89fd0336\"}","response":"{\"success\":true}"} */
+			case "updateDS":
+
+			/** {"description":"Resets the NS and DS records for a zone to their default values.","request":"{\"action\":\"resetNSDS\",\"zone\":\"7ff1b63b8b484b0bb41040b14ccedbfb\"}","response":"{\"success\":true}"} */
+			case "resetNSDS":
+
+			/** {"description":"Adds a record to a zone.","request":"{\"action\":\"addRecord\",\"zone\":\"76e18d948d4e436dacbfadedb568563d\",\"type\":\"A\",\"name\":\"@\",\"content\":\"1.2.3.4\"}","response":"{\"success\":true}"} */
+			case "addRecord":
+
+			/** {"description":"Updates a record in a zone.","note":"The updated value will be included in the response if the update is succesful.","request":"{\"action\":\"updateRecord\",\"zone\":\"76e18d948d4e436dacbfadedb568563d\",\"record\":\"547684ae1aee499ebead5bcbda254788\",\"column\":\"content\",\"value\":\"4.3.2.1\"}","response":"{\"success\":true,\"data\":{\"value\":\"4.3.2.1\"}}"} */
+			case "updateRecord":
+
+			/** {"description":"Deletes a record in a zone.","request":"{\"action\":\"deleteRecord\",\"zone\":\"76e18d948d4e436dacbfadedb568563d\",\"record\":\"547684ae1aee499ebead5bcbda254788\"}","response":"{\"success\":true}"} */
+			case "deleteRecord":
+
+			/** {"description":"Searches for domains matching a given query.","note":"The TLD parameter is optional.","request":"{\"action\":\"searchDomains\",\"query\":\"example\",\"tld\":\"xp\"}","response":"{\"success\":true,\"data\":[{\"tld\":\"xp\",\"domain\":\"example.xp\",\"available\":false,\"price\":\"9.99\"}]}"} */
+			case "searchDomains":
+
+			/** {"description":"Retrieves a list of randomly-generated domain names that are available for registration.","note":"The TLD parameter is optional.","request":"{\"action\":\"randomAvailableNames\",\"tld\":\"xp\"}","response":"{\"success\":true,\"data\":[{\"domain\":\"radiate.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"instinct.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"little.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"vitality.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"watch.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"flower.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"settle.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"pavilion.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"streak.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"final.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"enormous.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"runner.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"cultivation.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"probably.xp\",\"price\":\"9.99\",\"available\":true},{\"domain\":\"reduced.xp\",\"price\":\"9.99\",\"available\":true}]}"} */
+			case "randomAvailableNames":
+
+			/** {"description":"Completes the purchase of a domain.","request":"{\"action\":\"completePurchase\",\"domain\":\"api.xp\",\"years\":1}","response":"{\"success\":true}"} */
+			case "completePurchase":
+
+			/** {"description":"Enables or disables auto-renewal for a domain.","request":"{\"action\":\"autoRenew\",\"zone\":\"351f8479ec194265aaade8b63ef38aeb\",\"state\":1}","response":"{\"success\":true}"} */
+			case "autoRenew":
+
+			/** {"description":"Retrieve information about the next update and handshake price.","request":"{\"action\":\"getInfo\"}","response":"{\"success\":true,\"data\":{\"blocks\":17,\"price\":0.02239443}}"} */
+			case "getInfo":
+
+			/** {"description":"Retrieves notifications for the current user.","request":"{\"action\":\"getNotifications\"}","response":"{\"success\":true,\"data\":[{\"uuid\":\"ce9cb40b26724957a08680b6bc04eb09\",\"type\":\"address\",\"value\":\"hs1qf0cxy6ukhgjlmqfhe0tpw800t2tcul4s0szwqa\",\"name\":\"hnschat\"},{\"uuid\":\"25a149410b40460dadecf8fd320037ae\",\"type\":\"address\",\"value\":\"hs1q5gutz3haq7ec6a8lvte485jhhjg4samvkpl6y0\",\"name\":\"varo\"},{\"uuid\":\"83ba7cb19cb54af4adc1ba047129f304\",\"type\":\"address\",\"value\":\"hs1qvxaf9mk7v2n5veve9q76hk3xat8n2uvlv7a9yt\",\"name\":\"eskimo\"},{\"uuid\":\"bdbf892ee3814105bcd15dafc4b166af\",\"type\":\"name\",\"value\":\"eskimo\",\"name\":\"\"}]}"} */
+			case "getNotifications":
+
+			/** {"description":"Adds a notification.","request":"{\"action\":\"addNotification\",\"type\":\"address\",\"name\":\"eskimo\",\"value\":\"hs1qvxaf9mk7v2n5veve9q76hk3xat8n2uvlv7a9yt\"}","response":"{\"success\":true}"} */
+			case "addNotification":
+
+			/** {"description":"Update a notification.","request":"{\"action\":\"updateNotification\",\"notification\":\"95dfa47cc93e4336934167e9b8191c0d\",\"column\":\"name\",\"value\":\"example\"}","response":"{\"success\":true,\"data\":{\"value\":\"example\"}}"} */
+			case "updateNotification":
+
+			/** {"description":"Deletes a notification.","request":"{\"action\":\"deleteNotification\",\"notification\":\"3a21f6cb5ec24731b7765691d1969f13\"}","response":"{\"success\":true}"} */
+			case "deleteNotification":
+
+			/** {"description":"Retrieve earnings information for a user.","request":"{\"action\":\"getEarnings\"}","response":"{\"success\":true,\"data\":{\"All Time\":\"12.34\",\"This Month\":\"1.23\",\"This Week\":\"3.21\",\"Today\":\"1.23\",\"Unpaid\":\"12.34\"}}"} */
+			case "getEarnings":
+
+			/** {"description":"Retrieve reserved domains for a TLD.","request":"{\"action\":\"getReserved\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\"}","response":"{\"success\":true,\"data\":[{\"name\":\"nic.xp\",\"id\":\"ade97a05d3854ea2b37871a7431f7be2\"}]}"} */
+			case "getReserved":
+
+			/** {"description":"Add reserved domains to a TLD.","request":"{\"action\":\"addReserved\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\",\"domains\":[\"test\",\"test2\",\"-test3\"]}","response":"{\"success\":true,\"data\":{\"reserved\":[\"test2\"],\"invalid\":[\"-test3\"],\"unavailable\":[\"test\"]}}"} */
+			case "addReserved":
+
+			/** {"description":"Deletes a reserved domain from a TLD.","request":"{\"action\":\"deleteReserved\",\"zone\":\"5f15a2dbb3c4445081d080d769a384df\"}","response":"{\"success\":true}"} */
+			case "deleteReserved":
+
+			/** {"description":"Transfer a domain to another user.","request":"{\"action\":\"transferDomain\",\"zone\":\"9c28e717d25d4ec4a4a6580ec5df72f8\",\"recipient\":\"user@example.com\"}","response":"{\"success\":true}"} */
+			case "transferDomain":
+
+			/** {"description":"Gifts a domain to a another user.","request":"{\"action\":\"giftDomain\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\",\"domain\":\"gift\",\"years\":1,\"recipient\":\"user@example.com\"}","response":"{\"success\":true}"} */
+			case "giftDomain":
+
+			/** {"description":"Change the price of a staked domain.","request":"{\"action\":\"changePrice\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\",\"price\":1.99}","response":"{\"success\":true}"} */
+			case "changePrice":
+				break;
+			
+			default:
+				$output["message"] = "This function is only able to be used through the dashboard.";
+				$output["success"] = false;
+				goto end;
+				break;
+		}
+	}
 
 	// PREVENT QUERYING MUTUAL
 	switch ($data["action"]) {
@@ -528,16 +623,49 @@
 			break;
 
 		case "updateNS":
-			$ns = @json_decode(@$data["ns"]);
+			$domainInfo = domainForZone($data["zone"]);
+			$name = $domainInfo["name"];
+			$tld = tldForDomain($name);
+			if (!stakedTLD($tld)) {
+				$output["message"] = "You can only modify NS records for names staked on ".$GLOBALS["siteName"].".";
+				$output["success"] = false;
+				goto end;
+			}
+
+			if (!is_array($data["ns"])) {
+				$ns = @json_decode(@$data["ns"]);
+			}
+			else {
+				$ns = $data["ns"];
+			}
+
 			updateNS($data["zone"], $ns);
 			break;
 
 		case "updateDS":
+			$domainInfo = domainForZone($data["zone"]);
+			$name = $domainInfo["name"];
+			$tld = tldForDomain($name);
+			if (!stakedTLD($tld)) {
+				$output["message"] = "You can only modify DS records for names staked on ".$GLOBALS["siteName"].".";
+				$output["success"] = false;
+				goto end;
+			}
+
 			$ds = @$data["ds"];
 			updateDS($data["zone"], $ds);
 			break;
 
 		case "resetNSDS":
+			$domainInfo = domainForZone($data["zone"]);
+			$name = $domainInfo["name"];
+			$tld = tldForDomain($name);
+			if (!stakedTLD($tld)) {
+				$output["message"] = "You can only modify NS and DS records for names staked on ".$GLOBALS["siteName"].".";
+				$output["success"] = false;
+				goto end;
+			}
+
 			resetNSDS($data["zone"]);
 			break;
 
@@ -984,6 +1112,15 @@
 			break;
 
 		case "autoRenew":
+			$domainInfo = domainForZone($data["zone"]);
+			$name = $domainInfo["name"];
+			$tld = tldForDomain($name);
+			if (!stakedTLD($tld)) {
+				$output["message"] = "This function is only for domains that were purchased through ".$GLOBALS["siteName"].".";
+				$output["success"] = false;
+				goto end;
+			}
+
 			$state = 0;
 			if (@$data["state"]) {
 				$state = 1;
@@ -1332,7 +1469,14 @@
 			$staked = getStakedTLDByID($data["zone"]);
 			$tld = $staked["tld"];
 			$domains = $data["domains"];
-			$split = preg_split("/\r\n|\r|\n/", $domains);
+
+			if (is_array($data["domains"])) {
+				$split = $data["domains"];
+			}
+			else {
+				$split = preg_split("/\r\n|\r|\n/", $domains);
+			}
+			
 			$split = array_unique($split);
 
 			if ((Int)$user !== (Int)$staked["owner"]) {

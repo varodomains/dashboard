@@ -494,7 +494,7 @@
 			}
 		}
 
-		if (!$hasNS) {
+		if (!$hasNS || $tld == $name) {
 			$data = [
 				"action" => "showZone",
 				"zone" => $zone

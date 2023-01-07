@@ -54,6 +54,7 @@
 	--discordIcon: url(/assets/img/icons/discord);
 	--adminIcon: url(/assets/img/icons/admin);
 	--logoutIcon: url(/assets/img/icons/logout);
+	--apiIcon: url(/assets/img/icons/api);
 	
 	--addIcon: url(/assets/img/icons/add);
 	--downIcon: url(/assets/img/icons/down-white);
@@ -204,10 +205,14 @@ html[data-theme=the_shake] .header select {
 	color: var(--secondaryForeground);
 }
 
-.select {
+.select, pre, code {
 	-webkit-user-select: text;
 	-moz-user-select: text;
 	user-select: text;
+}
+
+pre {
+	overflow-x: scroll;
 }
 
 html {
@@ -304,6 +309,7 @@ a:hover {
 
 .link {
 	color: var(--themeColor) !important;
+	width: fit-content;
 }
 .link:hover, .icon:hover {
 	cursor: pointer;
@@ -597,7 +603,7 @@ div.price:after {
 .main[data-page=manage] .body .holder, .main[data-page=admin] .body .holder {
 	max-width: 1200px;
 }
-.main .body .holder .section:not(:last-child) {
+.main .body .holder > div:not(:last-child) {
 	margin-bottom: 32px;
 }
 .titleHolder {
@@ -1008,6 +1014,11 @@ input[name=domain][readonly] {
 	-webkit-mask-image: var(--sitesIcon);
 	-moz-mask-image: var(--sitesIcon);
 	mask-image: var(--sitesIcon);
+}
+.icon.api {
+	-webkit-mask-image: var(--apiIcon);
+	-moz-mask-image: var(--apiIcon);
+	mask-image: var(--apiIcon);
 }
 .icon.dns {
 	-webkit-mask-image: var(--dnsIcon);
@@ -1550,6 +1561,13 @@ select {
 }
 .info {
 	margin-top: 10px;
+}
+
+pre {
+	background-color: var(--quinaryBackground);
+	padding: 10px;
+	border-radius: 10px;
+	margin: 0;
 }
 
 #setup2fa input[name=code] {

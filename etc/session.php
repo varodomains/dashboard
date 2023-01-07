@@ -10,10 +10,12 @@
 		preg_match('/Bearer\s(?<key>.+)/', $authHeader, $authMatch);
 		$userInfo = userInfo(@$authMatch["key"], "api");
 		$user = @$userInfo["id"];
+		$throughDashboard = false;
 	}
 	else {
 		$user = @$_SESSION["id"];
 		$userInfo = userInfo($user);
+		$throughDashboard = true;
 	}
 	
 	$revision = "20230102v1";

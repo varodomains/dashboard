@@ -249,10 +249,15 @@ function loadPage(noState) {
 }
 
 function isSubDomain(zone) {
+	if (isStaked(zone)) {
+		return false;
+	}
+	
 	let data = dataForZone(zone);
 	if (data.name.includes(".")) {
 		return true;
 	}
+	
 	return false;
 }
 
@@ -1953,6 +1958,13 @@ $("html").on("click", function(e){
 			case "accountActionAlt":
 				p = target.data("page");
 				swapAccountAction(p);
+				break;
+
+			case "scrollToSection":
+				let section = target.data("section");
+				log(section);
+				log(`.section[data-name=${section}]`);
+				$(".body").animate({scrollTop: $(`.section[data-section=${section}]`).position().top - 20});
 				break;
 		}
 	}
