@@ -496,7 +496,6 @@ $("html").on("paste", "[contenteditable]", e => {
 
 	let text = e.originalEvent.clipboardData.getData("text/plain")
 	$(e.target).text(text);
-	log(text);
 });
 
 function showNSDS() {
@@ -1962,8 +1961,6 @@ $("html").on("click", function(e){
 
 			case "scrollToSection":
 				let section = target.data("section");
-				log(section);
-				log(`.section[data-name=${section}]`);
 				$(".body").animate({scrollTop: $(`.section[data-section=${section}]`).position().top - 20});
 				break;
 		}
