@@ -38,6 +38,12 @@
 			/** {"description":"Gets a list of the user's staked TLDs.","request":"{\"action\":\"getMyStaked\"}","response":"{\"success\":true,\"data\":[{\"tld\":\"fuckyou\",\"price\":500,\"live\":1,\"id\":\"9a2aea6830ba482187a3c209bda0169a\"},{\"tld\":\"tlds\",\"price\":499,\"live\":1,\"id\":\"9dd25bd215984cc3901bbbf7bfd27574\"},{\"tld\":\"xp\",\"price\":999,\"live\":1,\"id\":\"4826bd33beda481194ab89d2b5cea7f0\"}]}"} */
 			case "getMyStaked":
 
+			/** {"description":"Retrieves a list of all zones for the current user.","request":"{\"action\":\"getZones\"}","response":"{\"success\":true,\"data\":[{\"name\":\"hns.chat\",\"id\":\"c0d6cdf3abde4b02991f427d42906d95\"},{\"name\":\"hnschat\",\"id\":\"60733325d683468b98878819fb654b01\"},{\"name\":\"hnschatbot\",\"id\":\"b60b899f903b4d08b948f72144a31934\"},{\"name\":\"xn--os8h74e\",\"id\":\"df07f7afa18141b8ba126a37e6386fbc\"}]}"} */
+			case "getZones":
+
+			/** {"description":"Retrieves a list of all SLD's for the current user.","request":"{\"action\":\"getSLDS\"}","response":"{\"success\":true,\"data\":[{\"name\":\"e.xp\",\"id\":\"7ff1b63b8b484b0bb41040b14ccedbfb\",\"expiration\":1684814400,\"renew\":1},{\"name\":\"eskimo.xp\",\"id\":\"573ceb2d89aa4ba2a19ad08b64512e5e\",\"expiration\":1684814400,\"renew\":1}]}"} */
+			case "getSLDS":
+
 			/** {"description":"Retrieves basic information for a given zone.","request":"{\"action\":\"getZone\",\"zone\":\"60733325d683468b98878819fb654b01\",\"staked\":false}","response":"{\"success\":true,\"data\":{\"name\":\"hnschat\",\"staked\":false}}"} */
 			case "getZone":
 
@@ -92,7 +98,7 @@
 			/** {"description":"Deletes a notification.","request":"{\"action\":\"deleteNotification\",\"notification\":\"3a21f6cb5ec24731b7765691d1969f13\"}","response":"{\"success\":true}"} */
 			case "deleteNotification":
 
-			/** {"description":"Retrieve earnings information for a user.","request":"{\"action\":\"getEarnings\"}","response":"{\"success\":true,\"data\":{\"All Time\":\"12.34\",\"This Month\":\"1.23\",\"This Week\":\"3.21\",\"Today\":\"1.23\",\"Unpaid\":\"12.34\"}}"} */
+			/** {"description":"Retrieve earnings information for the current user.","request":"{\"action\":\"getEarnings\"}","response":"{\"success\":true,\"data\":{\"All Time\":\"12.34\",\"This Month\":\"1.23\",\"This Week\":\"3.21\",\"Today\":\"1.23\",\"Unpaid\":\"12.34\"}}"} */
 			case "getEarnings":
 
 			/** {"description":"Retrieve reserved domains for a TLD.","request":"{\"action\":\"getReserved\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\"}","response":"{\"success\":true,\"data\":[{\"name\":\"nic.xp\",\"id\":\"ade97a05d3854ea2b37871a7431f7be2\"}]}"} */
