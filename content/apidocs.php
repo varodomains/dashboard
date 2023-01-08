@@ -5,7 +5,6 @@
 	$apiContents = file_get_contents($apiFile);
 
 	preg_match_all("/\/\*\*(?<json>[.\s\S]+?)\*\/\n.+case \"(?<function>.+?)\"\:/m", $apiContents, $apiMatches);
-
 	?>
 	<div class="section">
 		<div class="title">Functions</div>
