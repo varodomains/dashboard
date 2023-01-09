@@ -404,11 +404,63 @@
 		sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = ?, `expiration` = ?, `renew` = 1, `registrar` = ? WHERE `name` = ?", [$user, $expiration, $registrar, $domain]);
 		sql("INSERT INTO `sales` (user, name, tld, type, price, total, fee, time, registrar) VALUES (?,?,?,?,?,?,?,?,?)", [$user, $sld, $tld, $type, $price, $total, $fee, time(), $registrar]);
 
-		if ($GLOBALS["tweetSales"] && $price > 0) {
+		if ($GLOBALS["tweetSales"] && $type !== "reserve") {
 			$tweet = $domain." was just registered on ".$GLOBALS["siteName"].". Register your own .".$tld." domain here: https://".$GLOBALS["icannHostname"]."/tld/".$tld;
 			shell_exec("twurl -d 'status=".$tweet."' /1.1/statuses/update.json");
 		}
 		return $zone;
+	}
+
+	function renewSLD($domain, $user) {
+		$userInfo = userInfo($user);
+		$sld = sldForDomain($domain);
+		$tld = tldForDomain($domain);
+		$sldInfo = infoForSLD($domain);
+		$tldInfo = getStakedTLD($tld, true);
+		$type = "renewal";
+		$price = @$tldInfo["price"];
+		$years = 1;
+		$expiration = strtotime(date("c", $sldInfo["expiration"])." +".$years." years");
+
+		$total = $price * $years;
+		$fee = $total * ($GLOBALS["sldFee"] / 100);
+
+		$description = $domain." - ".$years." year renewal";
+
+		/*
+		$getSale = sql("SELECT * FROM `sales` WHERE `name` = ? AND `tld` = ?", [$sld, $tld]);
+		if ($getSale) {
+			$price = $getSale["price"];
+		}
+		*/
+
+		try {
+			$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
+			$paymentMethod = $customer["invoice_settings"]["default_payment_method"];
+			if (!$paymentMethod) {
+				$paymentMethod = $customer["default_source"];
+			}
+
+			if ($paymentMethod) {
+				$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
+					'customer' => $userInfo["stripe"],
+					'amount' => $total,
+					'currency' => 'usd',
+					'description' => $description,
+					'payment_method' => $paymentMethod,
+					'confirm' => true,
+					'receipt_email' => $userInfo["email"]
+				]);
+
+				sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `expiration` = ? WHERE `uuid` = ?", [$expiration, $sldInfo["uuid"]]);
+				sql("INSERT INTO `sales` (user, name, tld, type, price, total, fee, time, registrar) VALUES (?,?,?,?,?,?,?,?,?)", [$user, $sld, $tld, $type, $price, $total, $fee, time(), $sldInfo["registrar"]]);
+				return true;
+			}
+		}
+		catch (Exception $e) {
+			return false;
+		}
+		return false;
 	}
 
 	function updateNS($zone, $nameservers=[]) {

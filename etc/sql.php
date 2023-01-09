@@ -60,7 +60,7 @@
 				goto retry;
 			}
 			else {
-				var_dump($message);
+				//var_dump($message);
 				//error
 			}
 		}

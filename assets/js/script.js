@@ -894,7 +894,7 @@ function domainRow(data, reserved=false) {
 			autoRenew = " checked";
 		}
 		let renew = new Date(data.expiration * 1000).toLocaleDateString("en-US");
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div>Expires: '+renew+'</div><div class="flex">Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div class="link" data-action="manageDomain">Manage</div></div></div>';
+		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div>Expires: '+renew+'</div><div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div class="link" data-action="manageDomain">Manage</div></div></div>';
 	}
 	else if (data.tld) {
 		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.tld)+'</div><div class="link" data-action="tldLink">Direct Link</div><div class="link" data-action="manageDomain">Manage</div></div></div>';
@@ -919,7 +919,7 @@ function manageDomainRow(data) {
 			autoRenew = " checked";
 		}
 		let renew = new Date(data.expiration * 1000).toLocaleDateString("en-US");
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="flex">Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div>Expires: '+renew+'</div><div class="link" data-action="transferDomain">Transfer</div></div></div>';
+		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="secondary">Expires: '+renew+'</div><div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div class="link" data-action="transferDomain">Transfer</div></div></div>';
 	}
 	else if (data.tld) {
 		var live = "";

@@ -526,13 +526,21 @@
 			}
 
 			if (!@count(@$output["fields"])) {
-				$getUser = sql("SELECT `email`,`id`,`password`,`totp` FROM `users` WHERE `id` = ?", [$user])[0];
+				$getUser = sql("SELECT `email`,`id`,`password`,`totp`,`stripe` FROM `users` WHERE `id` = ?", [$user])[0];
 				if (!password_verify($data["password"], @$getUser["password"])) {
 					$output["fields"][] = "password";
 				}
 				else {
 					if ($data["email"] !== $getUser["email"]) {
-						sql("UPDATE `users` SET `email` = ? WHERE `id` = ?", [$data["email"], $user]);
+						$update = sql("UPDATE `users` SET `email` = ? WHERE `id` = ?", [$data["email"], $user]);
+						if ($update) {
+							$GLOBALS["stripe"]->customers->update($getUser["stripe"], [
+								'email' => $data["email"]
+							]);
+						}
+						else {
+							$output["fields"][] = "email";
+						}
 					}
 					if ($data["new-password"]) {
 						$validPassword = validPassword($data["new-password"]);
@@ -1082,7 +1090,7 @@
 				}
 
 				try {
-					$theCharge = $stripe->paymentIntents->create([
+					$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
 						'customer' => $userInfo["stripe"],
 						'amount' => $total,
 						'currency' => 'usd',
@@ -1222,7 +1230,7 @@
 			$output["data"]["sales"] = [];
 			$output["data"]["labels"] = $labels;
 
-			$sales = sql("SELECT `sales`.`tld`,`sales`.`time` FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `staked`.`owner` = ? AND `time` >= ? AND `time` <= ? AND `type` = 'sale'", [$user, $start, $end]);
+			$sales = sql("SELECT `sales`.`tld`,`sales`.`time` FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `staked`.`owner` = ? AND `time` >= ? AND `time` <= ? AND (`type` = 'sale' OR `type` = 'renewal')", [$user, $start, $end]);
 
 			if ($sales) {
 				foreach ($sales as $key => $value) {

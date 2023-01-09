@@ -620,7 +620,8 @@ div.price:after {
 .main .body .section .title {
 	height: 25px;
 	font-size: 20px;
-	margin: 0px 0px 10px 20px;
+	margin: 0px 10px 10px 20px;
+	flex-shrink: 0;
 	overflow: hidden;
 }
 .main .body .section .titleHolder > .title {
@@ -1187,8 +1188,12 @@ input[name=domain][readonly] {
 	width: 100%;
 }
 
-.subtitle {
-	color: var(--secondaryForeground);
+.subtitle, .secondary {
+	color: var(--secondaryForeground) !important;
+}
+
+.main[data-page=manage] .section[data-section=actions] .items > div:nth-child(1) {
+	word-break: break-word !important;
 }
 
 .popover .subtitle {
@@ -1785,5 +1790,13 @@ pre {
 
 	div.price.HNS:before {
 		top: -2px;
+	}
+
+	.main[data-page=manage] .section[data-section=actions] .items {
+		flex-direction: column;
+	}
+
+	.cl-switch {
+		transform: scale(0.8);
 	}
 }
