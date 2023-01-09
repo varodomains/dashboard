@@ -355,7 +355,6 @@ a:hover {
 	font-size: 16px;
 	color: var(--primaryForeground);
 	visibility: hidden;
-	position: absolute;
 	background-color: var(--secondaryBackground);
 }
 .main[data-page=admin] .domains {
@@ -1520,7 +1519,7 @@ select {
 	border: 0;
 	display: inline-block;
 	font: inherit;
-	padding-right: 35px !important;
+	padding-right: 25px !important;
 	margin: 0;
 	-webkit-box-sizing: border-box;
 	-moz-box-sizing: border-box;
@@ -1529,8 +1528,13 @@ select {
 	-moz-appearance: none;	
 	background-image: var(--downIcon);
 	background-repeat: no-repeat, repeat;
-	background-position: right .7em top 50%, 0 0;
+	background-position: right 10px top 50%, 0 0;
 	background-size: .65em auto, 100%;
+}
+
+.popover select[name=years] {
+	padding-right: 15px !important;
+	background-position: right 0 top 50%, 0 0;
 }
 
 .popover[data-name=newRecord] td, .popover[data-name=editRecord] td, .popover[data-name=newNotification] td, .popover[data-name=editNotification] td {
@@ -1783,7 +1787,7 @@ pre {
 	}
 }
 
-@media (max-width: 400px) {
+@media (max-width: 480px) {
 	.body, input, select, textarea {
 		font-size: 12px;
 	}

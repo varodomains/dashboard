@@ -32,6 +32,7 @@
 
 	$GLOBALS["sldFee"] = 15;
 	$GLOBALS["salesRowsPerPage"] = 20;
+	$GLOBALS["maxRegistrationYears"] = 10;
 
 	$GLOBALS["normalSOA"] = "ns1.".$GLOBALS["icannHostname"]." ops.".$GLOBALS["icannHostname"]." 1 10800 3600 604800 3600";
 	$GLOBALS["normalNS1"] = "ns1.".$GLOBALS["icannHostname"];

@@ -1622,5 +1622,17 @@
 		}
 	}
 
+	switch ($data["action"]) {
+		case "getSLDS":
+			if ($output["data"]) {
+				foreach ($output["data"] as $key => $data) {
+					$tld = tldForDomain($data["name"]);
+					$stakedInfo = getStakedTLD($tld, true);
+					$output["data"][$key]["price"] = centsToDollars($stakedInfo["price"]);
+				}
+			}
+			break;
+	}
+
 	die(json_encode($output));
 ?>

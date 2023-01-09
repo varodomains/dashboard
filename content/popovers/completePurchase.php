@@ -28,7 +28,7 @@
 							<select name="years">
 								<?php
 									$i = 1;
-									while ($i <= 10) { ?>
+									while ($i <= $GLOBALS["maxRegistrationYears"]) { ?>
 										<option><?php echo $i; ?></option>
 									<?php
 										$i += 1;
