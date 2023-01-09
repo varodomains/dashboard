@@ -1236,7 +1236,7 @@
 			$output["data"]["sales"] = [];
 			$output["data"]["labels"] = $labels;
 
-			$sales = sql("SELECT `sales`.`tld`,`sales`.`time` FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `staked`.`owner` = ? AND `time` >= ? AND `time` <= ? AND (`type` = 'sale' OR `type` = 'renewal')", [$user, $start, $end]);
+			$sales = sql("SELECT `sales`.`tld`,`sales`.`time` FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `staked`.`owner` = ? AND `time` >= ? AND `time` <= ? AND (`type` = 'register' OR `type` = 'renew')", [$user, $start, $end]);
 
 			if ($sales) {
 				foreach ($sales as $key => $value) {

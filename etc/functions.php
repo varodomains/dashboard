@@ -417,7 +417,7 @@
 		$tld = tldForDomain($domain);
 		$sldInfo = infoForSLD($domain);
 		$tldInfo = getStakedTLD($tld, true);
-		$type = "renewal";
+		$type = "renew";
 		$price = @$tldInfo["price"];
 		$years = 1;
 		$expiration = strtotime(date("c", $sldInfo["expiration"])." +".$years." years");
