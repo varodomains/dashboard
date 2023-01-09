@@ -1532,6 +1532,7 @@ function handleAction(element, column, action) {
 			let domain = row.data("domain");
 			var price = prettyMoney(row.find(".price").data("price"));
 			$(".popover[data-name=completePurchase] .titleHolder .title").html("Purchase");
+			$(".popover[data-name=completePurchase] input[name=type]").val("register");
 			$(".popover[data-name=completePurchase] td.domain div").html(emojifyIfNeeded(domain));
 			$(".popover[data-name=completePurchase] input[name=domain]").val(domain);
 			$(".popover[data-name=completePurchase] td.price div.price").attr("data-price", price).data("price", price);
@@ -1980,8 +1981,8 @@ $("html").on("click", function(e){
 				let domainInfo = dataForZone(zone);
 				domain = domainInfo.name;
 				price = prettyMoney(domainInfo.price);
-
 				$(".popover[data-name=completePurchase] .titleHolder .title").html("Renew");
+				$(".popover[data-name=completePurchase] input[name=type]").val("renew");
 				$(".popover[data-name=completePurchase] td.domain div").html(emojifyIfNeeded(domain));
 				$(".popover[data-name=completePurchase] input[name=domain]").val(domain);
 				$(".popover[data-name=completePurchase] td.price div.price").attr("data-price", price).data("price", price);

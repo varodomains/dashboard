@@ -1044,7 +1044,7 @@
 			$sld = sldForDomain($domain);
 			$tld = tldForDomain($domain);
 			$tldInfo = getStakedTLD($tld, true);
-			$type = "sale";
+			$type = @$data["type"];
 			$price = @$tldInfo["price"];
 			$years = @$data["years"];
 			$expiration = strtotime("+".$years." years");
@@ -1052,8 +1052,14 @@
 			$total = $price * $years;
 			$fee = $total * ($GLOBALS["sldFee"] / 100);
 
-			if (!$price || !$years || (strlen($domain) < 1) || nameIsInvalid($sld)) {
+			if (!$price || !$years || (strlen($domain) < 1) || nameIsInvalid($sld) || !in_array($type, $GLOBALS["purchaseTypes"])) {
 				$output["message"] = "Something went wrong. Try again?";
+				$output["success"] = false;
+				goto end;
+			}
+
+			if ($years > $GLOBALS["maxRegistrationYears"]) {
+				$output["message"] = "The maximum duration you can register a name for is ".number_format($GLOBALS["maxRegistrationYears"])." years.";
 				$output["success"] = false;
 				goto end;
 			}

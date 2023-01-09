@@ -64,6 +64,7 @@
 			-->
 			<input type="hidden" name="domain">
 			<input type="hidden" name="handshake">
+			<input type="hidden" name="type">
 			<input type="hidden" name="action" value="completePurchase">
 			<div class="submit" data-action="completePurchase">Pay <span class="total"></span></div>
 		</form>
