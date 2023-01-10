@@ -974,7 +974,7 @@ input.error {
 .main[data-page=settings] tr td:first-child {
 	padding: 10px;
 }
-.main[data-page=settings] input {
+.main[data-page=settings] input, .main[data-page=settings] select {
 	width: 100%;
 	height: 100%;
 	padding: 10px;
@@ -1745,7 +1745,7 @@ pre {
 		display: block;
 	}
 
-	.main[data-page=settings] input {
+	.main[data-page=settings] input, .main[data-page=settings] select {
 	    background-color: var(--quinaryBackground);
 	    border-radius: 10px;
 	}
@@ -1802,5 +1802,10 @@ pre {
 
 	.cl-switch {
 		transform: scale(0.8);
+		display: initial;
+	}
+
+	.edit {
+		min-height: initial;
 	}
 }
