@@ -2476,7 +2476,7 @@ function afterSubmit(form, response) {
 			if (response.success) {
 				if (response.data) {
 					close(action);
-					showHNSPayment(response.data);
+					showHNSPayment(form, response.data);
 				}
 				else {
 					finishedPurchase();
@@ -2640,7 +2640,24 @@ function showAddPaymentMethod() {
 	showPopover("addPaymentMethod");
 }
 
-function showHNSPayment(data) {
+function showHNSPayment(form, data) {
+	let type = form.find("input[name=type]").val();
+	var action,outcome;
+
+	switch (type) {
+		case "register":
+			action = "registration";
+			outcome = "will appear in your account";
+			break;
+
+		case "renew":
+			action = "renewal";
+			outcome = "expiration date will be updated";
+			break;
+	}
+	
+	$(".popover[data-name=hnsPayment] .action").text(action);
+	$(".popover[data-name=hnsPayment] .outcome").text(outcome);
 	$(".popover[data-name=hnsPayment] .amount").text(data.amount);
 	$(".popover[data-name=hnsPayment] .address").text(data.address);
 	$(".popover[data-name=hnsPayment] .domain").text(emojifyIfNeeded(data.domain));

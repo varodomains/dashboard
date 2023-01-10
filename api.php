@@ -1045,9 +1045,21 @@
 			$tld = tldForDomain($domain);
 			$tldInfo = getStakedTLD($tld, true);
 			$type = @$data["type"];
-			$price = @$tldInfo["price"];
 			$years = @$data["years"];
-			$expiration = strtotime("+".$years." years");
+			$price = @$tldInfo["price"];
+			
+			switch ($type) {
+				case "register":
+					$expiration = strtotime("+".$years." years");
+					$description = $domain." - ".$years." year registration";
+					break;
+
+				case "renew":
+					$sldInfo = infoForSLD($domain);
+					$expiration = strtotime(date("c", $sldInfo["expiration"])." +".$years." years");
+					$description = $domain." - ".$years." year renewal";
+					break;
+			}
 
 			$total = $price * $years;
 			$fee = $total * ($GLOBALS["sldFee"] / 100);
@@ -1065,13 +1077,23 @@
 			}
 
 			$domainAvailable = domainAvailable($domain);
-			if (!$domainAvailable) {
-				$output["message"] = "This domain is no longer available.";
-				$output["success"] = false;
-				goto end;
-			}
+			switch ($type) {
+				case "register":
+					if (!$domainAvailable) {
+						$output["message"] = "This domain is no longer available.";
+						$output["success"] = false;
+						goto end;
+					}
+					break;
 
-			$description = $domain." - ".$years." year registration";
+				case "renew":
+					if (!$domainAvailable && $user !== $sldInfo["account"]) {
+						$output["message"] = "This domain is no longer available.";
+						$output["success"] = false;
+						goto end;
+					}
+					break;
+			}
 
 			if (@$data["handshake"]) {
 				$created = createInvoice($user, $domain, $years, $type, $total);
@@ -1106,7 +1128,15 @@
 						'receipt_email' => $userInfo["email"]
 					]);
 
-					registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+					switch ($type) {
+						case "register":
+							registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+							break;
+
+						case "renew":
+							renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+							break;
+					}
 				}
 				catch (Exception $e) {
 					$error = $e->getError();

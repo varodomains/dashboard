@@ -411,6 +411,12 @@
 		return $zone;
 	}
 
+	function renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $registrar) {
+		sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `expiration` = ? WHERE `uuid` = ?", [$expiration, $sldInfo["uuid"]]);
+		sql("INSERT INTO `sales` (user, name, tld, type, price, total, fee, time, registrar) VALUES (?,?,?,?,?,?,?,?,?)", [$user, $sld, $tld, $type, $price, $total, $fee, time(), $sldInfo["registrar"]]);
+	}
+
+	/*
 	function renewSLD($domain, $user) {
 		$userInfo = userInfo($user);
 		$sld = sldForDomain($domain);
@@ -426,13 +432,6 @@
 		$fee = $total * ($GLOBALS["sldFee"] / 100);
 
 		$description = $domain." - ".$years." year renewal";
-
-		/*
-		$getSale = sql("SELECT * FROM `sales` WHERE `name` = ? AND `tld` = ?", [$sld, $tld]);
-		if ($getSale) {
-			$price = $getSale["price"];
-		}
-		*/
 
 		try {
 			$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
@@ -462,6 +461,7 @@
 		}
 		return false;
 	}
+	*/
 
 	function updateNS($zone, $nameservers=[]) {
 		$info = domainForZone($zone);
