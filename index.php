@@ -78,7 +78,7 @@
 					<div class="label">Settings</div>
 				</div>
 				<div class="item" data-page="apidocs">
-					<div class="icon api"></div>
+					<div class="icon apidocs"></div>
 					<div class="label">API</div>
 				</div>
 				<div class="item" data-page="discord">
