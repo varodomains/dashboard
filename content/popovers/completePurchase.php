@@ -28,7 +28,7 @@
 							<select name="years">
 								<?php
 									$i = 1;
-									while ($i <= 10) { ?>
+									while ($i <= $GLOBALS["maxRegistrationYears"]) { ?>
 										<option><?php echo $i; ?></option>
 									<?php
 										$i += 1;
@@ -64,6 +64,7 @@
 			-->
 			<input type="hidden" name="domain">
 			<input type="hidden" name="handshake">
+			<input type="hidden" name="type">
 			<input type="hidden" name="action" value="completePurchase">
 			<div class="submit" data-action="completePurchase">Pay <span class="total"></span></div>
 		</form>

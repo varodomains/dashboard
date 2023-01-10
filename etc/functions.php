@@ -404,11 +404,16 @@
 		sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = ?, `expiration` = ?, `renew` = 1, `registrar` = ? WHERE `name` = ?", [$user, $expiration, $registrar, $domain]);
 		sql("INSERT INTO `sales` (user, name, tld, type, price, total, fee, time, registrar) VALUES (?,?,?,?,?,?,?,?,?)", [$user, $sld, $tld, $type, $price, $total, $fee, time(), $registrar]);
 
-		if ($GLOBALS["tweetSales"] && $price > 0) {
+		if ($GLOBALS["tweetSales"] && $type !== "reserve") {
 			$tweet = $domain." was just registered on ".$GLOBALS["siteName"].". Register your own .".$tld." domain here: https://".$GLOBALS["icannHostname"]."/tld/".$tld;
 			shell_exec("twurl -d 'status=".$tweet."' /1.1/statuses/update.json");
 		}
 		return $zone;
+	}
+
+	function renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $registrar) {
+		sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `expiration` = ? WHERE `uuid` = ?", [$expiration, $sldInfo["uuid"]]);
+		sql("INSERT INTO `sales` (user, name, tld, type, price, total, fee, time, registrar) VALUES (?,?,?,?,?,?,?,?,?)", [$user, $sld, $tld, $type, $price, $total, $fee, time(), $sldInfo["registrar"]]);
 	}
 
 	function updateNS($zone, $nameservers=[]) {

@@ -108,11 +108,11 @@ function updatePricesFor(el) {
 			$(e).addClass("HNS");
 		}
 		else {
-			newPrice = price;
+			newPrice = prettyMoney(price);
 			$(e).removeClass("HNS");
 		}
 
-		$(e).text(newPrice);
+		$(e).text(newPrice.toLocaleString("en-US"));
 	});
 }
 
@@ -894,7 +894,7 @@ function domainRow(data, reserved=false) {
 			autoRenew = " checked";
 		}
 		let renew = new Date(data.expiration * 1000).toLocaleDateString("en-US");
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div>Expires: '+renew+'</div><div class="flex">Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div class="link" data-action="manageDomain">Manage</div></div></div>';
+		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div>Expires: '+renew+'</div><div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div class="link" data-action="manageDomain">Manage</div></div></div>';
 	}
 	else if (data.tld) {
 		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.tld)+'</div><div class="link" data-action="tldLink">Direct Link</div><div class="link" data-action="manageDomain">Manage</div></div></div>';
@@ -919,7 +919,16 @@ function manageDomainRow(data) {
 			autoRenew = " checked";
 		}
 		let renew = new Date(data.expiration * 1000).toLocaleDateString("en-US");
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="flex">Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div>Expires: '+renew+'</div><div class="link" data-action="transferDomain">Transfer</div></div></div>';
+		return `
+			<div class="row" data-id="${data.id}">
+				<div class="items">
+					<div class="secondary">Expires: ${renew}</div>
+					<div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"${autoRenew}><span class="switcher"></span></label></div>
+					<div class="link" data-action="renewDomain">Renew</div>
+					<div class="link" data-action="transferDomain">Transfer</div>
+				</div>
+			</div>
+		`;
 	}
 	else if (data.tld) {
 		var live = "";
@@ -1521,13 +1530,15 @@ function handleAction(element, column, action) {
 
 		case "buyDomain":
 			let domain = row.data("domain");
-			var price = row.find(".price").data("price");
+			var price = prettyMoney(row.find(".price").data("price"));
+			$(".popover[data-name=completePurchase] .titleHolder .title").html("Purchase");
+			$(".popover[data-name=completePurchase] input[name=type]").val("register");
 			$(".popover[data-name=completePurchase] td.domain div").html(emojifyIfNeeded(domain));
 			$(".popover[data-name=completePurchase] input[name=domain]").val(domain);
 			$(".popover[data-name=completePurchase] td.price div.price").attr("data-price", price).data("price", price);
-			$(".popover[data-name=completePurchase] td.price div.price").html(prettyMoney(price));
+			$(".popover[data-name=completePurchase] td.price div.price").html();
 			$(".popover[data-name=completePurchase] span.total").attr("data-price", price).data("price", price);
-			$(".popover[data-name=completePurchase] span.total").html(prettyMoney(price));
+			$(".popover[data-name=completePurchase] span.total").html(price);
 			$(".popover[data-name=completePurchase] td.years select").val("1");
 			$(".popover[data-name=completePurchase] .submit").removeClass("disabled");
 			updatePrices();
@@ -1567,7 +1578,7 @@ function prettyMoney(p) {
 
 		case 2:
 			if (split[1].length == 1) {
-				price = price + "0";
+				price = `${price}0`;
 			}
 			break;
 	}
@@ -1815,6 +1826,8 @@ $("html").on("click", function(e){
 		row = target.closest(".row");
 	}
 
+	var domain,price;
+
 	let form = target.closest("form");
 
 	let type = target[0].nodeName;
@@ -1852,7 +1865,7 @@ $("html").on("click", function(e){
 				break;
 
 			case "changePrice":
-				let price = prettyMoney(dataForStaked(zone).price / 100);
+				price = prettyMoney(dataForStaked(zone).price / 100);
 				$("#changePrice input[name=price]").val(price);
 				$("#changePrice input[name=zone]").val(zone);
 				showPopover(action);
@@ -1924,7 +1937,7 @@ $("html").on("click", function(e){
 			case "applyCoupon":
 				let field = row.find(".edit");
 				let code = field.text();
-				let domain = field.closest("form").find("input[name=domain]").val();
+				domain = field.closest("form").find("input[name=domain]").val();
 				break;
 
 			case "moreSales":
@@ -1962,6 +1975,24 @@ $("html").on("click", function(e){
 			case "scrollToSection":
 				let section = target.data("section");
 				$(".body").animate({scrollTop: $(`.section[data-section=${section}]`).position().top - 20});
+				break;
+
+			case "renewDomain":
+				let domainInfo = dataForZone(zone);
+				domain = domainInfo.name;
+				price = prettyMoney(domainInfo.price);
+				$(".popover[data-name=completePurchase] .titleHolder .title").html("Renew");
+				$(".popover[data-name=completePurchase] input[name=type]").val("renew");
+				$(".popover[data-name=completePurchase] td.domain div").html(emojifyIfNeeded(domain));
+				$(".popover[data-name=completePurchase] input[name=domain]").val(domain);
+				$(".popover[data-name=completePurchase] td.price div.price").attr("data-price", price).data("price", price);
+				$(".popover[data-name=completePurchase] td.price div.price").html(price);
+				$(".popover[data-name=completePurchase] span.total").attr("data-price", price).data("price", price);
+				$(".popover[data-name=completePurchase] span.total").html(price);
+				$(".popover[data-name=completePurchase] td.years select").val("1");
+				$(".popover[data-name=completePurchase] .submit").removeClass("disabled");
+				updatePrices();
+				showPopover("completePurchase");
 				break;
 		}
 	}
@@ -2445,7 +2476,7 @@ function afterSubmit(form, response) {
 			if (response.success) {
 				if (response.data) {
 					close(action);
-					showHNSPayment(response.data);
+					showHNSPayment(form, response.data);
 				}
 				else {
 					finishedPurchase();
@@ -2609,7 +2640,24 @@ function showAddPaymentMethod() {
 	showPopover("addPaymentMethod");
 }
 
-function showHNSPayment(data) {
+function showHNSPayment(form, data) {
+	let type = form.find("input[name=type]").val();
+	var action,outcome;
+
+	switch (type) {
+		case "register":
+			action = "registration";
+			outcome = "will appear in your account";
+			break;
+
+		case "renew":
+			action = "renewal";
+			outcome = "expiration date will be updated";
+			break;
+	}
+	
+	$(".popover[data-name=hnsPayment] .action").text(action);
+	$(".popover[data-name=hnsPayment] .outcome").text(outcome);
 	$(".popover[data-name=hnsPayment] .amount").text(data.amount);
 	$(".popover[data-name=hnsPayment] .address").text(data.address);
 	$(".popover[data-name=hnsPayment] .domain").text(emojifyIfNeeded(data.domain));

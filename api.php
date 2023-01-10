@@ -526,13 +526,21 @@
 			}
 
 			if (!@count(@$output["fields"])) {
-				$getUser = sql("SELECT `email`,`id`,`password`,`totp` FROM `users` WHERE `id` = ?", [$user])[0];
+				$getUser = sql("SELECT `email`,`id`,`password`,`totp`,`stripe` FROM `users` WHERE `id` = ?", [$user])[0];
 				if (!password_verify($data["password"], @$getUser["password"])) {
 					$output["fields"][] = "password";
 				}
 				else {
 					if ($data["email"] !== $getUser["email"]) {
-						sql("UPDATE `users` SET `email` = ? WHERE `id` = ?", [$data["email"], $user]);
+						$update = sql("UPDATE `users` SET `email` = ? WHERE `id` = ?", [$data["email"], $user]);
+						if ($update) {
+							$GLOBALS["stripe"]->customers->update($getUser["stripe"], [
+								'email' => $data["email"]
+							]);
+						}
+						else {
+							$output["fields"][] = "email";
+						}
 					}
 					if ($data["new-password"]) {
 						$validPassword = validPassword($data["new-password"]);
@@ -1036,28 +1044,56 @@
 			$sld = sldForDomain($domain);
 			$tld = tldForDomain($domain);
 			$tldInfo = getStakedTLD($tld, true);
-			$type = "sale";
-			$price = @$tldInfo["price"];
+			$type = @$data["type"];
 			$years = @$data["years"];
-			$expiration = strtotime("+".$years." years");
+			$price = @$tldInfo["price"];
+			
+			switch ($type) {
+				case "register":
+					$expiration = strtotime("+".$years." years");
+					$description = $domain." - ".$years." year registration";
+					break;
+
+				case "renew":
+					$sldInfo = infoForSLD($domain);
+					$expiration = strtotime(date("c", $sldInfo["expiration"])." +".$years." years");
+					$description = $domain." - ".$years." year renewal";
+					break;
+			}
 
 			$total = $price * $years;
 			$fee = $total * ($GLOBALS["sldFee"] / 100);
 
-			if (!$price || !$years || (strlen($domain) < 1) || nameIsInvalid($sld)) {
+			if (!$price || !$years || (strlen($domain) < 1) || nameIsInvalid($sld) || !in_array($type, $GLOBALS["purchaseTypes"])) {
 				$output["message"] = "Something went wrong. Try again?";
 				$output["success"] = false;
 				goto end;
 			}
 
-			$domainAvailable = domainAvailable($domain);
-			if (!$domainAvailable) {
-				$output["message"] = "This domain is no longer available.";
+			if ($years > $GLOBALS["maxRegistrationYears"]) {
+				$output["message"] = "The maximum duration you can register a name for is ".number_format($GLOBALS["maxRegistrationYears"])." years.";
 				$output["success"] = false;
 				goto end;
 			}
 
-			$description = $domain." - ".$years." year registration";
+			$domainAvailable = domainAvailable($domain);
+			switch ($type) {
+				case "register":
+					if (!$domainAvailable) {
+						$output["message"] = "This domain is no longer available.";
+						$output["success"] = false;
+						goto end;
+					}
+					break;
+
+				case "renew":
+					if (!$domainAvailable && $user !== $sldInfo["account"]) {
+						$output["message"] = "This domain is no longer available.";
+						$output["success"] = false;
+						goto end;
+					}
+					break;
+			}
 
 			if (@$data["handshake"]) {
 				$created = createInvoice($user, $domain, $years, $type, $total);
@@ -1082,7 +1118,7 @@
 				}
 
 				try {
-					$theCharge = $stripe->paymentIntents->create([
+					$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
 						'customer' => $userInfo["stripe"],
 						'amount' => $total,
 						'currency' => 'usd',
@@ -1092,7 +1128,15 @@
 						'receipt_email' => $userInfo["email"]
 					]);
 
-					registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+					switch ($type) {
+						case "register":
+							registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+							break;
+
+						case "renew":
+							renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+							break;
+					}
 				}
 				catch (Exception $e) {
 					$error = $e->getError();
@@ -1222,7 +1266,7 @@
 			$output["data"]["sales"] = [];
 			$output["data"]["labels"] = $labels;
 
-			$sales = sql("SELECT `sales`.`tld`,`sales`.`time` FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `staked`.`owner` = ? AND `time` >= ? AND `time` <= ? AND `type` = 'sale'", [$user, $start, $end]);
+			$sales = sql("SELECT `sales`.`tld`,`sales`.`time` FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `staked`.`owner` = ? AND `time` >= ? AND `time` <= ? AND (`type` = 'register' OR `type` = 'renew')", [$user, $start, $end]);
 
 			if ($sales) {
 				foreach ($sales as $key => $value) {
@@ -1612,6 +1656,18 @@
 		if ($response) {
 			$output["data"] = $response;
 		}
+	}
+
+	switch ($data["action"]) {
+		case "getSLDS":
+			if ($output["data"]) {
+				foreach ($output["data"] as $key => $data) {
+					$tld = tldForDomain($data["name"]);
+					$stakedInfo = getStakedTLD($tld, true);
+					$output["data"][$key]["price"] = centsToDollars($stakedInfo["price"]);
+				}
+			}
+			break;
 	}
 
 	die(json_encode($output));

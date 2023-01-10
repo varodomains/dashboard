@@ -26,21 +26,39 @@
 				$sld = sldForDomain($domain);
 				$tld = tldForDomain($domain);
 				$tldInfo = getStakedTLD($tld, true);
-				$type = "sale";
-				$price = @$tldInfo["price"];
+				$type = $data["type"];
 				$years = @$data["years"];
-				$expiration = strtotime("+".$years." years");
+				$price = @$tldInfo["price"];
+
+				switch ($type) {
+					case "register":
+						$expiration = strtotime("+".$years." years");
+						break;
+
+					case "renew":
+						$sldInfo = infoForSLD($domain);
+						$expiration = strtotime(date("c", $sldInfo["expiration"])." +".$years." years");
+						break;
+				}
 
 				$total = $price * $years;
 				$fee = $total * ($GLOBALS["sldFee"] / 100);
 
-				registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+				switch ($type) {
+					case "register":
+						registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+						break;
+
+					case "renew":
+						renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+						break;
+				}
 			}
 		}
 	}
 
 	// MARK TOP 3 SELLING TLDS AS FEATURED
-	$getTopSales = sql("SELECT COUNT(*) AS `Rows`, `tld` FROM `sales` WHERE `type` = 'sale' GROUP BY `tld` ORDER BY `Rows` DESC LIMIT 3");
+	$getTopSales = sql("SELECT COUNT(*) AS `Rows`, `tld` FROM `sales` WHERE `type` = 'register' GROUP BY `tld` ORDER BY `Rows` DESC LIMIT 3");
 	sql("UPDATE `staked` SET `featured` = 0");
 	foreach ($getTopSales as $key => $data) {
 		sql("UPDATE `staked` SET `featured` = 1 WHERE `tld` = ?", [$data["tld"]]);
