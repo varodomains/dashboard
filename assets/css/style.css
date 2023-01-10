@@ -141,7 +141,7 @@ html[data-theme=black] {
 	--statusForeground: #fff;
 	--buttonForeground: #fff;
 	--buttonBackground: #409aed;
-	--tooltipBackground: #e9e9e9;
+	--tooltipBackground: #222;
 
 	--borderColor: #000;
 	--borderColorAlt: #181818;
