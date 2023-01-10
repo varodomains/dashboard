@@ -18,7 +18,7 @@
 		$throughDashboard = true;
 	}
 	
-	$revision = "20230110v1";
+	$revision = "20230110v2";
 
 	$self = @$_SERVER["PHP_SELF"]; 
 	$serverName = @$_SERVER["SERVER_NAME"]; 
