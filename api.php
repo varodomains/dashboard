@@ -1130,11 +1130,11 @@
 
 					switch ($type) {
 						case "register":
-							registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+							registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
 							break;
 
 						case "renew":
-							renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+							renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
 							break;
 					}
 				}
@@ -1245,7 +1245,7 @@
 				goto end;
 			}
 
-			registerSLD($tldInfo, $domain, $recipientData["id"], $sld, $tld, $type, $expiration, $price, $total, $fee, 'hshub');
+			registerSLD($tldInfo, $domain, $recipientData["id"], $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
 			break;
 
 		case "getSalesForChart":
@@ -1564,7 +1564,7 @@
 			}
 
 			foreach ($valid as $key => $name) {
-				registerSLD($staked, $name.".".$tld, NULL, $name, $tld, 'reserve', 0, 0, 0, 0, 'hshub');
+				registerSLD($staked, $name.".".$tld, NULL, $name, $tld, 'reserve', 0, 0, 0, 0, $GLOBALS["siteName"]);
 			}
 
 			$output["data"] = [
