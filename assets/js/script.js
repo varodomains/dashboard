@@ -886,21 +886,84 @@ function emojifyIfNeeded(name) {
 
 function domainRow(data, reserved=false) {
 	if (reserved) {
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="transferReserved">Transfer</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteReserved"></div></div></div></div></div>';
+		return `
+			<div class="row" data-id="${data.id}">
+				<div class="items">
+					<div class="select">${emojifyIfNeeded(data.name)}</div>
+					<div class="link" data-action="transferReserved">Transfer</div>
+					<div class="actionHolder item">
+						<div class="actions">
+						<div class="circle"></div>
+						<div class="icon delete" data-action="deleteReserved"></div>
+					</div>
+					</div>
+				</div>
+			</div>
+		`;
 	}
 	else if (isSLD(data.id)) {
+		let expiration = data.expiration * 1000;
+		let daysUntilExpiration = Math.round(((expiration - Date.now()) / 1000) / 86400);
+		
 		var autoRenew = "";
+		var state = "Expires";
 		if (data.renew) {
 			autoRenew = " checked";
 		}
-		let renew = new Date(data.expiration * 1000).toLocaleDateString("en-US");
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div>Expires: '+renew+'</div><div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"'+autoRenew+'><span class="switcher"></span></label></div><div class="link" data-action="manageDomain">Manage</div></div></div>';
+		let date = new Date(expiration).toLocaleDateString("en-US");
+
+		if (!data.renew) {
+			if (daysUntilExpiration <= 0) {
+				state = "Expired";
+				date += '<div class="icon error"></div>';
+			}
+			else if (daysUntilExpiration <= 30) {
+				date += '<div class="icon warning"></div>';
+			}
+		}
+
+		return `
+			<div class="row" data-id="${data.id}">
+				<div class="items">
+					<div class="select">${emojifyIfNeeded(data.name)}</div>
+					<div>${state}: ${date}</div>
+					<div class="flex">Auto Renew: 
+						<label class="cl-switch custom">
+							<input type="checkbox" class="autoRenew"${autoRenew}>
+							<span class="switcher"></span>
+						</label>
+					</div>
+					<div class="link" data-action="manageDomain">Manage</div>
+				</div>
+			</div>
+		`;
 	}
 	else if (data.tld) {
-		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.tld)+'</div><div class="link" data-action="tldLink">Direct Link</div><div class="link" data-action="manageDomain">Manage</div></div></div>';
+		return `
+			<div class="row" data-id="${data.id}" data-tld="${data.tld}">
+				<div class="items">
+					<div class="select">${emojifyIfNeeded(data.tld)}</div>
+					<div class="link" data-action="tldLink">Direct Link</div>
+					<div class="link" data-action="manageDomain">Manage</div>
+				</div>
+			</div>
+		`;
 	}
 	else {
-		return '<div class="row" data-id="'+data.id+'"><div class="items"><div class="select">'+emojifyIfNeeded(data.name)+'</div><div class="link" data-action="manageDomain">Manage</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deleteDomain"></div></div></div></div></div>';
+		return `
+			<div class="row" data-id="${data.id}">
+				<div class="items">
+					<div class="select">${emojifyIfNeeded(data.name)}</div>
+					<div class="link" data-action="manageDomain">Manage</div>
+					<div class="actionHolder item">
+						<div class="actions">
+							<div class="circle"></div>
+							<div class="icon delete" data-action="deleteDomain"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		`;
 	}
 }
 

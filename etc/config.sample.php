@@ -1,5 +1,6 @@
 <?php
 	$GLOBALS["path"] = "/var/www/html/varo";
+	$GLOBALS["branch"] = "main";
 
 	$GLOBALS["siteName"] = "varo";
 
