@@ -878,6 +878,36 @@
 		}
 	}
 
+	function notifyUserOfDomain($domain, $type) {
+		$sldInfo = infoForSLD($domain);
+		$userInfo = userInfo($sldInfo["account"]);
+		$template = file_get_contents($GLOBALS["path"]."/content/emails/notification.html");
+
+		switch ($type) {
+			case "renew":
+				$variables = [
+					"title" => 'Your '.$sldInfo["name"].' registration will renew in 30 days',
+					"message" => 'Your domain registration for '.$sldInfo["name"].' will renew in 30 days for 1 year. No action is needed, this is just a reminder.',
+					"content" => ''
+				];
+				break;
+
+			case "expire":
+				$variables = [
+					"title" => 'Your '.$sldInfo["name"].' registration will expire in 30 days',
+					"message" => 'Your domain registration for '.$sldInfo["name"].' will expire in 30 days. Because you have Auto Renew disabled, or no card on file, you will have to renew this domain manually if you wish to keep it.',
+					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Renew my domain</a>'
+				];
+				break;
+		}
+
+		$body = replaceVariables($template, $variables);
+
+		$subject = $variables["title"];
+
+		sendEmail($userInfo["email"], $subject, $body);
+	}
+
 	function formatNumber($number, $decimals=2) {
 		return number_format($number, $decimals, ".", ",");
 	}
