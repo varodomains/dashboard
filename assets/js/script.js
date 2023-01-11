@@ -910,15 +910,15 @@ function domainRow(data, reserved=false) {
 		if (data.renew) {
 			autoRenew = " checked";
 		}
-		let renew = new Date(expiration).toLocaleDateString("en-US");
+		let date = new Date(expiration).toLocaleDateString("en-US");
 
 		if (!data.renew) {
 			if (daysUntilExpiration <= 0) {
 				state = "Expired";
-				renew += '<div class="icon error"></div>';
+				date += '<div class="icon error"></div>';
 			}
 			else if (daysUntilExpiration <= 30) {
-				renew += '<div class="icon warning"></div>';
+				date += '<div class="icon warning"></div>';
 			}
 		}
 
@@ -926,7 +926,7 @@ function domainRow(data, reserved=false) {
 			<div class="row" data-id="${data.id}">
 				<div class="items">
 					<div class="select">${emojifyIfNeeded(data.name)}</div>
-					<div>${state}: ${renew}</div>
+					<div>${state}: ${date}</div>
 					<div class="flex">Auto Renew: 
 						<label class="cl-switch custom">
 							<input type="checkbox" class="autoRenew"${autoRenew}>
