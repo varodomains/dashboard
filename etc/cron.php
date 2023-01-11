@@ -74,7 +74,7 @@
 			if ($daysSince > 30) {
 				sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `domain_id` = ?", [$data["id"]]);
 				sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `uuid` = ?", [$data["uuid"]]);
-				logAction("domainDeleted", "gracePeriodExpired" $data["name"]);
+				logAction("domainDeleted", "gracePeriodExpired", $data["name"]);
 			}
 		}
 	}
