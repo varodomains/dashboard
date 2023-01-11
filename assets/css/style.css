@@ -1263,6 +1263,9 @@ input[name=domain][readonly] {
 }
 #accountForm .message {
 	margin-top: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
 }
 
 .popover {
@@ -1820,8 +1823,18 @@ pre {
 		font-size: 12px;
 	}
 
+	div.price.HNS:before, span.total.HNS:before {
+		height: 12px;
+		width: 12px;
+	}
+
+	td.price div.price.HNS, span.total.HNS {
+		padding-left: 15px;
+	}
+
 	div.price.HNS:before {
-		top: -2px;
+		top: 0px;
+		left: -15px;
 	}
 
 	.main[data-page=manage] .section[data-section=actions] .items {

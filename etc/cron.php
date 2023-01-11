@@ -64,6 +64,21 @@
 		sql("UPDATE `staked` SET `featured` = 1 WHERE `tld` = ?", [$data["tld"]]);
 	}
 
+	// DELETE DOMAINS THAT ARE 30 DAYS PAST EXPIRATION
+	$getExpired = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NOT NULL AND `registrar` IS NOT NULL AND `expiration` < ?", [time()]);
+	if ($getExpired) {
+		foreach ($getExpired as $key => $data) {
+			$timeSince = $now - $data["expiration"];
+			$daysSince = $timeSince / 86400;
+			
+			if ($daysSince > 30) {
+				sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `domain_id` = ?", [$data["id"]]);
+				sql("DELETE FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `uuid` = ?", [$data["uuid"]]);
+				logAction("domainDeleted", "gracePeriodExpired" $data["name"]);
+			}
+		}
+	}
+
 	// CHECK FOR NOTIFICATIONS
 	$scanning = $GLOBALS["path"]."/etc/.scanning";
 	$file = $GLOBALS["path"]."/etc/.lastBlock";

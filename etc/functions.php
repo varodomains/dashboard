@@ -917,4 +917,8 @@
 		}
 		catch (Exception $e) {}
 	}
+
+	function logAction($action, $reason, $domain) {
+		sql("INSERT INTO `log` (domain, action, reason, time) VALUES (?,?,?,?)", [$domain, $action, $reason, time()]);
+	}
 ?>
