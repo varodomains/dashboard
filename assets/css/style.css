@@ -65,6 +65,8 @@
 	--deleteIcon: url(/assets/img/icons/delete);
 	--searchIcon: url(/assets/img/icons/search);
 	--buyIcon: url(/assets/img/icons/buy);
+	--warningIcon: url(/assets/img/icons/warning);
+	--errorIcon: url(/assets/img/icons/error);
 }
 
 html[data-theme=light] {
@@ -975,7 +977,7 @@ div.ttl .edit:empty:before {
 	content: "20";
 	color: var(--secondaryForeground);
 }
-td.error, div.error {
+td.error, div.error:not(.icon) {
 	color: var(--errorForeground) !important;
 	background-color: var(--errorBackground) !important;
 }
@@ -1145,6 +1147,18 @@ input[name=domain][readonly] {
 	-webkit-mask-size: 20px;
 	-moz-mask-size: 20px;
 	mask-size: 20px;
+}
+.icon.warning {
+	background-image: var(--warningIcon);
+	width: 20px;
+    height: 20px;
+    margin-left: 5px;
+}
+.icon.error {
+	background-image: var(--errorIcon);
+	width: 20px;
+    height: 20px;
+    margin-left: 5px;
 }
 
 .main .account {
