@@ -904,24 +904,29 @@
 				if ($getStaked) {
 					$getStaked = [$getStaked];
 				}
+				if (!$getStaked) {
+					unset($getStaked);
+				}
 			}
 
 			if (!isset($getStaked)) {
 				$getStaked = getStaked(true);
 			}
 
-			if (@count($getStaked)) {
-				foreach ($getStaked as $staked) {
-					$tld = $staked["tld"];
-					$domain = $query.".".$tld;
-					$available = domainAvailable($domain);
+			if ($getStaked) {
+				if (@count($getStaked)) {
+					foreach ($getStaked as $staked) {
+						$tld = $staked["tld"];
+						$domain = $query.".".$tld;
+						$available = domainAvailable($domain);
 
-					$output["data"][] = [
-						"tld" => $tld,
-						"domain" => $domain,
-						"available" => $available,
-						"price" => centsToDollars($staked["price"])
-					];
+						$output["data"][] = [
+							"tld" => $tld,
+							"domain" => $domain,
+							"available" => $available,
+							"price" => centsToDollars($staked["price"])
+						];
+					}
 				}
 			}
 			break;
@@ -1582,6 +1587,10 @@
 			$tld = tldForDomain($domain);
 			$staked = getStakedTLD($tld);
 			$stakedID = $staked["id"];
+
+			var_dump($info);
+			var_dump($user);
+			var_dump($staked);
 
 			if ((Int)$user !== (Int)$staked["owner"]) {
 				$output["message"] = "You don't have access to this TLD.";
