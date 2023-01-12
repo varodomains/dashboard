@@ -379,55 +379,61 @@ function afterLoad(page) {
 			});
 
 			getSalesFor("chart").then(function(response){
-				$(".section[data-section=salesChart] .loading").remove();
-
 				if (response.success) {
-					let labels = response.data.labels;
-					salesChart.data.labels = labels;
+					if (Object.keys(response.data.sales).length) {
+						let labels = response.data.labels;
+						salesChart.data.labels = labels;
 
-					var i = 1;
-					$.each(response.data.sales, function(tld, value){
-						let data = [];
+						var i = 1;
+						$.each(response.data.sales, function(tld, value){
+							let data = [];
 
-						var sales = {};
-						$.each(value, function(k, sale){
-							let date = new Date(sale.time * 1000);
-							let label = months[date.getMonth()]+" "+date.getDate();
-							
-							if (!sales[label]) {
-								sales[label] = 0;
+							var sales = {};
+							$.each(value, function(k, sale){
+								let date = new Date(sale.time * 1000);
+								let label = months[date.getMonth()]+" "+date.getDate();
+								
+								if (!sales[label]) {
+									sales[label] = 0;
+								}
+								sales[label] += 1;
+							});
+
+							$.each(labels, function(k, l){
+								var count = 0;
+								if (sales[l]) {
+									count = sales[l];
+								}
+								data.push(count);
+							});
+
+							var dataset = {
+								label: emojifyIfNeeded(tld),
+								data: data,
+								lineTension: 0,
+								fill: false,
+								borderColor: css.getPropertyValue("--chartColor"+i)
+							};
+
+							let duplicate = salesChart.data.datasets.filter(function(e){
+								return e.label == dataset.label;
+							});
+
+							if (!duplicate.length) {
+								salesChart.data.datasets.push(dataset);
 							}
-							sales[label] += 1;
+
+							i += 1;
 						});
-
-						$.each(labels, function(k, l){
-							var count = 0;
-							if (sales[l]) {
-								count = sales[l];
-							}
-							data.push(count);
-						});
-
-						var dataset = {
-							label: emojifyIfNeeded(tld),
-							data: data,
-							lineTension: 0,
-							fill: false,
-							borderColor: css.getPropertyValue("--chartColor"+i)
-						};
-
-						let duplicate = salesChart.data.datasets.filter(function(e){
-							return e.label == dataset.label;
-						});
-
-						if (!duplicate.length) {
-							salesChart.data.datasets.push(dataset);
-						}
-
-						i += 1;
-					});
-					salesChart.update();
+						salesChart.update();
+						$("#salesChart").removeClass("none");
+					}
+					else {
+						$(".section[data-section=salesChart] .box").append('<div class="empty center">There are no sales in this time period.</div>');
+					}
 				}
+
+				$(".section[data-section=salesChart] .loading").remove();
 			});
 
 			getMyStaked().then(function(response){
@@ -443,8 +449,14 @@ function afterLoad(page) {
 			});
 
 			getSalesFor("table").then(function(response){
+				if (response.data.sales.length) {
+					handleSalesResponse(response);
+				}
+				else {
+					$(".section[data-section=salesTable] .box").html('<div class="empty center">There are no sales to display.</div>');
+				}
 				$("#salesTable .loading").remove();
-				handleSalesResponse(response);
+				
 			});
 			break;
 
@@ -593,12 +605,24 @@ function resetNSDS(zone) {
 
 function handleSalesResponse(response, page) {
 	if (response.success) {
-		$(".section[data-section=salesTable] #salesTable .row").remove();
+		if (response.data.sales.length) {
+			$(".section[data-section=salesTable] #salesTable .row").remove();
 
-		$("#salesPage").html($("#salesTable").data("page"));
-		$.each(response.data.sales, function(key, data){
-			$(".section[data-section=salesTable] #salesTable").append(salesRow(data));
-		});
+			$("#salesTable").data("page", response.data.page);
+			$("#salesTable").attr("data-page", response.data.page);
+			$("#salesPage").html($("#salesTable").data("page"));
+
+			if (response.data.page == response.data.pages) {
+				$("#salesPage").parent().find("td").last().addClass("hidden");
+			}
+			else {
+				$("#salesPage").parent().find("td").last().removeClass("hidden");
+			}
+
+			$.each(response.data.sales, function(key, data){
+				$(".section[data-section=salesTable] #salesTable").append(salesRow(data));
+			});
+		}
 	}
 	else {
 		$("#salesTable").data("page", page);
@@ -664,14 +688,11 @@ function getEarnings() {
 	return api(data); 
 }
 
-function getSalesFor(type, tld, duration) {
+function getSalesFor(type, page=1) {
 	let data = {
-		action: "getSalesFor"+type.capitalize(),
-		tld: tld,
-		duration: duration
+		action: "getSalesFor"+type.capitalize()
 	};
 
-	let page = $("#salesTable").data("page");
 	if (type == "table" && page > 1) {
 		data.page = page;
 	}
@@ -2006,8 +2027,8 @@ $("html").on("click", function(e){
 			case "moreSales":
 				let table = $("#salesTable");
 				let direction = target.data("direction");
-				var oldPage = table.data("page");
-				var newPage = table.data("page");
+				var oldPage = parseInt(table.data("page"));
+				var newPage = parseInt(table.data("page"));
 
 				switch (direction) {
 					case "+":
@@ -2021,10 +2042,7 @@ $("html").on("click", function(e){
 						break;
 				}
 
-				$("#salesTable").data("page", newPage);
-				$("#salesTable").attr("data-page", newPage);
-
-				getSalesFor("table").then(function(response){
+				getSalesFor("table", newPage).then(function(response){
 					handleSalesResponse(response, oldPage);
 				});
 				break;
