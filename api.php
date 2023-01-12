@@ -936,13 +936,11 @@
 					$tldInfo = getStakedTLD($tld, true);
 					$price = $tldInfo["price"];
 
-					$data = [
+					$output["data"][] = [
 						"domain" => $name,
 						"price" => centsToDollars($price),
 						"available" => true
 					];
-
-					$output["data"][] = $data;
 				}
 			}
 			else {
@@ -1284,6 +1282,8 @@
 			}
 
 			$sales = sql("SELECT `sales`.`name`,`sales`.`tld`,`sales`.`price`,`sales`.`total`,`sales`.`fee`,`sales`.`time`,`sales`.`type`, `staked`.`owner` FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `owner` = ? ORDER BY `sales`.`id` DESC LIMIT ? OFFSET ?", [$user, $rows, $offset]);
+			$count = sql("SELECT COUNT(*) FROM `sales` LEFT JOIN `staked` ON `sales`.`tld` = `staked`.`tld` WHERE `owner` = ?", [$user])[0]["COUNT(*)"];
+			$pages = ceil($count / $rows);
 
 			$output["data"]["sales"] = [];
 			
@@ -1297,6 +1297,8 @@
 				}
 
 				$output["data"]["sales"] = $sales;
+				$output["data"]["page"] = (Int)$data["page"] ?: 1;
+				$output["data"]["pages"] = $pages;
 			}
 			break;
 

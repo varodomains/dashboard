@@ -25,7 +25,7 @@
 	<div class="title">Last 30 Days</div>
 	<div class="box">
 		<div class="loading center">Loading...</div>
-		<canvas id="salesChart" width="680" height="400"></canvas>
+		<canvas id="salesChart" width="680" height="400" class="none"></canvas>
 		<script>
 			chart = document.getElementById('salesChart').getContext('2d');
 
