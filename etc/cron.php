@@ -79,6 +79,27 @@
 		}
 	}
 
+	// NOTIFY OF EXPIRATION OR RENEWALS 30 DAYS PRIOR
+	$thirtyDays = strtotime("+30 days");
+	$getExpiring = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NOT NULL AND `registrar` IS NOT NULL AND `expiration` > ? AND `expiration` < ?", [time(), $thirtyDays]);
+	if ($getExpiring) {
+		foreach ($getExpiring as $key => $data) {
+			$action = "expire";
+			$type = "expiringSoon";
+			if ($data["renew"]) {
+				$action = "renew";
+				$type ="renewingSoon";
+			}
+
+			$thirtyDaysAgo = strtotime("-30 days", $data["expiration"]);
+			$notified = sql("SELECT * FROM `emails` WHERE `type` = ? AND `reason` = ? AND `time` >= ? AND `time` < ?", [$type, $data["name"], $thirtyDaysAgo, $data["expiration"]]);
+			if (!$notified) {
+				notifyUserOfDomain($data["name"], $action);
+				sql("INSERT INTO `emails` (user, type, reason, time) VALUES (?,?,?,?)", [$data["account"], $type, $data["name"], time()]);
+			}
+		}
+	}
+
 	// CHECK FOR NOTIFICATIONS
 	$scanning = $GLOBALS["path"]."/etc/.scanning";
 	$file = $GLOBALS["path"]."/etc/.lastBlock";
