@@ -371,6 +371,9 @@ a:hover {
 	justify-content: center;
 	font-size: 30px;
 }
+.header .logo span {
+	color: var(--primaryForeground);
+}
 .header .section.right {
 	width: 100%;
 	display: flex;

@@ -3061,13 +3061,7 @@ $(function(){
 			break;
 
 		case "tld":
-			if (typeof tld == "undefined" || !tld.length) {
-				goto("/");
-				return;
-			}
-			else {
-				loadPage(1);
-			}
+			loadPage(1);
 			setupUpdateInfo();
 			break;
 

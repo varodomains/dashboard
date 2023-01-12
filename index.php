@@ -23,7 +23,9 @@
 	<div class="header">
 		<div class="section left">
 			<div class="logo">
-				<span><?php echo $GLOBALS["siteName"]; ?></span>
+				<a href="/">
+					<span><?php echo $GLOBALS["siteName"]; ?></span>
+				</a>
 			</div>
 		</div>
 		<div class="section right">

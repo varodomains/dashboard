@@ -8,3 +8,4 @@ RewriteRule ^(manage)/([A-Za-z0-9]+)/?$ index.php?page=$1&zone=$2
 RewriteRule ^(tld)/([A-Za-z0-9-]+)/?$ landing.php?page=$1&tld=$2
 
 RewriteRule ^([A-Za-z0-9]+)/?$ index.php?page=$0
+RewriteRule ^.?$ landing.php?page=tld
