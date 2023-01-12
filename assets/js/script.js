@@ -189,7 +189,8 @@ function loadPage(noState) {
 			}
 
 			if (!data) {
-				zone = zones[0].id;
+				goto("/sites");
+				return;
 			}
 
 			title += " | "+name+" | "+page;
