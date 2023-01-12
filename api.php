@@ -1302,7 +1302,7 @@
 				}
 
 				$output["data"]["sales"] = $sales;
-				$output["data"]["page"] = (Int)$data["page"] ?: 1;
+				$output["data"]["page"] = @(Int)$data["page"] ?: 1;
 				$output["data"]["pages"] = $pages;
 			}
 			break;
