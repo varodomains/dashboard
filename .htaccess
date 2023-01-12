@@ -1,7 +1,7 @@
 Header set Access-Control-Allow-Origin: *
 
 RewriteEngine on
-RewriteRule ^(login|signup|forgot|twofactor)/?$ account.php?page=$0 [QSA]
+RewriteRule ^(login|signup|forgot|twofactor)/?$ account.php?page=$0
 RewriteRule ^(reset)/([A-Za-z0-9]+)/?$ account.php?page=$1&code=$2
 
 RewriteRule ^(manage)/([A-Za-z0-9]+)/?$ index.php?page=$1&zone=$2
