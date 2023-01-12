@@ -2,7 +2,6 @@
 	include "etc/includes.php";
 
 	$tldInfo = getStakedTLD($tld);
-
 	if ($tldInfo) {
 		$tld = $tldInfo["tld"];
 	}
@@ -32,7 +31,9 @@
 	<div class="header">
 		<div class="section left">
 			<div class="logo">
-				<span><?php echo $GLOBALS["siteName"]; ?></span>
+				<a href="/">
+					<span><?php echo $GLOBALS["siteName"]; ?></span>
+				</a>
 			</div>
 		</div>
 		<div class="section right">
@@ -47,7 +48,7 @@
 					include "content/domains.php";
 				?>
 			</div>
-			<div class="footer">&copy; <?php echo date("Y"); ?> Eskimo Software</div>
+			<div class="footer">&copy; <?php echo date("Y"); ?>&nbsp;<a href="https://eskimosoftware" target="_blank">Eskimo Software</a></div>
 		</div>
 	</div>
 
