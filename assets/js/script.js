@@ -991,9 +991,18 @@ function domainRow(data, reserved=false) {
 function earningsRow(data) {
 	var items = [];
 	$.each(Object.keys(data), function(k, n){
-		items.push('<div class="flex column center"><div class="subtitle">'+n+'</div><div class="money">'+data[n]+'</div></div>');
+		items.push(`
+			<div class="flex column center">
+				<div class="subtitle">${n}</div>
+				<div class="money">${data[n]}</div>
+			</div>
+		`);
 	});
-	return '<div class="row"><div class="items ignore">'+items.join('')+'</div></div>';
+	return `
+		<div class="row">
+			<div class="items ignore">${items.join('')}</div>
+		</div>
+	`;
 }
 
 function manageDomainRow(data) {
@@ -1019,7 +1028,16 @@ function manageDomainRow(data) {
 		if (data.live) {
 			live = " checked";
 		}
-		return '<div class="row" data-id="'+data.id+'" data-tld="'+data.tld+'"><div class="items"><div>Sales: <label class="cl-switch custom"><input type="checkbox" class="salesEnabled"'+live+'><span class="switcher"></span></label></div><div class="link" data-action="changePrice">Change Price</div><div class="link" data-action="addReserved">Reserve Names</div><div class="link" data-action="giftDomain">Gift Domain</div></div></div>';
+		return `
+			<div class="row" data-id="${data.id}" data-tld="${data.tld}">
+				<div class="items">
+					<div>Sales: <label class="cl-switch custom"><input type="checkbox" class="salesEnabled"${live}><span class="switcher"></span></label></div>
+					<div class="link" data-action="changePrice">Change Price</div>
+					<div class="link" data-action="addReserved">Reserve Names</div>
+					<div class="link" data-action="giftDomain">Gift Domain</div>
+				</div>
+			</div>
+		`;
 	}
 }
 
@@ -1089,7 +1107,18 @@ function notificationRow(notification) {
 }
 
 function nsRow(type, value) {
-	return '<div class="row"><div class="items"><div class="type item"><div>'+type+'</div></div><div class="value item"><div class="edit select">'+value+'</div></div></div>';
+	return `
+		<div class="row">
+			<div class="items">
+				<div class="type item">
+					<div>${type}</div>
+				</div>
+				<div class="value item">
+					<div class="edit select">${value}</div>
+				</div>
+			</div>
+		</div>
+	`;
 }
 
 function searchDomainsRow(data) {
@@ -1101,7 +1130,16 @@ function searchDomainsRow(data) {
 		unavailable = " disabled";
 		hidden = " hidden";
 	}
-	return '<div class="row" data-domain="'+data.domain+'"><div class="items"><div>'+emojifyIfNeeded(data.domain)+'<div class="status '+available.toLowerCase()+'">'+available+'</div></div><div class="actions'+hidden+'"><div class="price" data-price="'+data.price+'">'+data.price+'</div><div class="buy button'+unavailable+'" data-action="buyDomain" title="'+available+'">Buy</div></div></div>';
+	return `
+		<div class="row" data-domain="${data.domain}">
+			<div class="items">
+				<div>${emojifyIfNeeded(data.domain)}<div class="status ${available.toLowerCase()}">${available}</div></div>
+				<div class="actions${hidden}">
+				<div class="price" data-price="${data.price}">${data.price}</div>
+				<div class="buy button${unavailable}" data-action="buyDomain" title="${available}">Buy</div>
+			</div>
+		</div>
+	`;
 }
 
 function paymentMethodRow(data) {
@@ -1109,7 +1147,20 @@ function paymentMethodRow(data) {
 	if (data.default) {
 		def = "";
 	}
-	return '<div class="row" data-id="'+data.id+'"><div class="items"><div>'+data.brand+' *'+data.last4+' ('+data.expiration+')</div><div class="link defaultPaymentMethod'+def+'" data-action="defaultPaymentMethod">Make Default</div><div class="actionHolder item"><div class="actions"><div class="circle"></div><div class="icon delete" data-action="deletePaymentMethod"></div></div></div></div></div>';
+	return `
+		<div class="row" data-id="${data.id}">
+			<div class="items">
+				<div>${data.brand} *${data.last4} (${data.expiration})</div>
+				<div class="link defaultPaymentMethod${def}" data-action="defaultPaymentMethod">Make Default</div>
+				<div class="actionHolder item">
+					<div class="actions">
+						<div class="circle"></div>
+						<div class="icon delete" data-action="deletePaymentMethod"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	`;
 }
 
 function salesRow(data) {
@@ -1121,7 +1172,16 @@ function salesRow(data) {
 	let fee = prettyMoney(data.fee / 100);
 	let net = prettyMoney(total - fee);
 	let title = emojifyIfNeeded(name);
-	return '<div class="row"><div class="items"><div>'+date+'</div><div>'+type+'</div><div>'+name+'</div><div class="money">'+net+'</div></div></div>';
+	return `
+		<div class="row">
+			<div class="items">
+				<div>${date}</div>
+				<div>${type}</div>
+				<div>${name}</div>
+				<div class="money">${net}</div>
+			</div>
+		</div>
+	`;
 }
 
 function scrollEditables() {
@@ -1753,8 +1813,12 @@ function editActions(table, neg, pos) {
 			icon = "save";
 			break;
 	}
-
-	return '<div class="actions"><div class="icon cancel" data-action="'+neg+'"></div><div class="icon '+icon+'" data-action="'+pos+'"></div></div>';
+	return `
+		<div class="actions">
+			<div class="icon cancel" data-action="${neg}"></div>
+			<div class="icon ${icon}" data-action="${pos}"></div>
+		</div>
+	`;
 }
 
 function newTab(e) {
