@@ -359,12 +359,12 @@
 		return false;
 	}
 
-	function getStakedTLD($tld, $withPrice=false) {
+	function getStakedTLD($tld, $withPrice=false, $liveOnly=1) {
 		if ($withPrice) {
-			$getStaked = @sql("SELECT `tld`,`id`,`owner`,`price` FROM `staked` WHERE `tld` = ? AND `live` = 1 ORDER BY `tld` ASC", [$tld])[0];
+			$getStaked = @sql("SELECT `tld`,`id`,`owner`,`price` FROM `staked` WHERE `tld` = ? AND `live` = ? ORDER BY `tld` ASC", [$tld, $liveOnly])[0];
 		}
 		else {
-			$getStaked = @sql("SELECT `tld`,`id`,`owner` FROM `staked` WHERE `tld` = ? AND `live` = 1 ORDER BY `tld` ASC", [$tld])[0];
+			$getStaked = @sql("SELECT `tld`,`id`,`owner` FROM `staked` WHERE `tld` = ? AND `live` = ? ORDER BY `tld` ASC", [$tld, $liveOnly])[0];
 		}
 
 		if ($getStaked) {

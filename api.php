@@ -1585,12 +1585,8 @@
 			$info = domainForZone($data["zone"]);
 			$domain = $info["name"];
 			$tld = tldForDomain($domain);
-			$staked = getStakedTLD($tld);
+			$staked = getStakedTLD($tld, false, false);
 			$stakedID = $staked["id"];
-
-			var_dump($info);
-			var_dump($user);
-			var_dump($staked);
 
 			if ((Int)$user !== (Int)$staked["owner"]) {
 				$output["message"] = "You don't have access to this TLD.";
