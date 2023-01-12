@@ -121,7 +121,7 @@ $(function(){
 				case "impersonate":
 					impersonate(row.data("id")).then(function(r){
 						if (r.success) {
-							goto("/");
+							goto("/sites");
 						}
 					});
 					break;
