@@ -22,6 +22,7 @@
 					<input type="text" name="twofactor" autocomplete="one-time-code" placeholder="123456">
 					<input type="hidden" name="code">
 					<input type="hidden" name="action" value="login">
+					<input type="hidden" name="redirect" value="<?php echo @$_SESSION["redirect"]; ?>">
 					<div class="submit" data-action="login">Login</div>
 					<div class="message">
 						<div class="link center" data-action="accountAction" data-page="signup">I need to <span>signup</span></div>

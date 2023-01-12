@@ -936,13 +936,11 @@
 					$tldInfo = getStakedTLD($tld, true);
 					$price = $tldInfo["price"];
 
-					$data = [
+					$output["data"][] = [
 						"domain" => $name,
 						"price" => centsToDollars($price),
 						"available" => true
 					];
-
-					$output["data"][] = $data;
 				}
 			}
 			else {

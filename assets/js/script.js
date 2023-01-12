@@ -2500,14 +2500,21 @@ function cleanFields(form) {
 	form.find("input").removeAttr("data-com-onepassword-filled");
 }
 
-function afterLogin() {
+function afterLogin(form) {
+	let redirect = form.find("input[name=redirect]").val();
+
 	switch (page) {
 		case "tld":
 			close("account");
 			break;
 
 		default:
-			goto("/sites");
+			if (redirect.length) {
+				goto(redirect);
+			}
+			else {
+				goto("/sites");
+			}
 			break;
 	}
 }
@@ -2528,14 +2535,14 @@ function afterSubmit(form, response) {
 					swapAccountAction("twofactor");
 				}
 				else {
-					afterLogin();
+					afterLogin(form);
 				}
 			}
 			break;
 
 		case "verify2fa":
 			if (response.success) {
-				afterLogin();
+				afterLogin(form);
 			}
 			break;
 

@@ -73,11 +73,10 @@
 
 	$allowedPages = ["api", "login", "signup", "forgot", "reset", "tld", "test", "epp", "cron"];
 	if ((!isset($user) && !in_array($page, $allowedPages))) {
-		$redirectURL = "/login";
 		if ($requestURI && $requestURI !== "/") {
-			$redirectURL .= "?redirect=".base64url_encode($requestURI);
+			$_SESSION["redirect"] = $requestURI;
 		}
-		header("Location: ".$redirectURL);
+		header("Location: /login");
 		die();
 	}
 
