@@ -1,12 +1,14 @@
 <?php
 	include "etc/includes.php";
 
-	$tldInfo = getStakedTLD($tld);
-	if ($tldInfo) {
-		$tld = $tldInfo["tld"];
-	}
-	else {
-		unset($tld);
+	if (@$tld) {
+		$tldInfo = getStakedTLD($tld);
+		if ($tldInfo) {
+			$tld = $tldInfo["tld"];
+		}
+		else {
+			unset($tld);
+		}
 	}
 ?>
 <!DOCTYPE html>

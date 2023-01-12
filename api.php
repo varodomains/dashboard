@@ -904,24 +904,29 @@
 				if ($getStaked) {
 					$getStaked = [$getStaked];
 				}
+				if (!$getStaked) {
+					unset($getStaked);
+				}
 			}
 
 			if (!isset($getStaked)) {
 				$getStaked = getStaked(true);
 			}
 
-			if (@count($getStaked)) {
-				foreach ($getStaked as $staked) {
-					$tld = $staked["tld"];
-					$domain = $query.".".$tld;
-					$available = domainAvailable($domain);
+			if ($getStaked) {
+				if (@count($getStaked)) {
+					foreach ($getStaked as $staked) {
+						$tld = $staked["tld"];
+						$domain = $query.".".$tld;
+						$available = domainAvailable($domain);
 
-					$output["data"][] = [
-						"tld" => $tld,
-						"domain" => $domain,
-						"available" => $available,
-						"price" => centsToDollars($staked["price"])
-					];
+						$output["data"][] = [
+							"tld" => $tld,
+							"domain" => $domain,
+							"available" => $available,
+							"price" => centsToDollars($staked["price"])
+						];
+					}
 				}
 			}
 			break;
@@ -1580,7 +1585,7 @@
 			$info = domainForZone($data["zone"]);
 			$domain = $info["name"];
 			$tld = tldForDomain($domain);
-			$staked = getStakedTLD($tld);
+			$staked = getStakedTLD($tld, false, false);
 			$stakedID = $staked["id"];
 
 			if ((Int)$user !== (Int)$staked["owner"]) {
@@ -1662,7 +1667,7 @@
 
 	switch ($data["action"]) {
 		case "getSLDS":
-			if ($output["data"]) {
+			if (@$output["data"]) {
 				foreach ($output["data"] as $key => $data) {
 					$tld = tldForDomain($data["name"]);
 					$stakedInfo = getStakedTLD($tld, true);
