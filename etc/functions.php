@@ -921,7 +921,15 @@
 			case "fail":
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' renewal failed.',
-					"message" => 'Your payment for the renewal of '.$sldInfo["name"].' failed. Your domain has entered a 30 day grace period and you must now renew it manually. If you fail to renew your domain, it will be deleted and become available for anyone to register.',
+					"message" => 'Your domain registration renewal for '.$sldInfo["name"].' failed. Your domain has entered a 30 day grace period and you must now renew it manually. If you fail to renew your domain, it will be deleted and become available for anyone to register.',
+					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+				];
+				break;
+
+			case "expired":
+				$variables = [
+					"title" => 'Your '.$sldInfo["name"].' registration has expired.',
+					"message" => 'Your domain registration for '.$sldInfo["name"].' has expired. Your domain has entered a 30 day grace period. If you do not renew your domain during this period, it will be deleted and become available for anyone to register.',
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;

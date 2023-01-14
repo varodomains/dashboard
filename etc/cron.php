@@ -102,6 +102,57 @@
 		}
 	}
 
+	// RENEW DOMAINS THAT ARE DUE
+	$getRenewals = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NOT NULL AND `registrar` IS NOT NULL AND `renew` = 1 AND `expiration` < ?", [time()]);
+	if ($getRenewals) {
+		foreach ($getRenewals as $key => $data) {
+			$domain = $data["name"];
+			$sld = sldForDomain($domain);
+			$tld = tldForDomain($domain);
+			$tldInfo = getStakedTLD($tld, true);
+			$type = "renew";
+			$years = 1;
+			$price = @$tldInfo["price"];
+
+			$total = $price * $years;
+			$fee = $total * ($GLOBALS["sldFee"] / 100);
+
+			$description = $domain." - ".$years." year renewal";
+
+			$userInfo = userInfo($data["account"]);
+			$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
+			$paymentMethod = $customer["invoice_settings"]["default_payment_method"];
+			if (!$paymentMethod) {
+				$paymentMethod = $customer["default_source"];
+			}
+			if (!$paymentMethod) {
+				notifyUserOfDomain($domain, "fail");
+				sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `renew` = 0 WHERE `uuid` = ?", [$data["uuid"]]);
+				continue;
+			}
+			else {
+				try {
+					$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
+						'customer' => $userInfo["stripe"],
+						'amount' => $total,
+						'currency' => 'usd',
+						'description' => $description,
+						'payment_method' => $paymentMethod,
+						'confirm' => true,
+						'receipt_email' => $userInfo["email"]
+					]);
+				}
+				catch (Exception $e) {
+					notifyUserOfDomain($domain, "fail");
+					sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `renew` = 0 WHERE `uuid` = ?", [$data["uuid"]]);
+					continue;
+				}
+
+				renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
+			}
+		}
+	}
+
 	// CHECK FOR NOTIFICATIONS
 	$scanning = $GLOBALS["path"]."/etc/.scanning";
 	$file = $GLOBALS["path"]."/etc/.lastBlock";
