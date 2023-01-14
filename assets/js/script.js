@@ -1008,15 +1008,29 @@ function earningsRow(data) {
 
 function manageDomainRow(data) {
 	if (isSLD(data.id)) {
+		let expiration = data.expiration * 1000;
+		let daysUntilExpiration = Math.round(((expiration - Date.now()) / 1000) / 86400);
+		
 		var autoRenew = "";
+		var state = "Expires";
 		if (data.renew) {
 			autoRenew = " checked";
 		}
-		let renew = new Date(data.expiration * 1000).toLocaleDateString("en-US");
+		let date = new Date(expiration).toLocaleDateString("en-US");
+
+		if (!data.renew) {
+			if (daysUntilExpiration <= 0) {
+				state = "Expired";
+				date += '<div class="icon error"></div>';
+			}
+			else if (daysUntilExpiration <= 30) {
+				date += '<div class="icon warning"></div>';
+			}
+		}
 		return `
 			<div class="row" data-id="${data.id}">
 				<div class="items">
-					<div class="secondary">Expires: ${renew}</div>
+					<div class="secondary">${state}: ${date}</div>
 					<div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"${autoRenew}><span class="switcher"></span></label></div>
 					<div class="link" data-action="renewDomain">Renew</div>
 					<div class="link" data-action="transferDomain">Transfer</div>
@@ -3075,6 +3089,33 @@ $("html").on("mouseenter", ".icon.delete", function(e){
 });
 
 $("html").on("mouseleave", ".icon.delete", function(e){
+	let id = $(this).closest(".row").data("id");
+	hideTooltip(id);
+});
+
+$("html").on("mouseenter", "#domainTable .row .icon.error, #actionTable .row .icon.error", function(e){
+	let id = $(this).closest(".row").data("id");
+	let domainInfo = dataForZone(id);
+	let graceEnd = new Date(domainInfo.expiration * 1000);
+	graceEnd.setDate(graceEnd.getDate() + 30);
+	let daysUntilGraceEnd = Math.floor(((graceEnd.getTime() - Date.now()) / 1000) / 86400);
+	showTooltip(e, id, `Grace period ends in ${daysUntilGraceEnd} days`);
+});
+
+$("html").on("mouseleave", "#domainTable .row .icon.error, #actionTable .row .icon.error", function(e){
+	let id = $(this).closest(".row").data("id");
+	hideTooltip(id);
+});
+
+$("html").on("mouseenter", "#domainTable .row .icon.warning, #actionTable .row .icon.warning", function(e){
+	let id = $(this).closest(".row").data("id");
+	let domainInfo = dataForZone(id);
+	let expiration = new Date(domainInfo.expiration * 1000);
+	let daysUntilExpiration = Math.floor(((expiration.getTime() - Date.now()) / 1000) / 86400);
+	showTooltip(e, id, `Expires in ${daysUntilExpiration} days`);
+});
+
+$("html").on("mouseleave", "#domainTable .row .icon.warning, #actionTable .row .icon.warning", function(e){
 	let id = $(this).closest(".row").data("id");
 	hideTooltip(id);
 });
