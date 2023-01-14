@@ -913,7 +913,7 @@
 			case "expire":
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' registration will expire in '.$daysUntil.' days',
-					"message" => 'Your domain registration for '.$sldInfo["name"].' will expire in '.$daysUntil.' days. Because you have Auto Renew disabled, or no card on file, you will have to renew this domain manually if you wish to keep it.',
+					"message" => 'Your domain registration for '.$sldInfo["name"].' will expire in '.$daysUntil.' days. Because you have Auto Renew disabled, have no card on file, or your card on file is expired, you will have to renew this domain manually if you wish to keep it.',
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;

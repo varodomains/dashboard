@@ -86,7 +86,9 @@
 		foreach ($getExpiring as $key => $data) {
 			$action = "expire";
 			$type = "expiringSoon";
-			if ($data["renew"]) {
+
+			$getCards = sql("SELECT * FROM `cards` WHERE `user` = ? AND STR_TO_DATE(`expiration`, '%m/%Y') > ?", [$data["account"], date("Y-m-d")]);
+			if ($data["renew"] && $getCards) {
 				$action = "renew";
 				$type ="renewingSoon";
 			}
