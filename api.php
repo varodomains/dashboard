@@ -1111,6 +1111,7 @@
 			else {
 				$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
 				$paymentMethod = $customer["invoice_settings"]["default_payment_method"];
+
 				if (!$paymentMethod) {
 					$paymentMethod = $customer["default_source"];
 				}
@@ -1130,7 +1131,14 @@
 						'confirm' => true,
 						'receipt_email' => $userInfo["email"]
 					]);
+				}
+				catch (Exception $e) {
+					$error = $e->getError();
+					$output["message"] = $error->message;
+					$output["success"] = false;
+				}
 
+				if ($output["success"]) {
 					switch ($type) {
 						case "register":
 							registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
@@ -1140,11 +1148,6 @@
 							renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
 							break;
 					}
-				}
-				catch (Exception $e) {
-					$error = $e->getError();
-					$output["message"] = $error->message;
-					$output["success"] = false;
 				}
 			}
 			break;

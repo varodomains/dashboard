@@ -917,6 +917,14 @@
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
+
+			case "fail":
+				$variables = [
+					"title" => 'Your '.$sldInfo["name"].' renewal failed.',
+					"message" => 'Your payment for the renewal of '.$sldInfo["name"].' failed. Your domain has entered a 30 day grace period and you must now renew it manually. If you fail to renew your domain, it will be deleted and become available for anyone to register.',
+					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+				];
+				break;
 		}
 
 		$body = replaceVariables($template, $variables);
