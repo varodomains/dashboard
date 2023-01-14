@@ -102,6 +102,22 @@
 		}
 	}
 
+	// NOTIFY WHEN EXPIRED
+	$getExpired = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NOT NULL AND `registrar` IS NOT NULL AND `renew` = 0 AND `expiration` < ?", [time()]);
+	if ($getExpired) {
+		foreach ($getExpired as $key => $data) {
+			$domain = $data["name"];
+			$type = "domainExpired";
+
+			$notified = sql("SELECT * FROM `emails` WHERE `type` = ? AND `reason` = ? AND `time` >= ? AND `time` < ?", [$type, $domain, $data["expiration"], time()]);
+			if (!$notified) {
+				notifyUserOfDomain($domain, "expired");
+				sql("INSERT INTO `emails` (user, type, reason, time) VALUES (?,?,?,?)", [$data["account"], $type, $domain, time()]);
+				logAction("domainExpired", "autoRenewDisabled", $domain);
+			}
+		}
+	}
+
 	// RENEW DOMAINS THAT ARE DUE
 	$getRenewals = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NOT NULL AND `registrar` IS NOT NULL AND `renew` = 1 AND `expiration` < ?", [time()]);
 	if ($getRenewals) {
@@ -126,8 +142,10 @@
 				$paymentMethod = $customer["default_source"];
 			}
 			if (!$paymentMethod) {
-				notifyUserOfDomain($domain, "fail");
 				sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `renew` = 0 WHERE `uuid` = ?", [$data["uuid"]]);
+				notifyUserOfDomain($domain, "fail");
+				sql("INSERT INTO `emails` (user, type, reason, time) VALUES (?,?,?,?)", [$data["account"], "domainExpired", $domain, time()]);
+				logAction("domainExpired", "noPaymentMethod", $domain);
 				continue;
 			}
 			else {
@@ -143,8 +161,10 @@
 					]);
 				}
 				catch (Exception $e) {
-					notifyUserOfDomain($domain, "fail");
 					sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `renew` = 0 WHERE `uuid` = ?", [$data["uuid"]]);
+					notifyUserOfDomain($domain, "fail");
+					sql("INSERT INTO `emails` (user, type, reason, time) VALUES (?,?,?,?)", [$data["account"], "domainExpired", $domain, time()]);
+					logAction("domainExpired", "paymentFailed", $domain);
 					continue;
 				}
 
