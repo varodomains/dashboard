@@ -3079,6 +3079,33 @@ $("html").on("mouseleave", ".icon.delete", function(e){
 	hideTooltip(id);
 });
 
+$("html").on("mouseenter", "#domainTable .row .icon.error", function(e){
+	let id = $(this).closest(".row").data("id");
+	let domainInfo = dataForZone(id);
+	let graceEnd = new Date(domainInfo.expiration * 1000);
+	graceEnd.setDate(graceEnd.getDate() + 30);
+	let daysUntilGraceEnd = Math.floor(((graceEnd.getTime() - Date.now()) / 1000) / 86400);
+	showTooltip(e, id, `Grace period ends in ${daysUntilGraceEnd} days`);
+});
+
+$("html").on("mouseleave", "#domainTable .row .icon.error", function(e){
+	let id = $(this).closest(".row").data("id");
+	hideTooltip(id);
+});
+
+$("html").on("mouseenter", "#domainTable .row .icon.warning", function(e){
+	let id = $(this).closest(".row").data("id");
+	let domainInfo = dataForZone(id);
+	let expiration = new Date(domainInfo.expiration * 1000);
+	let daysUntilExpiration = Math.floor(((expiration.getTime() - Date.now()) / 1000) / 86400);
+	showTooltip(e, id, `Expires in ${daysUntilExpiration} days`);
+});
+
+$("html").on("mouseleave", "#domainTable .row .icon.warning", function(e){
+	let id = $(this).closest(".row").data("id");
+	hideTooltip(id);
+});
+
 function isMobile() {
 	if ($(".hamburger").is(":visible")) {
 		return true;
