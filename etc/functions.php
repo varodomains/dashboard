@@ -51,6 +51,13 @@
 		return base64_decode($b64, $strict);
 	}
 
+	function plural($var=0) {
+		if (abs($var) == 1) {
+			return "";
+		}
+		return "s";
+	}
+
 	function getFiles($path) {
 		$files = scandir($path);
 
@@ -898,22 +905,25 @@
 		$userInfo = userInfo($sldInfo["account"]);
 		$template = file_get_contents($GLOBALS["path"]."/content/emails/notification.html");
 
-		$timeUntil = $sldInfo["expiration"] - time();
-		$daysUntil = floor($timeUntil / 86400);
+		$timeUntilRenew = $sldInfo["expiration"] - time();
+		$daysUntilRenew = floor($timeUntilRenew / 86400);
+		
+		$timeUntilGraceEnd = strtotime(date("c", $sldInfo["expiration"])." +30 days") - time();
+		$daysUntilGraceEnd = floor($timeUntilGraceEnd / 86400);
 
 		switch ($type) {
 			case "renew":
 				$variables = [
-					"title" => 'Your '.$sldInfo["name"].' registration will renew in '.$daysUntil.' days',
-					"message" => 'Your domain registration for '.$sldInfo["name"].' will renew in '.$daysUntil.' days for 1 year. No action is needed, this is just a reminder.',
+					"title" => 'Your '.$sldInfo["name"].' registration will renew in '.$daysUntilRenew.' day'.plural($daysUntilRenew),
+					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will renew in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b> for 1 year. No action is needed, this is just a reminder.',
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 
 			case "expire":
 				$variables = [
-					"title" => 'Your '.$sldInfo["name"].' registration will expire in '.$daysUntil.' days',
-					"message" => 'Your domain registration for '.$sldInfo["name"].' will expire in '.$daysUntil.' days. Because you have Auto Renew disabled, have no card on file, or your card on file is expired, you will have to renew this domain manually if you wish to keep it.',
+					"title" => 'Your '.$sldInfo["name"].' registration will expire in '.$daysUntilRenew.' day'.plural($daysUntilRenew),
+					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will expire in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b>. Because you have Auto Renew disabled, have no card on file, or your card on file is expired, you will have to renew this domain manually if you wish to keep it.',
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
@@ -921,7 +931,7 @@
 			case "fail":
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' renewal failed.',
-					"message" => 'Your domain registration renewal for '.$sldInfo["name"].' failed. Your domain has entered a 30 day grace period and you must now renew it manually. If you fail to renew your domain, it will be deleted and become available for anyone to register.',
+					"message" => 'Your domain registration renewal for <b>'.$sldInfo["name"].'</b> failed. Your domain is now in a grace period which will end in <b>'.$daysUntilGraceEnd.' day'.plural($daysUntilGraceEnd).'</b>. If you do not renew your domain, it will be deleted and become available for anyone to register.',
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
@@ -929,7 +939,7 @@
 			case "expired":
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' registration has expired.',
-					"message" => 'Your domain registration for '.$sldInfo["name"].' has expired. Your domain has entered a 30 day grace period. If you do not renew your domain during this period, it will be deleted and become available for anyone to register.',
+					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> has expired. Your domain is now in a grace period which will end in <b>'.$daysUntilGraceEnd.' day'.plural($daysUntilGraceEnd).'</b>. If you do not renew your domain, it will be deleted and become available for anyone to register.',
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
