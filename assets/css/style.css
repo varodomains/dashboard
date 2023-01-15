@@ -263,6 +263,12 @@ body {
 	align-items: center;
 }
 
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
 #blackout {
 	width: 100%;
 	height: 100%;
@@ -712,6 +718,7 @@ div.price:after {
 
 .right {
 	justify-content: flex-end;
+	align-self: flex-end;
 }
 .center {
 	text-align: center;
