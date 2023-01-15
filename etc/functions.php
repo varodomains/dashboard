@@ -901,6 +901,9 @@
 	}
 
 	function notifyUserOfDomain($domain, $type) {
+		$tld = tldForDomain($domain);
+		$tldInfo = getStakedTLD($tld, true);
+		$price = centsToDollars($tldInfo["price"]);
 		$sldInfo = infoForSLD($domain);
 		$userInfo = userInfo($sldInfo["account"]);
 		$template = file_get_contents($GLOBALS["path"]."/content/emails/notification.html");
@@ -915,7 +918,7 @@
 			case "renew":
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' registration will renew in '.$daysUntilRenew.' day'.plural($daysUntilRenew),
-					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will renew in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b> for 1 year. No action is needed, this is just a reminder.',
+					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will renew at <b>$'.$price.'</b> in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b> for 1 year. No action is needed, this is just a reminder.',
 					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
