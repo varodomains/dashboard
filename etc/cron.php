@@ -68,7 +68,7 @@
 	$getExpired = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NOT NULL AND `registrar` IS NOT NULL AND `expiration` < ?", [time()]);
 	if ($getExpired) {
 		foreach ($getExpired as $key => $data) {
-			$timeSince = $now - $data["expiration"];
+			$timeSince = time() - $data["expiration"];
 			$daysSince = $timeSince / 86400;
 			
 			if ($daysSince > 30) {
@@ -134,6 +134,7 @@
 			$fee = $total * ($GLOBALS["sldFee"] / 100);
 
 			$description = $domain." - ".$years." year renewal";
+			$expiration = strtotime(date("c", $data["expiration"])." +".$years." years");
 
 			if ($tldInfo["owner"] !== $data["account"]) {
 				$userInfo = userInfo($data["account"]);
@@ -171,7 +172,7 @@
 				}
 			}
 
-			renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
+			renewSLD($data, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
 		}
 	}
 
