@@ -11,7 +11,9 @@
 	$data = json_decode($json, true);
 
 	if (!@$data["action"]) {
-		die();
+		$output["message"] = "Your request is invalid. The POST data is either not JSON, or your didn't provide an action.";
+		$output["success"] = false;
+		goto end;
 	}
 
 	$output = [
