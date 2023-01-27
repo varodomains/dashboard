@@ -45,7 +45,7 @@
 			$data = json_decode($info, true);
 			?>
 			<div class="section" data-section="<?php echo $function; ?>">
-				<div class="title"><?php echo $function; ?></div>
+				<div class="title"><?php echo $function; ?><div class="link icon anchor" data-action="sectionAnchor"></div></div>
 				<div class="box">
 					<div class="subtitle"><?php echo $data["description"]; ?></div>
 					<?php

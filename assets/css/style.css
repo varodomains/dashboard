@@ -67,6 +67,7 @@
 	--buyIcon: url(/assets/img/icons/buy);
 	--warningIcon: url(/assets/img/icons/warning);
 	--errorIcon: url(/assets/img/icons/error);
+	--anchorIcon: url(/assets/img/icons/anchor);
 }
 
 html[data-theme=light] {
@@ -629,6 +630,9 @@ div.price:after {
     flex-direction: column;
     justify-content: space-between;
 }
+.main .body .section {
+	position: relative;
+}
 .main .body .holder {
 	width: 100%;
 	min-width: 910px;
@@ -660,6 +664,8 @@ div.price:after {
 	margin: 0px 10px 10px 20px;
 	flex-shrink: 0;
 	overflow: hidden;
+	display: flex;
+	align-items: center;
 }
 .main .body .section .titleHolder > .title {
 	margin-bottom: 0;
@@ -1169,6 +1175,18 @@ input[name=domain][readonly] {
 	width: 20px;
     height: 20px;
     margin-left: 5px;
+}
+.icon.anchor {
+	-webkit-mask-image: var(--anchorIcon);
+	-moz-mask-image: var(--anchorIcon);
+	mask-image: var(--anchorIcon);
+	-webkit-mask-size: 20px;
+	-moz-mask-size: 20px;
+	mask-size: 20px;
+	background-color: var(--secondaryForeground);
+	height: 20px;
+	width: 20px;
+	margin-left: 5px;
 }
 
 .main .account {
