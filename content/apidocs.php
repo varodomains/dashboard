@@ -10,8 +10,10 @@
 		<div class="title">Basic Information</div>
 		<div class="box">
 			<div class="subtitle">The following information applies to all calls to our API.</div>
-			<p>Endpoint</p>
-			<pre><code>https://varo.domains/api</code></pre>
+			<p>Endpoints</p>
+<pre><code>https://<?php echo $GLOBALS["hnsHostname"]; ?>/api
+or
+https://<?php echo $GLOBALS["icannHostname"]; ?>/api</code></pre>
 			<p>Authentication</p>
 			<div class="subtitle"><p>Add the following header to your API calls.</p></div>
 			<pre><code>Authorization: Bearer key_goes_here</code></pre>
