@@ -1,6 +1,12 @@
 <?php
 	include "etc/includes.php";
 
+	if ($_SERVER["REQUEST_METHOD"] !== "POST") {
+		$output["message"] = "All calls to our API should be POSTs.";
+		$output["success"] = false;
+		goto end;
+	}
+
 	$json = file_get_contents('php://input');
 	$data = json_decode($json, true);
 
@@ -1648,7 +1654,7 @@
 	}
 
 	end:
-	if (@count($output["fields"])) {
+	if (@$output["fields"] && count($output["fields"])) {
 		$output["fields"] = array_unique($output["fields"]);
 		$output["success"] = false;
 	}

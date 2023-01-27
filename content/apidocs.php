@@ -11,9 +11,11 @@
 		<div class="box">
 			<div class="subtitle">The following information applies to all calls to our API.</div>
 			<p>Endpoints</p>
-<pre><code>https://<?php echo $GLOBALS["hnsHostname"]; ?>/api
-or
-https://<?php echo $GLOBALS["icannHostname"]; ?>/api</code></pre>
+			<a href="https://<?php echo $GLOBALS["hnsHostname"]; ?>/api">https://<?php echo $GLOBALS["hnsHostname"]; ?>/api</a>
+			<br>
+			or
+			<br>
+			<a href="https://<?php echo $GLOBALS["icannHostname"]; ?>/api">https://<?php echo $GLOBALS["icannHostname"]; ?>/api</a>
 			<p>Authentication</p>
 			<div class="subtitle"><p>Add the following header to your API calls.</p></div>
 			<pre><code>Authorization: Bearer key_goes_here</code></pre>
