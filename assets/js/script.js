@@ -481,6 +481,10 @@ function afterLoad(page) {
 		case "admin":
 			$(".section[data-section=actions]").addClass("shown");
 			break;
+
+		case "apidocs":
+			scrollToSectionIfNeeded();
+			break;
 	}
 
 	$(".body").scrollTop(0);
@@ -1988,6 +1992,7 @@ $("html").on("click", function(e){
 	if (!row.length) {
 		row = target.closest(".row");
 	}
+	var section;
 
 	var domain,price;
 
@@ -2133,7 +2138,7 @@ $("html").on("click", function(e){
 				break;
 
 			case "scrollToSection":
-				let section = target.data("section");
+				section = target.data("section");
 				$(".body").animate({scrollTop: $(`.section[data-section=${section}]`).position().top - 20});
 				break;
 
@@ -2153,6 +2158,11 @@ $("html").on("click", function(e){
 				$(".popover[data-name=completePurchase] .submit").removeClass("disabled");
 				updatePrices();
 				showPopover("completePurchase");
+				break;
+
+			case "sectionAnchor":
+				section = target.closest(".section").data("section");
+				window.history.pushState(null, null, `/${page}#${section}`);
 				break;
 		}
 	}
@@ -3148,6 +3158,13 @@ $("html").on("click", ".hamburger", function(e){
 function setupUpdateInfo() {
 	updateInfo();
 	setInterval(updateInfo, 300000);
+}
+
+function scrollToSectionIfNeeded() {
+	if (window.location.hash) {
+		let section = window.location.hash.substring(1);
+		$(`.link[data-action=scrollToSection][data-section=${section}]`).click();
+	}
 }
 
 $(function(){
