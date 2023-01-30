@@ -106,6 +106,7 @@ CREATE TABLE `users` (
  `beta` tinyint(1) NOT NULL DEFAULT 0,
  `stripe` varchar(100) DEFAULT NULL,
  `totp` text DEFAULT NULL,
+ `api` varchar(32) DEFAULT NULL,
  `theme` varchar(10) DEFAULT NULL,
  PRIMARY KEY (`id`),
  UNIQUE KEY `email` (`email`),
