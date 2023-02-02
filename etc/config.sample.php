@@ -28,6 +28,7 @@
 
 	$config["recordTypes"] = ["A", "AAAA", "ALIAS", "CNAME", "DS", "MX", "NS", "PTR", "SPF", "TLSA", "TXT", "REDIRECT"];
 
+	$GLOBALS["currency"] = "usd";
 	$config["stripeSecretKey"] = "your stripe secret here";
 	$config["stripePublicKey"] = "your stripe public here";
 

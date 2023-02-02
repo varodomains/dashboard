@@ -500,7 +500,7 @@ a:hover {
 	display: none !important;
 }
 td.money:before, div.money:before, div.price:before, span.total:before {
-	content: "$";
+	content: var(--currency);
 }
 div.price.HNS, span.total.HNS {
 	position: relative;

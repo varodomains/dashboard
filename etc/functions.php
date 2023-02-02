@@ -733,10 +733,10 @@
 	}
 
 	function getHandshakePrice() {
-		$data = @file_get_contents("https://api.coingecko.com/api/v3/simple/price?ids=handshake&vs_currencies=usd");
+		$data = @file_get_contents("https://api.coingecko.com/api/v3/simple/price?ids=handshake&vs_currencies=".$GLOBALS["currency"]);
 		$decoded = @json_decode($data, true);
 
-		$price = @$decoded["handshake"]["usd"];
+		$price = @$decoded["handshake"][$GLOBALS["currency"]];
 		if ($price) {
 			return $price;
 		}
