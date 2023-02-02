@@ -6,7 +6,7 @@ CREATE TABLE `cards` (
  `expiration` varchar(7) DEFAULT NULL,
  UNIQUE KEY `id` (`id`),
  KEY `user` (`user`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `emails` (
   `ai` int(11) NOT NULL AUTO_INCREMENT,
@@ -15,7 +15,7 @@ CREATE TABLE `emails` (
   `reason` varchar(255) DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ai`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `invoices` (
  `ai` int(11) NOT NULL AUTO_INCREMENT,
@@ -32,7 +32,7 @@ CREATE TABLE `invoices` (
  `override` tinyint(1) NOT NULL DEFAULT 0,
  PRIMARY KEY (`ai`),
  UNIQUE KEY `id` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `log` (
   `ai` int(11) NOT NULL AUTO_INCREMENT,
@@ -41,7 +41,7 @@ CREATE TABLE `log` (
   `reason` varchar(100) DEFAULT NULL,
   `time` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`ai`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `notify` (
  `ai` int(11) NOT NULL AUTO_INCREMENT,
@@ -53,14 +53,14 @@ CREATE TABLE `notify` (
  PRIMARY KEY (`ai`),
  UNIQUE KEY `uuid` (`uuid`),
  KEY `user` (`user`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `price` (
  `ai` int(11) NOT NULL AUTO_INCREMENT,
  `time` int(11) DEFAULT NULL,
  `price` double DEFAULT NULL,
  PRIMARY KEY (`ai`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `registrars` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -68,7 +68,7 @@ CREATE TABLE `registrars` (
  `password` text DEFAULT NULL,
  `active` tinyint(1) NOT NULL DEFAULT 0,
  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `reset` (
  `ai` int(11) NOT NULL AUTO_INCREMENT,
@@ -79,7 +79,7 @@ CREATE TABLE `reset` (
  `time` int(11) DEFAULT NULL,
  `used` tinyint(1) NOT NULL DEFAULT 0,
  PRIMARY KEY (`ai`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `sales` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -98,7 +98,7 @@ CREATE TABLE `sales` (
  KEY `time` (`time`),
  KEY `registrar` (`registrar`),
  KEY `settled` (`settled`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `staked` (
  `tld` varchar(255) DEFAULT NULL,
@@ -111,7 +111,7 @@ CREATE TABLE `staked` (
  UNIQUE KEY `tld` (`tld`),
  UNIQUE KEY `uuid` (`uuid`),
  KEY `owner` (`owner`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE `users` (
  `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -129,4 +129,4 @@ CREATE TABLE `users` (
  UNIQUE KEY `email` (`email`),
  UNIQUE KEY `token` (`token`),
  KEY `uuid` (`uuid`)
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8mb4;
