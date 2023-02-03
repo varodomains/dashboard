@@ -919,7 +919,7 @@
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' registration will renew in '.$daysUntilRenew.' day'.plural($daysUntilRenew),
 					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will renew at <b>$'.$price.'</b> in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b> for 1 year. No action is needed, this is just a reminder.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 
@@ -927,7 +927,7 @@
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' registration will expire in '.$daysUntilRenew.' day'.plural($daysUntilRenew),
 					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will expire in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b>. Because you have Auto Renew disabled, have no card on file, or your card on file is expired, you will have to renew this domain manually if you wish to keep it.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 
@@ -935,7 +935,7 @@
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' renewal failed.',
 					"message" => 'Your domain registration renewal for <b>'.$sldInfo["name"].'</b> failed. Your domain is now in a grace period which will end in <b>'.$daysUntilGraceEnd.' day'.plural($daysUntilGraceEnd).'</b>. If you do not renew your domain, it will be deleted and become available for anyone to register.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 
@@ -943,7 +943,7 @@
 				$variables = [
 					"title" => 'Your '.$sldInfo["name"].' registration has expired.',
 					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> has expired. Your domain is now in a grace period which will end in <b>'.$daysUntilGraceEnd.' day'.plural($daysUntilGraceEnd).'</b>. If you do not renew your domain, it will be deleted and become available for anyone to register.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 		}
