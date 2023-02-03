@@ -18,6 +18,10 @@
 		$throughDashboard = true;
 	}
 
+	if (!@$userInfo["theme"]) {
+		$userInfo["theme"] = "dark";
+	}
+
 	$revision = file_get_contents($GLOBALS["path"]."/.git/refs/heads/".$GLOBALS["branch"]);
 
 	$self = @$_SERVER["PHP_SELF"]; 
@@ -54,7 +58,7 @@
 	if (@$self === "epp.php" || @$self === "/home/epp/hshub-epp/epp.php") {
 		$page = "epp";
 	}
-	if (@$self === $GLOBALS["path"]."/etc/cron.php") {
+	if (@$self === "cron.php" || @$self === $GLOBALS["path"]."/etc/cron.php") {
 		$page = "cron";
 	}
 
@@ -99,6 +103,10 @@
 		header("Location: /login");
 		die();
 	}
+
+	$currencyFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+	$currencyFormatted = $currencyFormatter->formatCurrency(0, $GLOBALS["currency"]);
+	$currencySymbol = preg_replace('#[a-z0-9.]*#i', '', $currencyFormatted);
 
 	$GLOBALS["stripe"] = new \Stripe\StripeClient($config["stripeSecretKey"]);
 

@@ -1133,7 +1133,7 @@
 					$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
 						'customer' => $userInfo["stripe"],
 						'amount' => $total,
-						'currency' => 'usd',
+						'currency' => $GLOBALS["currency"],
 						'description' => $description,
 						'payment_method' => $paymentMethod,
 						'confirm' => true,

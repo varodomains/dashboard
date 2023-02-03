@@ -105,7 +105,7 @@
 		$code = generateBase32();
 		$secret = Base32::decode($code);
 		$key = (new Totp())->GenerateToken($secret);
-		$link = "otpauth://totp/Varo:".$email."?secret=".$code."&issuer=Varo&algorithm=SHA1&digits=6&period=30";
+		$link = "otpauth://totp/".$GLOBALS["siteName"].":".$email."?secret=".$code."&issuer=".$GLOBALS["siteName"]."&algorithm=SHA1&digits=6&period=30";
 
 		return [
 			"link" => $link,
@@ -733,10 +733,10 @@
 	}
 
 	function getHandshakePrice() {
-		$data = @file_get_contents("https://api.coingecko.com/api/v3/simple/price?ids=handshake&vs_currencies=usd");
+		$data = @file_get_contents("https://api.coingecko.com/api/v3/simple/price?ids=handshake&vs_currencies=".$GLOBALS["currency"]);
 		$decoded = @json_decode($data, true);
 
-		$price = @$decoded["handshake"]["usd"];
+		$price = @$decoded["handshake"][$GLOBALS["currency"]];
 		if ($price) {
 			return $price;
 		}
@@ -818,9 +818,10 @@
 
 		$userInfo = userInfo($user);
 		$variables = [
+			"siteName" => $GLOBALS["siteName"],
 			"title" => 'Password Reset',
 			"message" => '<span>A password reset was requested for your account on a device running <b>'.$browser.'</b> on <b>'.$os.'</b> from <b>'.$ip.'</b>.<br><br><span>',
-			"content" => 'If this was you initiated by you, use the link below to reset your password.<br><a href="https://varo.domains/reset/'.$code.'">https://varo.domains/reset/'.$code.'</a>'
+			"content" => 'If this was you initiated by you, use the link below to reset your password.<br><a href="https://'.$GLOBALS["icannHostname"].'/reset/'.$code.'">https://'.$GLOBALS["icannHostname"].'/reset/'.$code.'</a>'
 		];
 		$body = replaceVariables($template, $variables);
 
@@ -883,6 +884,7 @@
 
 				if ($fieldsString) {
 					$variables = [
+						"siteName" => $GLOBALS["siteName"],
 						"title" => 'Notification',
 						"message" => '',
 						"content" => '<table>'.$fieldsString.'</table>'
@@ -917,33 +919,37 @@
 		switch ($type) {
 			case "renew":
 				$variables = [
+					"siteName" => $GLOBALS["siteName"],
 					"title" => 'Your '.$sldInfo["name"].' registration will renew in '.$daysUntilRenew.' day'.plural($daysUntilRenew),
 					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will renew at <b>$'.$price.'</b> in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b> for 1 year. No action is needed, this is just a reminder.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 
 			case "expire":
 				$variables = [
+					"siteName" => $GLOBALS["siteName"],
 					"title" => 'Your '.$sldInfo["name"].' registration will expire in '.$daysUntilRenew.' day'.plural($daysUntilRenew),
 					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> will expire in <b>'.$daysUntilRenew.' day'.plural($daysUntilRenew).'</b>. Because you have Auto Renew disabled, have no card on file, or your card on file is expired, you will have to renew this domain manually if you wish to keep it.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 
 			case "fail":
 				$variables = [
+					"siteName" => $GLOBALS["siteName"],
 					"title" => 'Your '.$sldInfo["name"].' renewal failed.',
 					"message" => 'Your domain registration renewal for <b>'.$sldInfo["name"].'</b> failed. Your domain is now in a grace period which will end in <b>'.$daysUntilGraceEnd.' day'.plural($daysUntilGraceEnd).'</b>. If you do not renew your domain, it will be deleted and become available for anyone to register.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 
 			case "expired":
 				$variables = [
+					"siteName" => $GLOBALS["siteName"],
 					"title" => 'Your '.$sldInfo["name"].' registration has expired.',
 					"message" => 'Your domain registration for <b>'.$sldInfo["name"].'</b> has expired. Your domain is now in a grace period which will end in <b>'.$daysUntilGraceEnd.' day'.plural($daysUntilGraceEnd).'</b>. If you do not renew your domain, it will be deleted and become available for anyone to register.',
-					"content" => '<a href="https://varo.domains/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
+					"content" => '<a href="https://'.$GLOBALS["icannHostname"].'/manage/'.$sldInfo["uuid"].'">Manage my domain</a>'
 				];
 				break;
 		}

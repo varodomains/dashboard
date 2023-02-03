@@ -3,7 +3,7 @@
 
 	$domain = $_SERVER["SERVER_NAME"];
 
-	$txt = trim(trim(shell_exec("dig +short @ns1.varo.domains _redirect.".$domain." TXT")), '"');
+	$txt = trim(trim(shell_exec("dig +short @ns1.".$GLOBALS["icannHostname"]." _redirect.".$domain." TXT")), '"');
 
 	if ($txt) {
 		$args = explode(";", $txt);
@@ -31,7 +31,7 @@
 	}
 
 	if (!@$redirect) {
-		$redirect = "https://varo.domains";
+		$redirect = "https://".$GLOBALS["icannHostname"];
 	}
 
 	header("location: ".$redirect);
