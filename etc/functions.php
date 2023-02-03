@@ -105,7 +105,7 @@
 		$code = generateBase32();
 		$secret = Base32::decode($code);
 		$key = (new Totp())->GenerateToken($secret);
-		$link = "otpauth://totp/Varo:".$email."?secret=".$code."&issuer=Varo&algorithm=SHA1&digits=6&period=30";
+		$link = "otpauth://totp/".$GLOBALS["siteName"].":".$email."?secret=".$code."&issuer=".$GLOBALS["siteName"]."&algorithm=SHA1&digits=6&period=30";
 
 		return [
 			"link" => $link,
