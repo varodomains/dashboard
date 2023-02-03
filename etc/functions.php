@@ -500,7 +500,7 @@
 	}
 
 	function nsdsForDomain($tld, $name, $zone) {
-		$staked = getStakedTLD($tld, false, false);
+		$staked = getStakedTLD($tld);
 		$id = $staked["id"];
 
 		$getNSDS = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `domain_id` = ? AND `name` = ? AND (`type` = 'NS' OR `type` = 'DS')", [$id, $name]);
