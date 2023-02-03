@@ -18,7 +18,7 @@
 		$throughDashboard = true;
 	}
 
-	if (!$userInfo["theme"]) {
+	if (!@$userInfo["theme"]) {
 		$userInfo["theme"] = "dark";
 	}
 
