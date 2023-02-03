@@ -820,7 +820,7 @@
 		$variables = [
 			"title" => 'Password Reset',
 			"message" => '<span>A password reset was requested for your account on a device running <b>'.$browser.'</b> on <b>'.$os.'</b> from <b>'.$ip.'</b>.<br><br><span>',
-			"content" => 'If this was you initiated by you, use the link below to reset your password.<br><a href="https://varo.domains/reset/'.$code.'">https://varo.domains/reset/'.$code.'</a>'
+			"content" => 'If this was you initiated by you, use the link below to reset your password.<br><a href="https://'.$GLOBALS["icannHostname"].'/reset/'.$code.'">https://'.$GLOBALS["icannHostname"].'/reset/'.$code.'</a>'
 		];
 		$body = replaceVariables($template, $variables);
 
