@@ -2310,7 +2310,7 @@ $("html").on("click", ".menu .item", function(e){
 			break;
 
 		case "discord":
-			openURL("https://discord.gg/5KdtCVsGes", e);
+			openURL(discordLink, e);
 			break;
 
 		case "logout":

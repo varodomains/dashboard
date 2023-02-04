@@ -21,6 +21,7 @@
 	$GLOBALS["fromEmail"] = "noreply@varo.domains";
 
 	$GLOBALS["tweetSales"] = false;
+	$GLOBALS["discordLink"] = "https://discord.gg/5KdtCVsGes";
 
 	$GLOBALS["hsdKey"] = "keyhere";
 
