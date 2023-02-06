@@ -161,23 +161,25 @@
 					continue;
 				}
 				else {
-					try {
-						$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
-							'customer' => $userInfo["stripe"],
-							'amount' => $total,
-							'currency' => $GLOBALS["currency"],
-							'description' => $description,
-							'payment_method' => $paymentMethod,
-							'confirm' => true,
-							'receipt_email' => $userInfo["email"]
-						]);
-					}
-					catch (Exception $e) {
-						sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `renew` = 0 WHERE `uuid` = ?", [$data["uuid"]]);
-						notifyUserOfDomain($domain, "fail");
-						sql("INSERT INTO `emails` (user, type, reason, time) VALUES (?,?,?,?)", [$data["account"], "domainExpired", $domain, time()]);
-						logAction("domainExpired", "paymentFailed", $domain);
-						continue;
+					if ($price > 0) {
+						try {
+							$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
+								'customer' => $userInfo["stripe"],
+								'amount' => $total,
+								'currency' => $GLOBALS["currency"],
+								'description' => $description,
+								'payment_method' => $paymentMethod,
+								'confirm' => true,
+								'receipt_email' => $userInfo["email"]
+							]);
+						}
+						catch (Exception $e) {
+							sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `renew` = 0 WHERE `uuid` = ?", [$data["uuid"]]);
+							notifyUserOfDomain($domain, "fail");
+							sql("INSERT INTO `emails` (user, type, reason, time) VALUES (?,?,?,?)", [$data["account"], "domainExpired", $domain, time()]);
+							logAction("domainExpired", "paymentFailed", $domain);
+							continue;
+						}
 					}
 				}
 			}
