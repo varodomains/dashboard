@@ -22,7 +22,7 @@
 		$userInfo["theme"] = "dark";
 	}
 
-	$revision = file_get_contents($GLOBALS["path"]."/.git/refs/heads/".$GLOBALS["branch"]);
+	$revision = trim(file_get_contents($GLOBALS["path"]."/.git/refs/heads/".$GLOBALS["branch"]));
 
 	$self = @$_SERVER["PHP_SELF"]; 
 	$serverName = @$_SERVER["SERVER_NAME"]; 
