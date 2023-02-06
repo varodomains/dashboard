@@ -1913,6 +1913,13 @@ function salesEnabled(domain, state) {
 	return api(data);
 }
 
+function isKey(e, key) {
+	if (e.which == key || e.keyCode == key) {
+		return true
+	}
+	return false;
+}
+
 $("html").on("click", ".blackoutCell", function(e){
 	if ($(e.target).hasClass("blackoutCell")) {
 		close();
@@ -1942,8 +1949,8 @@ $(window).on("popstate", function(e) {
 	loadPage(1);
 });
 
-$("html").on("mousedown", ".icon.delete", function(e){
-	if (e.which !== 1) {
+$("html").on("mousedown", ".icon.delete", function(e) {
+	if (!isKey(e, 1)) {
 		return;
 	}
 
@@ -2183,7 +2190,14 @@ $("html").on("click", function(e){
 			case "addNotification":
 				doAddNotification();
 				break;
+		}
+	}
+	else if (target.is(".actions .search")) {
+		$.each(row.find("td.error"), function(key, r) {
+			$(r).removeClass("error");
+		});
 
+		switch (action) {
 			case "searchDomains":
 				doSearchDomains();
 				break;
@@ -2234,7 +2248,7 @@ $("html").on("focus", ".editable .edit", function(e){
 });
 
 $("html").on("keydown", function(e){
-	if (e.which == 27) {
+	if (isKey(e, 13)) {
 		let topMost = topMostPopover().data("name");
 		if (topMost) {
 			close(topMost);
@@ -2243,31 +2257,31 @@ $("html").on("keydown", function(e){
 });
 
 $("html").on("keydown", ".edit[contenteditable=true]", function(e){
-	if (e.which == 13) {
+	if (isKey(e, 13)) {
 		e.preventDefault();
 	}
 });
 
 $("html").on("keyup", "#searchDomainsTable .edit[contenteditable=true]", function(e){
-	if (e.which == 13) {
+	if (isKey(e, 13)) {
 		doSearchDomains();
 	}
 });
 
 $("html").on("keyup", "#createZoneTable .edit[contenteditable=true]", function(e){
-	if (e.which == 13) {
+	if (isKey(e, 13)) {
 		doCreateZone();
 	}
 });
 
 $("html").on("keyup", ".section[data-section=record] .dnsTable .edit[contenteditable=true]", function(e){
-	if (e.which == 13) {
+	if (isKey(e, 13)) {
 		doAddRecord();
 	}
 });
 
 $("html").on("keyup", ".section[data-section=notification] .notificationTable .edit[contenteditable=true]", function(e){
-	if (e.which == 13) {
+	if (isKey(e, 13)) {
 		doAddNotification();
 	}
 });
@@ -2277,14 +2291,11 @@ $("html").on("keyup", ".editable .edit[contenteditable=true]", function(e){
 
 	let table = $(e.target).closest(".table");
 
-	switch (e.which) {
-		case 13:
-			action = table.data("pos");
-			break;
-
-		case 27:
-			action = table.data("neg");
-			break;
+	if (isKey(e, 13)) {
+		action = table.data("pos");
+	}
+	else if (isKey(e, 27)) {
+		action = table.data("neg");
 	}
 
 	if (action) {
@@ -2878,7 +2889,7 @@ $("html").on("click", ".submit", function(e){
 });
 
 $("html").on("keyup", "input", function(e){
-	if (e.which == 13) {
+	if (isKey(e, 13)) {
 		submitForm($(this).closest("form").find(".submit"));
 	}
 });
