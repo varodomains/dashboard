@@ -75,6 +75,8 @@
 		$code = preg_replace("/[^a-zA-Z0-9]/", '', $code);
 	}
 
+	$stakedDomains = getStaked();
+
 	$allowedPages = ["api", "login", "signup", "forgot", "reset", "tld", "test", "epp", "cron"];
 	if ((!isset($user) && !in_array($page, $allowedPages))) {
 		if ($requestURI && $requestURI !== "/") {
