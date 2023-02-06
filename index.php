@@ -88,11 +88,14 @@
 					<div class="icon apidocs"></div>
 					<div class="label">API</div>
 				</div>
-				<div class="item" data-page="discord">
-					<div class="icon discord"></div>
-					<div class="label">Discord</div>
-				</div>
 				<?php
+					if (@$GLOBALS["discordLink"]) { ?>
+						<div class="item" data-page="discord">
+							<div class="icon discord"></div>
+							<div class="label">Discord</div>
+						</div>
+					<?php
+					}
 					if ($userInfo["admin"]) { ?>
 						<div class="separator"></div>
 						<div class="item" data-page="admin">

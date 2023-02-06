@@ -32,6 +32,7 @@
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
 	Stripe.setPublishableKey("<?php echo $config["stripePublicKey"]; ?>");
+	var discordLink = "<?php echo $GLOBALS["discordLink"]; ?>";
 </script>
 <?php
 	if (@$_COOKIE["admin"]) { ?>
