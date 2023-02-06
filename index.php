@@ -57,10 +57,15 @@
 					<div class="icon sites"></div>
 					<div class="label">Sites</div>
 				</div>
-				<div class="item" data-page="domains">
-					<div class="icon domains"></div>
-					<div class="label">Domains</div>
-				</div>
+				<?php
+					if ($stakedDomains) { ?>
+						<div class="item" data-page="domains">
+							<div class="icon domains"></div>
+							<div class="label">Domains</div>
+						</div>
+					<?php
+					}
+				?>
 				<div class="item" data-page="notify">
 					<div class="icon notify"></div>
 					<div class="label">Notify</div>

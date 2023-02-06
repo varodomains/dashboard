@@ -1,7 +1,6 @@
 <?php
 	include "etc/includes.php";
 
-	$stakedDomains = getStaked();
 	if (!$stakedDomains) {
 		header("Location: /login");
 		die();
