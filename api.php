@@ -1075,7 +1075,7 @@
 			$total = $price * $years;
 			$fee = $total * ($GLOBALS["sldFee"] / 100);
 
-			if (!$price || !$years || (strlen($domain) < 1) || nameIsInvalid($sld) || !in_array($type, $GLOBALS["purchaseTypes"])) {
+			if (!isset($price) || !$years || (strlen($domain) < 1) || nameIsInvalid($sld) || !in_array($type, $GLOBALS["purchaseTypes"])) {
 				$output["message"] = "Something went wrong. Try again?";
 				$output["success"] = false;
 				goto end;
@@ -1107,9 +1107,15 @@
 			}
 
 			if (@$data["handshake"]) {
-				$created = createInvoice($user, $domain, $years, $type, $total);
-				if ($created) {
-					$output["data"] = $created;
+				if ($price > 0) {
+					$created = createInvoice($user, $domain, $years, $type, $total);
+					if ($created) {
+						$output["data"] = $created;
+					}
+					else {
+						$output["message"] = "Something went wrong. Try again?";
+						$output["success"] = false;
+					}
 				}
 				else {
 					$output["message"] = "Something went wrong. Try again?";
@@ -1117,36 +1123,46 @@
 				}
 			}
 			else {
-				$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
-				$paymentMethod = $customer["invoice_settings"]["default_payment_method"];
+				$paid = false;
+				if ($price > 0) {
+					$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
+					$paymentMethod = $customer["invoice_settings"]["default_payment_method"];
 
-				if (!$paymentMethod) {
-					$paymentMethod = $customer["default_source"];
+					if (!$paymentMethod) {
+						$paymentMethod = $customer["default_source"];
+					}
+					if (!$paymentMethod) {
+						$output["needsPaymentMethod"] = true;
+						$output["success"] = false;
+						goto end;
+					}
+
+					try {
+						$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
+							'customer' => $userInfo["stripe"],
+							'amount' => $total,
+							'currency' => $GLOBALS["currency"],
+							'description' => $description,
+							'payment_method' => $paymentMethod,
+							'confirm' => true,
+							'receipt_email' => $userInfo["email"]
+						]);
+					}
+					catch (Exception $e) {
+						$error = $e->getError();
+						$output["message"] = $error->message;
+						$output["success"] = false;
+					}
+
+					if ($output["success"]) {
+						$paid = true;
+					}
 				}
-				if (!$paymentMethod) {
-					$output["needsPaymentMethod"] = true;
-					$output["success"] = false;
-					goto end;
+				else {
+					$paid = true;
 				}
 
-				try {
-					$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
-						'customer' => $userInfo["stripe"],
-						'amount' => $total,
-						'currency' => $GLOBALS["currency"],
-						'description' => $description,
-						'payment_method' => $paymentMethod,
-						'confirm' => true,
-						'receipt_email' => $userInfo["email"]
-					]);
-				}
-				catch (Exception $e) {
-					$error = $e->getError();
-					$output["message"] = $error->message;
-					$output["success"] = false;
-				}
-
-				if ($output["success"]) {
+				if ($paid) {
 					switch ($type) {
 						case "register":
 							registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
