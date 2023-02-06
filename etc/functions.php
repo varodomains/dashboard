@@ -72,6 +72,8 @@
 	}
 	
 	function api($data) {
+		$data["pass"] = @$GLOBALS["pdnsApiPass"];
+
 		$post = json_encode($data);
 		$curl = curl_init("http://".$GLOBALS["pdnsApiHost"]);
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
