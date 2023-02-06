@@ -58,10 +58,20 @@
 	}
 
 	// MARK TOP 3 SELLING TLDS AS FEATURED
-	$getTopSales = sql("SELECT COUNT(*) AS `Rows`, `tld` FROM `sales` WHERE `type` = 'register' GROUP BY `tld` ORDER BY `Rows` DESC LIMIT 3");
 	sql("UPDATE `staked` SET `featured` = 0");
-	foreach ($getTopSales as $key => $data) {
-		sql("UPDATE `staked` SET `featured` = 1 WHERE `tld` = ?", [$data["tld"]]);
+	$getTopSales = sql("SELECT COUNT(*) AS `Rows`, `tld` FROM `sales` WHERE `type` = 'register' GROUP BY `tld` ORDER BY `Rows` DESC LIMIT 3");
+	if ($getTopSales) {
+		foreach ($getTopSales as $key => $data) {
+			sql("UPDATE `staked` SET `featured` = 1 WHERE `tld` = ?", [$data["tld"]]);
+		}
+	}
+	else {
+		$getRandom = sql("SELECT * FROM `staked` WHERE `live` = 1 ORDER BY RAND() LIMIT 3");
+		if ($getRandom) {
+			foreach ($getRandom as $key => $staked) {
+				sql("UPDATE `staked` SET `featured` = 1 WHERE `tld` = ?", [$staked["tld"]]);
+			}
+		}
 	}
 
 	// DELETE DOMAINS THAT ARE 30 DAYS PAST EXPIRATION

@@ -104,9 +104,12 @@
 		die();
 	}
 
-	$currencyFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
-	$currencyFormatted = $currencyFormatter->formatCurrency(0, $GLOBALS["currency"]);
-	$currencySymbol = preg_replace('#[a-z0-9.]*#i', '', $currencyFormatted);
+	try {
+		$currencyFormatter = new NumberFormatter('en_US', NumberFormatter::CURRENCY);
+		$currencyFormatted = $currencyFormatter->formatCurrency(0, $GLOBALS["currency"]);
+		$currencySymbol = preg_replace('#[a-z0-9.]*#i', '', $currencyFormatted);
+	}
+	catch (Throwable $e) {}
 
 	$GLOBALS["stripe"] = new \Stripe\StripeClient($config["stripeSecretKey"]);
 
