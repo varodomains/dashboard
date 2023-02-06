@@ -26,6 +26,7 @@
 	$GLOBALS["hsdKey"] = "keyhere";
 
 	$GLOBALS["pdnsApiHost"] = "your api server ip here";
+	$GLOBALS["pdnsApiPass"] = "password you set in mutual config";
 
 	$config["recordTypes"] = ["A", "AAAA", "ALIAS", "CNAME", "DS", "MX", "NS", "PTR", "SPF", "TLSA", "TXT", "REDIRECT"];
 
