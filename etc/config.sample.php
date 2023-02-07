@@ -28,11 +28,11 @@
 	$GLOBALS["pdnsApiHost"] = "your api server ip here";
 	$GLOBALS["pdnsApiPass"] = "password you set in mutual config";
 
-	$config["recordTypes"] = ["A", "AAAA", "ALIAS", "CNAME", "DS", "MX", "NS", "PTR", "SPF", "TLSA", "TXT", "REDIRECT"];
+	$GLOBALS["recordTypes"] = ["A", "AAAA", "ALIAS", "CNAME", "DS", "MX", "NS", "PTR", "SPF", "TLSA", "TXT", "REDIRECT"];
 
 	$GLOBALS["currency"] = "usd";
-	$config["stripeSecretKey"] = "your stripe secret here";
-	$config["stripePublicKey"] = "your stripe public here";
+	$GLOBALS["stripeSecretKey"] = "your stripe secret here";
+	$GLOBALS["stripePublicKey"] = "your stripe public here";
 
 	$GLOBALS["sldFee"] = 15;
 	$GLOBALS["salesRowsPerPage"] = 20;

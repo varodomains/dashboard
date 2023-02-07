@@ -11,7 +11,7 @@
 					<td>
 						<select name="type">
 				    		<?php
-				    			foreach ($config["recordTypes"] as $type) { ?>
+				    			foreach ($GLOBALS["recordTypes"] as $type) { ?>
 				    				<option><?php echo $type; ?></option>
 				    			<?php
 				    			}

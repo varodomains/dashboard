@@ -113,7 +113,7 @@
 	}
 	catch (Throwable $e) {}
 
-	$GLOBALS["stripe"] = new \Stripe\StripeClient($config["stripeSecretKey"]);
+	$GLOBALS["stripe"] = new \Stripe\StripeClient($GLOBALS["stripeSecretKey"]);
 
 	foreach ($GLOBALS["ipWhitelist"] as $cidr) {
 		if (cidrMatch($ipAddress, $cidr)) {

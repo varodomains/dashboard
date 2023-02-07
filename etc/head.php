@@ -31,7 +31,7 @@
 <script type="text/javascript" src="/assets/js/qr.js?r=<?php echo $revision; ?>"></script>
 <script type="text/javascript" src="https://js.stripe.com/v2/"></script>
 <script type="text/javascript">
-	Stripe.setPublishableKey("<?php echo $config["stripePublicKey"]; ?>");
+	Stripe.setPublishableKey("<?php echo $GLOBALS["stripePublicKey"]; ?>");
 	var discordLink = "<?php echo $GLOBALS["discordLink"]; ?>";
 </script>
 <?php
