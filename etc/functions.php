@@ -370,10 +370,10 @@
 
 	function getStakedTLD($tld, $withPrice=false, $liveOnly=1) {
 		if ($withPrice) {
-			$getStaked = @sql("SELECT `tld`,`id`,`owner`,`price` FROM `staked` WHERE `tld` = ? AND `live` = ? ORDER BY `tld` ASC", [$tld, $liveOnly])[0];
+			$getStaked = @sql("SELECT `tld`,`id`,`owner`,`price`,`live` FROM `staked` WHERE `tld` = ? AND `live` = ? ORDER BY `tld` ASC", [$tld, $liveOnly])[0];
 		}
 		else {
-			$getStaked = @sql("SELECT `tld`,`id`,`owner` FROM `staked` WHERE `tld` = ? AND `live` = ? ORDER BY `tld` ASC", [$tld, $liveOnly])[0];
+			$getStaked = @sql("SELECT `tld`,`id`,`owner`,`live` FROM `staked` WHERE `tld` = ? AND `live` = ? ORDER BY `tld` ASC", [$tld, $liveOnly])[0];
 		}
 
 		if ($getStaked) {
@@ -428,7 +428,7 @@
 		sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = ?, `expiration` = ?, `renew` = 1, `registrar` = ? WHERE `name` = ?", [$user, $expiration, $registrar, $domain]);
 		sql("INSERT INTO `sales` (user, name, tld, type, price, total, fee, time, registrar) VALUES (?,?,?,?,?,?,?,?,?)", [$user, $sld, $tld, $type, $price, $total, $fee, time(), $registrar]);
 
-		if ($GLOBALS["tweetSales"] && $type !== "reserve") {
+		if ($GLOBALS["tweetSales"] && $type !== "reserve" && @$tldInfo["live"]) {
 			$tweet = $domain." was just registered on ".$GLOBALS["siteName"].". Register your own .".$tld." domain here: https://".$GLOBALS["icannHostname"]."/tld/".$tld;
 			shell_exec("twurl -d 'status=".$tweet."' /1.1/statuses/update.json");
 		}
