@@ -732,7 +732,7 @@
 			if (!$data["type"]) {
 				$output["fields"][] = "type";
 			}
-			if (!in_array($data["type"], $config["recordTypes"])) {
+			if (!in_array($data["type"], $GLOBALS["recordTypes"])) {
 				$output["fields"][] = "type";
 			}
 

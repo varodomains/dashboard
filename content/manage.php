@@ -27,12 +27,12 @@
 					<div></div>
 				</div>
 			</div>
-			<div class="row" data-type="<?php echo $config["recordTypes"][0]; ?>">
+			<div class="row" data-type="<?php echo $GLOBALS["recordTypes"][0]; ?>">
 				<div class="items">
 					<div class="type item">
 						<select class="type">
 				    		<?php
-				    			foreach ($config["recordTypes"] as $type) { ?>
+				    			foreach ($GLOBALS["recordTypes"] as $type) { ?>
 				    				<option><?php echo $type; ?></option>
 				    			<?php
 				    			}
