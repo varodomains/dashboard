@@ -3,6 +3,19 @@
 	use PHPMailer\PHPMailer\SMTP;
 	use PHPMailer\PHPMailer\Exception;
 	use lfkeitel\phptotp\{Base32,Totp};
+	use Finwo\Punycode\Punycode;
+
+	if (!function_exists('getallheaders')) { 
+	    function getallheaders()  { 
+	       $headers = array (); 
+	       foreach ($_SERVER as $name => $value) { 
+	           if (substr($name, 0, 5) == 'HTTP_') { 
+	               $headers[str_replace(' ', '-', ucwords(strtolower(str_replace('_', ' ', substr($name, 5)))))] = $value; 
+	           } 
+	       } 
+	       return $headers; 
+	    } 
+	} 
 
 	function uuid($data = null) {
 		$data = $data ?? random_bytes(16);
@@ -254,13 +267,25 @@
 		return $getNotification[0];
 	}
 
+	function validPuny($string) {
+		return Punycode::isPunycode($string);
+	}
+
+	function encodePuny($string) {
+		return Punycode::encode($string);
+	}
+
+	function decodePuny($string) {
+		return Punycode::decode($string);
+	}
+
 	function nameIsInvalid($name) {
 		$validate = preg_match("/^(?:[A-Za-z0-9][A-Za-z0-9\-]{0,61}[A-Za-z0-9]|[A-Za-z0-9])$/", $name, $match);
 		if (!$match) {
 			return true;
 		}
 
-		if (substr($name, 0, 4) == "xn--" && !idn_to_utf8($name)) {
+		if (substr($name, 0, 4) == "xn--" && !validPuny($name)) {
 			return true;
 		}
 
