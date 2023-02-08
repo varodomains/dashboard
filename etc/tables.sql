@@ -105,7 +105,7 @@ CREATE TABLE `staked` (
  `uuid` varchar(64) DEFAULT NULL,
  `id` int(11) DEFAULT NULL,
  `owner` varchar(40) DEFAULT NULL,
- `price` int(11) DEFAULT NULL,
+ `price` int(11) DEFAULT 0,
  `live` tinyint(1) NOT NULL DEFAULT 0,
  `featured` tinyint(1) NOT NULL DEFAULT 0,
  UNIQUE KEY `tld` (`tld`),
