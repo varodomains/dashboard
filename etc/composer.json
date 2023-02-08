@@ -1,8 +1,8 @@
 {
     "require": {
         "stripe/stripe-php": "^9.1",
-        "cboden/ratchet": "^0.4.4",
         "phpmailer/phpmailer": "^6.6",
-        "lfkeitel/phptotp": "^1.1"
+        "lfkeitel/phptotp": "^1.1",
+        "finwo/punycode": "^0.0.3"
     }
 }

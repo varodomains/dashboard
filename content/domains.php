@@ -5,7 +5,7 @@
 
 	$title = "Domains";
 	if (@$tldInfo) {
-		$title = "Buy .".idn_to_utf8($tldInfo["tld"])." domains";
+		$title = "Buy .".decodePuny($tldInfo["tld"])." domains";
 	}
 ?>
 <div class="section" data-section="search">

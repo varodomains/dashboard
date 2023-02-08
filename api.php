@@ -693,7 +693,7 @@
 
 		case "createZone":
 			$data["domain"] = rtrim($data["domain"], "/");
-			$data["domain"] = idn_to_ascii($data["domain"]);
+			$data["domain"] = encodePuny($data["domain"]);
 
 			if (strlen($data["domain"]) < 1) {
 				$output["fields"][] = "domain";
