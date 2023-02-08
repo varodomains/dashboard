@@ -380,6 +380,7 @@ a:hover {
 }
 .header .logo span {
 	color: var(--primaryForeground);
+	white-space: nowrap;
 }
 .header .section.right {
 	width: 100%;
