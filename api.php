@@ -52,6 +52,9 @@
 			/** {"description":"Retrieves a list of all SLD's for the current user.","request":"{\"action\":\"getSLDS\"}","response":"{\"success\":true,\"data\":[{\"name\":\"e.xp\",\"id\":\"7ff1b63b8b484b0bb41040b14ccedbfb\",\"expiration\":1684814400,\"renew\":1},{\"name\":\"eskimo.xp\",\"id\":\"573ceb2d89aa4ba2a19ad08b64512e5e\",\"expiration\":1684814400,\"renew\":1}]}"} */
 			case "getSLDS":
 
+			/** {"description":"Creates a new zone for a given domain.","request":"{\"action\":\"createZone\",\"domain\":\"eskimo\"}","response":"{\"success\":true}"} */
+			case "createZone":
+
 			/** {"description":"Retrieves basic information for a given zone.","request":"{\"action\":\"getZone\",\"zone\":\"60733325d683468b98878819fb654b01\",\"staked\":false}","response":"{\"success\":true,\"data\":{\"name\":\"hnschat\",\"staked\":false}}"} */
 			case "getZone":
 
