@@ -1,4 +1,5 @@
 <?php
+	include "../config.php";
 	include "../functions.php";
 
 	$domain = $_SERVER["SERVER_NAME"];
