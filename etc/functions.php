@@ -311,6 +311,14 @@
 		return false;
 	}
 
+	function hasScheme($string) {
+		$url = parse_url($string);
+		if (@$url["scheme"]) {
+			return true;
+		}
+		return false;
+	}
+
 	function startsWithHTTP($string) {
 		$validate = preg_match("/^http(s)?:\/\//", $string, $match);
 		if ($match) {

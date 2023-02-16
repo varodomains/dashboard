@@ -20,7 +20,7 @@
 				foreach ($arg as $key => $value) {
 					switch ($key) {
 						case "to":
-							if (startsWithHTTP($value)) {
+							if (hasScheme($value)) {
 								$redirect = $value;
 							}
 							break;

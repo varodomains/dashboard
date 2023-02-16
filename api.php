@@ -763,7 +763,7 @@
 					}
 					break;
 				case "REDIRECT":
-					if (!startsWithHTTP($data["content"])) {
+					if (!hasScheme($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;
@@ -806,7 +806,7 @@
 							}
 							break;
 						case "REDIRECT":
-							if (!startsWithHTTP($data["value"])) {
+							if (!hasScheme($data["value"])) {
 								$output["fields"][] = $data["column"];
 							}
 							break;
@@ -860,7 +860,7 @@
 					}
 					break;
 				case "REDIRECT":
-					if (!startsWithHTTP($data["content"])) {
+					if (!hasScheme($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;
