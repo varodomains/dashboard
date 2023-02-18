@@ -1755,6 +1755,23 @@ pre {
 	content: "12345 12 3 abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234";
 }
 
+.section[data-section=tlds] .list {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	margin: -5px;
+}
+.section[data-section=tlds] .list > * {
+	margin: 5px;
+}
+
+.table.stake {
+	margin: -5px;
+}
+.table.stake > * {
+	margin: 5px;
+}
+
 #dnsTable .head, #notificationTable .head {
 	display: none;
 }
@@ -1829,6 +1846,9 @@ pre {
 	}
 	.submit {
 		width: 100%;
+	}
+	.submit.auto {
+		width: auto;
 	}
 
 	.section[data-section=slds] .table .items > div:not(:first-child,:last-child) {

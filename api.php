@@ -182,6 +182,7 @@
 		case "setup2fa":
 		case "verify2fa":
 		case "stakeTLD":
+		case "unstakeTLD":
 		case "changePrice":
 			$queryMutual = false;
 			break;
@@ -259,6 +260,7 @@
 			case "resetPassword":
 			case "impersonate":
 			case "stakeTLD":
+			case "unstakeTLD":
 				if (!$userInfo["admin"]) {
 					$output["message"] = "You don't have permissions for this function.";
 					$output["success"] = false;
@@ -1651,6 +1653,28 @@
 				goto end;
 			}
 			sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = 0 WHERE `uuid` = ?", [$uuid]);
+			break;
+
+		case "unstakeTLD":
+			$uuid = $data["tld"];
+			$info = getStakedTLDByID($uuid);
+
+			if (!$info) {
+				$output["message"] = "Something went wrong. Try again.";
+				$output["success"] = false;
+				goto end;
+			}
+
+			$id = $info["id"];
+			$owner = $info["owner"];
+
+			$unstake = sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` SET `account` = ? WHERE `id` = ?", [$owner, $id]);
+			if (!$unstake) {
+				$output["message"] = "Something went wrong. Try again.";
+				$output["success"] = false;
+				goto end;
+			}
+			sql("DELETE FROM `staked` WHERE `uuid` = ?", [$uuid]);
 			break;
 
 		case "changePrice":

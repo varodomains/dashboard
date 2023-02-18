@@ -26,6 +26,21 @@
 				</select>
 				<div class="button action" data-action="stakeTLD" title="Stake">Stake</div>
 			</div>
+			<div>
+				<select class="domains">
+					<?php
+						$tlds = getStakedTLDs();
+
+						if ($tlds) {
+							foreach ($tlds as $key => $tld) { ?>
+								<option value="<?php echo $tld["uuid"]; ?>"><?php echo $tld["tld"]; ?></option>
+							<?php
+							}
+						}
+					?>
+				</select>
+				<div class="button action" data-action="unstakeTLD" title="Unstake">Unstake</div>
+			</div>
 		</div>
 	</div>
 </div>

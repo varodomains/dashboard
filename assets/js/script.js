@@ -1718,6 +1718,11 @@ function handleAction(element, column, action) {
 			openURL("/login");
 			break;
 
+		case "shopTLD":
+			let tld = element.data("tld");
+			openURL(`/tld/${tld}`);
+			break;
+
 		default:
 			adminAction(element, column, action);
 			break;

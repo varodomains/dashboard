@@ -5,6 +5,8 @@ function adminAction(element, column, action) {
 	let id = row.data("id");
 	let value = element.text();
 
+	var tld;
+
 	switch (action) {
 		case "cancelUpdateEmail":
 			if (id) {
@@ -43,8 +45,17 @@ function adminAction(element, column, action) {
 			break;
 
 		case "stakeTLD":
-			let tld = element.parent().find(".domains").val();
+			tld = element.parent().find(".domains").val();
 			stakeTLD(tld).then(r => {
+				if (r.success) {
+					alert("Success");
+				}
+			});
+			break;
+
+		case "unstakeTLD":
+			tld = element.parent().find(".domains").val();
+			unstakeTLD(tld).then(r => {
 				if (r.success) {
 					alert("Success");
 				}
@@ -58,6 +69,15 @@ function adminAction(element, column, action) {
 function stakeTLD(tld) {
 	let data = {
 		action: "stakeTLD",
+		tld: tld
+	};
+
+	return api(data);
+}
+
+function unstakeTLD(tld) {
+	let data = {
+		action: "unstakeTLD",
 		tld: tld
 	};
 

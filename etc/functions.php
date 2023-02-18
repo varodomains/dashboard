@@ -359,6 +359,14 @@
 		return false;
 	}
 
+	function getStakedTLDs() {
+		$tlds = @sql("SELECT * FROM `staked` ORDER BY `tld` ASC");
+		if ($tlds) {
+			return $tlds;
+		}
+		return false;
+	}
+
 	function getStaked($withPrice=false) {
 		if ($withPrice) {
 			$getStaked = @sql("SELECT `tld`,`price` FROM `staked` WHERE `live` = 1 ORDER BY `tld` ASC");

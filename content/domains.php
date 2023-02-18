@@ -4,8 +4,10 @@
 	}
 
 	$title = "Domains";
+	$otherTitle = "Available TLDs";
 	if (@$tldInfo) {
 		$title = "Buy .".decodePuny($tldInfo["tld"])." domains";
+		$otherTitle = "Other TLDs";
 	}
 ?>
 <div class="section" data-section="search">
@@ -21,12 +23,27 @@
 		</table>
 	</div>
 </div>
+
 <div class="section" data-section="slds">
 	<div class="titleHolder">
-		<div class="title"></div>
+		<div class="title">Featured Domains</div>
 		<div class="titleAction flex shown">HNS: <label class="cl-switch custom"><input type="checkbox" class="hnsPricing"><span class="switcher"></span></label></div>
 	</div>
 	<div class="box">
 		<div id="domainTable" class="table"></div>
+	</div>
+</div>
+
+<div class="section" data-section="tlds">
+	<div class="title"><?php echo $otherTitle; ?></div>
+	<div class="box">
+		<div class="list">
+			<?php
+				foreach ($stakedDomains as $key => $domain) { ?>
+					<div class="submit auto" data-action="shopTLD" data-tld="<?php echo $domain["tld"]; ?>">.<?php echo $domain["tld"]; ?></div>
+				<?php
+				}
+			?>
+		</div>
 	</div>
 </div>
