@@ -1,11 +1,11 @@
 <?php
 	include "../config.php";
+	include "../sql.php";
 	include "../functions.php";
 
 	$domain = $_SERVER["SERVER_NAME"];
 
-	$txt = trim(trim(shell_exec("dig +short @ns1.".$GLOBALS["icannHostname"]." _redirect.".$domain." TXT")), '"');
-
+	$txt = @sql("SELECT `content` FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `type` = 'TXT' AND `name` = ?", ["_redirect.".$domain])[0]["content"];
 	if ($txt) {
 		$args = explode(";", $txt);
 

@@ -2248,7 +2248,7 @@ $("html").on("focus", ".editable .edit", function(e){
 });
 
 $("html").on("keydown", function(e){
-	if (isKey(e, 13)) {
+	if (isKey(e, 27)) {
 		let topMost = topMostPopover().data("name");
 		if (topMost) {
 			close(topMost);
