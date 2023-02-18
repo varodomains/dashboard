@@ -11,7 +11,7 @@ It is essential to lock down MySQL and have the servers communicate over a VPN/B
 All of the tables are listed in etc/tables.sql
 
 The TODO list for setting up Dashboard is:
-* Setup your web server and PHP (we run PHP 7.4)
+* Setup your web server and PHP (we run PHP 8.2)
 * `cd etc && cp config.sample.php config.php && vim config.php`
 * Add `*/1 * * * * /usr/bin/php /path/to/varo/etc/cron.php >/dev/null 2>&1` to crontab
 
