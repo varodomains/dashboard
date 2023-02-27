@@ -14,3 +14,5 @@ etc/node_modules
 package-lock.json
 
 assets/js/beta.js
+
+favicon.ico
