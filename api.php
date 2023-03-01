@@ -61,7 +61,7 @@
 			/** {"description":"Retrieves NS/DS information for a given zone.","request":"{\"action\":\"showZone\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\",\"staked\":true}","response":"{\"success\":true,\"data\":{\"NS\":[\"ns1.varo.\",\"ns2.varo.\"],\"DS\":\"29441 13 2 fb75653a45667bed5f1a51d71578df4916e45c8f2afbdedf9bdf54393d3b797f\",\"editable\":false}}"} */
 			case "showZone":
 
-			/** {"description":"Retrieve DNS records for a given DNS zone.","request":"{\"action\":\"getRecords\",\"zone\":\"2b28ebd8d93149a9a83fdcae1e33dcef\"}","response":"{\"success\":true,\"data\":[{\"name\":\"certy\",\"type\":\"A\",\"content\":\"135.148.148.182\",\"ttl\":20,\"prio\":0,\"uuid\":\"3fcdce0472734549a165f11d78ae551d\"},{\"name\":\"_443._tcp.certy\",\"type\":\"TLSA\",\"content\":\"3 1 1 D950458F80A759348541B037470D4DED32D9C6D5CB1369B861D507B0BF57B861\",\"ttl\":20,\"prio\":0,\"uuid\":\"038450b5f79e49a89054294532ef34ed\"}]}"} */
+			/** {"description":"Retrieve DNS records for a given DNS zone.","request":"{\"action\":\"getRecords\",\"zone\":\"2b28ebd8d93149a9a83fdcae1e33dcef\",\"name\":\"\",\"type\":\"\"}","response":"{\"success\":true,\"data\":[{\"name\":\"certy\",\"type\":\"A\",\"content\":\"135.148.148.182\",\"ttl\":20,\"prio\":0,\"uuid\":\"3fcdce0472734549a165f11d78ae551d\"},{\"name\":\"_443._tcp.certy\",\"type\":\"TLSA\",\"content\":\"3 1 1 D950458F80A759348541B037470D4DED32D9C6D5CB1369B861D507B0BF57B861\",\"ttl\":20,\"prio\":0,\"uuid\":\"038450b5f79e49a89054294532ef34ed\"}]}"} */
 			case "getRecords":
 
 			/** {"description":"Updates the NS records for a zone.","request":"{\"action\":\"updateNS\",\"zone\":\"7ff1b63b8b484b0bb41040b14ccedbfb\",\"ns\":[\"ns1.example\",\"ns2.example\"]}","response":"{\"success\":true}"} */
