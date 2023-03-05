@@ -276,7 +276,7 @@
 	}
 
 	function decodePuny($string) {
-		return Punycode::decode($string);
+		return idn_to_utf8($string);
 	}
 
 	function nameIsInvalid($name) {
