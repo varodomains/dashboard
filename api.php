@@ -149,6 +149,7 @@
 		case "account":
 		case "appearance":
 		case "updateEmail":
+		case "regenerateKey":
 		case "getStaked":
 		case "getMyStaked":
 		case "getZone":
@@ -583,6 +584,14 @@
 						sql("UPDATE `users` SET `totp` = NULL WHERE `id` = ?", [$user]);
 					}
 				}
+			}
+			break;
+
+		case "regenerateKey":
+			$key = uuid();
+			$update = sql("UPDATE `users` SET `api` = ? WHERE `id` = ?", [$key, $user]);
+			if ($update) {
+				$output["key"] = $key;
 			}
 			break;
 

@@ -1837,7 +1837,7 @@ pre {
 	}
 
 	.main[data-page=settings] td {
-		display: block;
+		display: flex;
 	}
 
 	.main[data-page=settings] input, .main[data-page=settings] select {
