@@ -41,7 +41,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td>API Key</td>
+					<td class="flex">API Key -&nbsp;<div class="link" data-action="regenerateKey">Regenerate Key</div></td>
 					<td>
 						<input type="text" name="api" value="<?php echo $userInfo["api"]; ?>" readonly />
 					</td>

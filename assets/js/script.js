@@ -2097,6 +2097,14 @@ $("html").on("click", function(e){
 				showPopover(action);
 				break;
 
+			case "regenerateKey":
+				regenerateKey().then(r => {
+					if (r.success) {
+						$("input[name=api]").val(r.key);
+					}
+				});
+				break;
+
 			case "tldLink":
 				let link = "/tld/"+row.data("tld");
 				openURL(link, e);
@@ -2401,6 +2409,14 @@ function generate2fa() {
 	let data = {
 		action: "generate2fa"
 	};
+
+	return api(data);
+}
+
+function regenerateKey() {
+	let data = {
+		action: "regenerateKey"
+	}
 
 	return api(data);
 }
