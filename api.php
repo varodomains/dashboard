@@ -1,14 +1,12 @@
 <?php
 	include "etc/includes.php";
 
-	if ($_SERVER["REQUEST_METHOD"] !== "POST") {
-		$output["message"] = "All calls to our API should be POSTs.";
-		$output["success"] = false;
-		goto end;
-	}
-
 	$json = file_get_contents('php://input');
 	$data = json_decode($json, true);
+
+	if (!$data) {
+		$data = $_GET;
+	}
 
 	if (!@$data["action"]) {
 		$output["message"] = "Your request is invalid. There's no POST data, the POST data isn't JSON, or your didn't provide an action.";
