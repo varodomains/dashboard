@@ -626,7 +626,7 @@
 		return false;		
 	}
 
-	function nextUpdate() {
+	function blockInfo() {
 		$height = getBlockHeight();
 		$blocks = 0;
 		while ($height % 36 !== 0) {
@@ -634,7 +634,10 @@
 			$blocks += 1;
 		}
 
-		return $blocks;
+		return [
+			"blockHeight" => $height,
+			"nextUpdate" => $blocks
+		];
 	}
 
 	function sldInfoForDomain($domain) {

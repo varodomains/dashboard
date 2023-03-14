@@ -1695,11 +1695,14 @@
 			break;
 
 		case "getInfo":
-			$blocks = nextUpdate();
+			$blockInfo = blockInfo();
+			$nextUpdate = $blockInfo["nextUpdate"];
+			$blockHeight = $blockInfo["blockHeight"];
 			$price = handshakePrice();
 
 			$output["data"] = [
-				"blocks" => $blocks,
+				"blockHeight" => $blockHeight,
+				"nextUpdate" => $nextUpdate,
 				"price" => $price
 			];
 			break;

@@ -3076,7 +3076,7 @@ function secondsToHuman(seconds, withSeconds=false) {
 function updateInfo() {
 	getInfo().then(function(response){
 		if (response.success) {
-			let blocks = response.data.blocks;
+			let blocks = response.data.nextUpdate;
 			let price = response.data.price;
 
 			if (price) {
