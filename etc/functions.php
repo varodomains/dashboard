@@ -627,7 +627,8 @@
 	}
 
 	function blockInfo() {
-		$height = getBlockHeight();
+		$blockHeight = getBlockHeight();
+		$height = $blockHeight;
 		$blocks = 0;
 		while ($height % 36 !== 0) {
 			$height += 1;
@@ -635,7 +636,7 @@
 		}
 
 		return [
-			"blockHeight" => $height,
+			"blockHeight" => $blockHeight,
 			"nextUpdate" => $blocks
 		];
 	}
