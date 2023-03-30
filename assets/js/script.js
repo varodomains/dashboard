@@ -1357,14 +1357,11 @@ function domainResult(response) {
 	}
 
 	updatePrices();
-	showSearchResultsIfNeeded();
+	showNoSearchResultsIfNeeded();
 }
 
-function showSearchResultsIfNeeded() {
-	if ($(".section[data-section=slds] #domainTable").find(".row").length) {
-		$(".section[data-section=slds]").addClass("shown");
-	}
-	else {
+function showNoSearchResultsIfNeeded() {
+	if (!$(".section[data-section=slds] #domainTable").find(".row").length) {
 		$(".section[data-section=slds] .box").append(`<div class="subtitle center">There are no results.</div>`);
 	}
 }
