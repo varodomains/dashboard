@@ -1292,8 +1292,8 @@ function doSearchDomains(searching=false) {
 	}
 
 	$(".section[data-section=slds] #domainTable .row").remove();
-	$(".section[data-section=slds] .box .subtitle").remove();
-	$(".section[data-section=slds] .box").append(`<div class="subtitle center">Loading...</div>`);
+	$("#domainTable .loading").remove();
+	$(".section[data-section=slds] .box").append(`<div class="loading subtitle center">Loading...</div>`);
 	table.addClass("loading");
 
 	if (searching) {
@@ -1326,7 +1326,7 @@ function randomDomainsResult(t=false) {
 
 function gotDomainResult() {
 	$("#searchDomainsTable").removeClass("loading");
-	$(".section[data-section=slds] .box .subtitle").remove();
+	$("#domainTable .loading").remove();
 }
 
 function regexEscape(string) {
