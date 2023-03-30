@@ -197,8 +197,10 @@ function loadPage(noState) {
 			break;
 
 		case "tld":
-			if ($(".main").data("tld").length) {
-				title += " | ."+tld+" domains";
+			if (tld) {
+				if ($(".main").data("tld").length) {
+					title += " | ."+tld+" domains";
+				}
 			}
 			break;
 
@@ -356,11 +358,11 @@ function afterLoad(page) {
 			else {
 				$("input.hnsPricing").prop("checked", false);
 			}
-			randomDomainsResult();
+			doSearchDomains();
 			break;
 
 		case "tld":
-			randomDomainsResult(tld);
+			doSearchDomains();
 			break;
 
 		case "notify":
@@ -1279,14 +1281,24 @@ function searchDomains(query, tld) {
 	return api(data);
 }
 
-function doSearchDomains() {
+function doSearchDomains(searching=false) {
 	let table = $("#searchDomainsTable");
 	let tld = table.data("tld");
 	let row = table.find("tr");
 	let query = table.find("td.sld .edit").text();
 
+	if (table.hasClass("loading")) {
+		return;
+	}
+
 	$(".section[data-section=slds] #domainTable .row").remove();
-	showSearchResultsIfNeeded();	
+	$(".section[data-section=slds] .box .subtitle").remove();
+	$(".section[data-section=slds] .box").append(`<div class="subtitle center">Loading...</div>`);
+	table.addClass("loading");
+
+	if (searching) {
+		$(".section[data-section=slds] .titleHolder .title").html("Search Results");
+	}
 
 	$.each(row.find("td.error"), function(key, r) {
 		$(r).removeClass("error");
@@ -1312,6 +1324,11 @@ function randomDomainsResult(t=false) {
 	});
 }
 
+function gotDomainResult() {
+	$("#searchDomainsTable").removeClass("loading");
+	$(".section[data-section=slds] .box .subtitle").remove();
+}
+
 function regexEscape(string) {
 	return string.replace(/[.*+\'\`\-\_?^$\{\}\(\)\|\[\\\]\/\#\&\!\+\@\:\~\=]/g, '\\$&');
 }
@@ -1319,6 +1336,8 @@ function regexEscape(string) {
 function domainResult(response) {
 	let table = $("#searchDomainsTable");
 	let row = table.find("tr");
+
+	gotDomainResult();
 
 	if (response.success) {
 		let result = response.data;
@@ -1338,15 +1357,12 @@ function domainResult(response) {
 	}
 
 	updatePrices();
-	showSearchResultsIfNeeded();
+	showNoSearchResultsIfNeeded();
 }
 
-function showSearchResultsIfNeeded() {
-	if ($(".section[data-section=slds] #domainTable").find(".row").length) {
-		$(".section[data-section=slds]").addClass("shown");
-	}
-	else {
-		$(".section[data-section=slds]").removeClass("shown");
+function showNoSearchResultsIfNeeded() {
+	if (!$(".section[data-section=slds] #domainTable").find(".row").length) {
+		$(".section[data-section=slds] .box").append(`<div class="subtitle center">There are no results.</div>`);
 	}
 }
 
@@ -2212,7 +2228,7 @@ $("html").on("click", function(e){
 
 		switch (action) {
 			case "searchDomains":
-				doSearchDomains();
+				doSearchDomains(true);
 				break;
 		}
 	}
@@ -2277,7 +2293,7 @@ $("html").on("keydown", ".edit[contenteditable=true]", function(e){
 
 $("html").on("keyup", "#searchDomainsTable .edit[contenteditable=true]", function(e){
 	if (isKey(e, 13)) {
-		doSearchDomains();
+		doSearchDomains(true);
 	}
 });
 
