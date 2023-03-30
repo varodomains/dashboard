@@ -9,7 +9,7 @@
 	<div class="title">Earnings</div>
 	<div class="box">
 		<div id="earningsTable" class="table">
-			<div class="loading center">Loading...</div>
+			<div class="loading subtitle center">Loading...</div>
 		</div>
 	</div>
 </div>
@@ -17,14 +17,14 @@
 	<div class="title">Staked Names</div>
 	<div class="box">
 		<div id="stakedTable" class="table">
-			<div class="loading center">Loading...</div>
+			<div class="loading subtitle center">Loading...</div>
 		</div>
 	</div>
 </div>
 <div class="section" data-section="salesChart">
 	<div class="title">Last 30 Days</div>
 	<div class="box">
-		<div class="loading center">Loading...</div>
+		<div class="loading subtitle center">Loading...</div>
 		<canvas id="salesChart" width="680" height="400" class="none"></canvas>
 		<script>
 			chart = document.getElementById('salesChart').getContext('2d');
@@ -62,7 +62,7 @@
 					<div>Net</div>
 				</div>
 			</div>
-			<div class="loading center">Loading...</div>
+			<div class="loading subtitle center">Loading...</div>
 		</div>
 		<table>
 			<tfoot>

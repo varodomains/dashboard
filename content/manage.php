@@ -76,7 +76,7 @@
 					<div></div>
 				</div>
 			</div>
-			<div class="loading center">Loading...</div>
+			<div class="loading subtitle center">Loading...</div>
 		</div>
 	</div>
 </div>
@@ -93,7 +93,7 @@
 					<div>Value</div>
 				</div>
 			</div>
-			<div class="loading center">Loading...</div>
+			<div class="loading subtitle center">Loading...</div>
 		</div>
 		<div class="sectionAction">
 			<div class="flex right">
@@ -112,7 +112,7 @@
 					<div>Value</div>
 				</div>
 			</div>
-			<div class="loading center">Loading...</div>
+			<div class="loading subtitle center">Loading...</div>
 		</div>
 		<div class="sectionAction">
 			<div class="flex right">
