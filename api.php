@@ -1725,6 +1725,7 @@
 		$data["user"] = $user;
 		$response = api($data);
 		if ($response) {
+
 			$output["data"] = $response;
 		}
 	}
