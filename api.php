@@ -28,7 +28,7 @@
 			case "email":
 			case "domain":
 			case "query":
-				$data[$key] = strtolower($value);
+				$data[$key] = trim(strtolower($value));
 				break;
 		}
 	}
