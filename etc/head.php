@@ -40,4 +40,7 @@
 		<script type="text/javascript" src="/assets/js/admin?r=<?php echo $revision; ?>"></script>
 	<?php
 	}
+	if (file_exists($GLOBALS["path"]."/etc/tags.php")) {
+		include $GLOBALS["path"]."/etc/tags.php";
+	}
 ?>

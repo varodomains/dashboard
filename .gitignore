@@ -6,6 +6,7 @@ etc/.scanning
 
 etc/config.php
 etc/test.php
+etc/tags.php
 .twurlrc
 
 composer.lock
