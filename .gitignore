@@ -17,3 +17,5 @@ package-lock.json
 assets/js/beta.js
 
 favicon.ico
+
+.well-known/wallets/*
