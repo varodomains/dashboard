@@ -128,6 +128,9 @@
 			/** {"description":"Change the price of a staked domain.","request":"{\"action\":\"changePrice\",\"zone\":\"4826bd33beda481194ab89d2b5cea7f0\",\"price\":1.99}","response":"{\"success\":true}"} */
 			case "changePrice":
 				break;
+
+			case "editRecord":
+				break;
 			
 			default:
 				$output["message"] = "This function is only able to be used through the dashboard.";
