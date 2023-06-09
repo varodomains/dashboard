@@ -284,11 +284,7 @@
 		if (!$match) {
 			return true;
 		}
-
-		if (substr($name, 0, 4) == "xn--" && !validPuny($name)) {
-			return true;
-		}
-
+		
 		return false;
 	}
 
