@@ -19,7 +19,7 @@
 	}
 
 	if (!@$userInfo["theme"]) {
-		$userInfo["theme"] = "dark";
+		$userInfo["theme"] = $GLOBALS["defaultTheme"];
 	}
 
 	$revision = trim(file_get_contents($GLOBALS["path"]."/.git/refs/heads/".$GLOBALS["branch"]));
