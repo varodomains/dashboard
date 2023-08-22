@@ -31,7 +31,7 @@
 		if (!@$GLOBALS["remoteSQL"]) {
 			initSQL();
 		}
-		
+
 		retry:
 		try {
 			$statement = $GLOBALS["remoteSQL"]->prepare($query);

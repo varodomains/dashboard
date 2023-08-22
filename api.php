@@ -779,6 +779,13 @@
 						$output["fields"][] = "content";
 					}
 					break;
+
+				case "ALIAS":
+				case "CNAME":
+					if (containsInvalidDomainCharacters($data["content"])) {
+						$output["fields"][] = "content";
+					}
+					break;
 			}
 
 			if (!is_numeric($data["prio"])) {
@@ -819,6 +826,13 @@
 							break;
 						case "REDIRECT":
 							if (!hasScheme($data["value"])) {
+								$output["fields"][] = $data["column"];
+							}
+							break;
+
+						case "ALIAS":
+						case "CNAME":
+							if (containsInvalidDomainCharacters($data["value"])) {
 								$output["fields"][] = $data["column"];
 							}
 							break;
@@ -873,6 +887,13 @@
 					break;
 				case "REDIRECT":
 					if (!hasScheme($data["content"])) {
+						$output["fields"][] = "content";
+					}
+					break;
+
+				case "ALIAS":
+				case "CNAME":
+					if (containsInvalidDomainCharacters($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;
