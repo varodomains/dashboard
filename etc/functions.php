@@ -303,7 +303,14 @@
 		if (count($match)) {
 			return true;
 		}
-		
+		return false;
+	}
+
+	function containsInvalidDomainCharacters($string) {
+		$invalidCharacters = preg_match("/[^a-zA-Z0-9\-\_\.]/", $string, $match);
+		if (count($match)) {
+			return true;
+		}
 		return false;
 	}
 
