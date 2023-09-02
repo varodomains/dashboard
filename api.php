@@ -782,7 +782,7 @@
 
 				case "ALIAS":
 				case "CNAME":
-					if (containsInvalidDomainCharacters($data["content"])) {
+					if ($data["content"] !== "@" && containsInvalidDomainCharacters($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;
@@ -832,7 +832,7 @@
 
 						case "ALIAS":
 						case "CNAME":
-							if (containsInvalidDomainCharacters($data["value"])) {
+							if ($data["value"] !== "@" && containsInvalidDomainCharacters($data["value"])) {
 								$output["fields"][] = $data["column"];
 							}
 							break;
@@ -893,7 +893,7 @@
 
 				case "ALIAS":
 				case "CNAME":
-					if (containsInvalidDomainCharacters($data["content"])) {
+					if ($data["content"] !== "@" && containsInvalidDomainCharacters($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;
