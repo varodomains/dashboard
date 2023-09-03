@@ -1094,6 +1094,12 @@
 			$type = @$data["type"];
 			$years = @$data["years"];
 			$price = @$tldInfo["price"];
+
+			if (!$tldInfo["live"]) {
+				$output["message"] = "Domains on this TLD are no longer available.";
+				$output["success"] = false;
+				goto end;
+			}
 			
 			switch ($type) {
 				case "register":
