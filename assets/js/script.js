@@ -940,6 +940,12 @@ function domainRow(data, reserved=false) {
 		}
 		let date = new Date(expiration).toLocaleDateString("en-US");
 
+		let live = true;
+		if (data.live == false) {
+			live = false;
+			autoRenew = " disabled";
+		}
+
 		if (!data.renew) {
 			if (daysUntilExpiration <= 0) {
 				state = "Expired";
@@ -951,7 +957,7 @@ function domainRow(data, reserved=false) {
 		}
 
 		return `
-			<div class="row" data-id="${data.id}">
+			<div class="row" data-id="${data.id}" data-live="${live}">
 				<div class="items">
 					<div class="select">${emojifyIfNeeded(data.name)}</div>
 					<div>${state}: ${date}</div>
@@ -1024,6 +1030,14 @@ function manageDomainRow(data) {
 		}
 		let date = new Date(expiration).toLocaleDateString("en-US");
 
+		let live = true;
+		var disabled = "";
+		if (data.live == false) {
+			live = false;
+			disabled = " disabled";
+			autoRenew = disabled;
+		}
+
 		if (!data.renew) {
 			if (daysUntilExpiration <= 0) {
 				state = "Expired";
@@ -1034,11 +1048,11 @@ function manageDomainRow(data) {
 			}
 		}
 		return `
-			<div class="row" data-id="${data.id}">
+			<div class="row" data-id="${data.id}" data-live="${live}">
 				<div class="items">
 					<div class="secondary">${state}: ${date}</div>
 					<div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"${autoRenew}><span class="switcher"></span></label></div>
-					<div class="link" data-action="renewDomain">Renew</div>
+					<div class="link${disabled}" data-action="renewDomain">Renew</div>
 					<div class="link" data-action="transferDomain">Transfer</div>
 				</div>
 			</div>
@@ -2037,6 +2051,10 @@ $("html").on("click", function(e){
 		}
 	}
 	else if (target.is(".link")) {
+		if (target.hasClass("disabled")) {
+			return;
+		}
+
 		switch (action) {
 			case "manageDomain":
 				changeZone(row.data("id"));

@@ -1402,6 +1402,15 @@ input[name=domain][readonly] {
 .custom input[type="checkbox"]:checked + .switcher:before {
 	background-color: var(--themeColor) !important;
 }
+div .cl-switch [disabled]:not([disabled="false"]) + .switcher {
+	background-color: var(--quarteraryBackground) !important;
+}
+div .cl-switch [disabled]:not([disabled="false"]) + .switcher:before {
+	background-color: var(--tertiaryBackground) !important;
+}
+.row[data-live=false] .cl-switch .switcher {
+	cursor: not-allowed !important;
+}
 
 .notificationTable .items, #nsTable .items, #dsTable .items, #nsTable .items, #dsTable .items, .dnsTable .items {
 	justify-content: initial;
