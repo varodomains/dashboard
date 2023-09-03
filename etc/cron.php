@@ -136,6 +136,10 @@
 			$sld = sldForDomain($domain);
 			$tld = tldForDomain($domain);
 			$tldInfo = getStakedTLD($tld, true);
+			if (!$tldInfo["live"]) {
+				continue;
+			}
+
 			$type = "renew";
 			$years = 1;
 			$price = @$tldInfo["price"];
