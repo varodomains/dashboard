@@ -1760,7 +1760,12 @@
 				foreach ($output["data"] as $key => $data) {
 					$tld = tldForDomain($data["name"]);
 					$stakedInfo = getStakedTLD($tld, true);
-					$output["data"][$key]["price"] = centsToDollars($stakedInfo["price"]);
+					if ($stakedInfo) {
+						$output["data"][$key]["price"] = centsToDollars($stakedInfo["price"]);
+					}
+					else {
+						$output["data"][$key]["live"] = false;
+					}
 				}
 			}
 			break;
