@@ -400,10 +400,10 @@
 
 	function getMyStaked($user, $withPrice=false) {
 		if ($withPrice) {
-			$getStaked = @sql("SELECT `tld`,`price`,`live`,`uuid` AS `id` FROM `staked` WHERE `owner` = ? ORDER BY `tld` ASC", [$user]);
+			$getStaked = @sql("SELECT `tld`,`price`,`live`,`uuid` AS `id`, (SELECT COUNT(*) FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `name` LIKE CONCAT('%.', `staked`.`tld`)) AS slds FROM `staked` WHERE `owner` = ? ORDER BY `tld` ASC", [$user]);
 		}
 		else {
-			$getStaked = @sql("SELECT `tld`,`live`,`uuid` AS `id` FROM `staked` WHERE `owner` = ? ORDER BY `tld` ASC", [$user]);
+			$getStaked = @sql("SELECT `tld`,`live`,`uuid` AS `id`, (SELECT COUNT(*) FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `name` LIKE CONCAT('%.', `staked`.`tld`)) AS slds FROM `staked` WHERE `owner` = ? ORDER BY `tld` ASC", [$user]);
 		}
 
 		if ($getStaked) {
