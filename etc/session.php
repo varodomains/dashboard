@@ -5,7 +5,11 @@
 	session_name("session");
 	session_start();
 
-	$authHeader = @getallheaders()["Authorization"];
+	$allHeaders = getallheaders();
+	$authHeader = @array_values(array_filter($allHeaders, function($key) {
+	    return strtolower($key) === "authorization";
+	}, ARRAY_FILTER_USE_KEY))[0];
+
 	if ($authHeader) {
 		preg_match('/Bearer\s(?<key>.+)/', $authHeader, $authMatch);
 		$userInfo = userInfo(@$authMatch["key"], "api");
