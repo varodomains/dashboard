@@ -150,10 +150,70 @@ html[data-theme=black] {
 	--borderColorAlt: #181818;
 }
 
+/* ShakeStation */
+html[data-theme=shakestation] {
+	--themeColor: #94f9c3;
+	--themeColorAlt: #94f9c3aa;
+
+	--primaryBackground: linear-gradient(180deg, #2d2d2d 0%, #2d2d2d 70px, #000 100%);
+	--secondaryBackground: #2D2D2D;
+	--tertiaryBackground: transparent;
+	--quarteraryBackground: transparent;
+	--quinaryBackground: #2D2D2D;
+
+	--buttonForeground: #000;
+	--buttonBackground: var(--themeColor);
+
+	--borderColor: #555;
+}
+
+html[data-theme=shakestation] * {
+	border: none;
+}
+
+html[data-theme=shakestation] .header {
+	border-bottom: 1px solid var(--borderColor);
+}
+
+html[data-theme=shakestation] .main .body .box {
+	background: transparent;
+	padding-left: 10px;
+	padding-right: 10px;
+	border: none;
+}
+
+html[data-theme=shakestation] input, html[data-theme=shakestation] select, html[data-theme=shakestation] textarea {
+	background-color: transparent;
+}
+
+html[data-theme=shakestation] .main .menu .item .icon {
+	background-color: var(--primaryForeground);
+}
+html[data-theme=shakestation] .main .menu .item.current .icon {
+	background-color: var(--themeColor);
+}
+
+html[data-theme=shakestation] .cl-switch .switcher, html[data-theme=shakestation] .cl-switch .switcher:before {
+	background-color: var(--secondaryBackground) !important;
+}
+html[data-theme=shakestation] .popover {
+	background-color: #282828;
+}
+
+html[data-theme=shakestation] #createZoneTable tr, html[data-theme=shakestation] #searchDomainsTable tr {
+	background-color: var(--secondaryBackground);
+}
+
+html[data-theme=shakestation] .main[data-page=apidocs] .body .section .title {
+	margin: 0px 10px 10px 10px;
+}
+
+/* Black */
 html[data-theme=black] .main .menu .item:hover {
 	background-color: var(--tertiaryBackground);
 }
 
+/* The Shake */
 html[data-theme=the_shake] .separator {
 	background: transparent;
 	border-top: 1px dotted var(--tertiaryBackground);
@@ -247,7 +307,7 @@ pre {
 
 html {
 	color: var(--primaryForeground);
-	background-color: var(--primaryBackground);
+	background: var(--primaryBackground);
 }
 html, body {
 	height: 100%;
