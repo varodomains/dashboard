@@ -779,6 +779,11 @@
 						$output["fields"][] = "content";
 					}
 					break;
+				case "WALLET":
+					if (addressIsInvalid($data["content"])) {
+						$output["fields"][] = "content";
+					}
+					break;
 
 				case "ALIAS":
 				case "CNAME":
@@ -826,6 +831,11 @@
 							break;
 						case "REDIRECT":
 							if (!hasScheme($data["value"])) {
+								$output["fields"][] = $data["column"];
+							}
+							break;
+						case "WALLET":
+							if (addressIsInvalid($data["value"])) {
 								$output["fields"][] = $data["column"];
 							}
 							break;
@@ -887,6 +897,11 @@
 					break;
 				case "REDIRECT":
 					if (!hasScheme($data["content"])) {
+						$output["fields"][] = "content";
+					}
+					break;
+				case "WALLET":
+					if (addressIsInvalid($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;
