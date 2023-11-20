@@ -31,9 +31,10 @@
 		}
 	}
 
-	if (!@$redirect) {
-		$redirect = "https://".$GLOBALS["icannHostname"];
+	if (@$redirect) {
+		header("location: ".$redirect);
 	}
-
-	header("location: ".$redirect);
+	else {
+		echo $domain;
+	}
 ?>
