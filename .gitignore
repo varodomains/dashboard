@@ -19,3 +19,6 @@ assets/js/beta.js
 favicon.ico
 
 .well-known/wallets/*
+
+etc/parking/ssl/*
+etc/parking/conf/*
