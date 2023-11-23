@@ -1069,4 +1069,8 @@
 		$tlsa = trim(shell_exec('echo -n "3 1 1 " && openssl x509 -in '.$cert.' -pubkey -noout | openssl pkey -pubin -outform der | openssl dgst -sha256 -binary | xxd  -p -u -c 32'));
 		return $tlsa;
 	}
+
+	function luaAlias($subdomain) {
+		return 'A ";local r=resolve(\''.$subdomain.'.'.$GLOBALS["icannHostname"].'\', pdns.A) local t={} for _,v in ipairs(r) do table.insert(t, v:toString()) end return t"';
+	}
 ?>

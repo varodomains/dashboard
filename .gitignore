@@ -20,5 +20,5 @@ favicon.ico
 
 .well-known/wallets/*
 
-etc/wallets/ssl/*
-etc/wallets/conf/*
+etc/parking/ssl/*
+etc/parking/conf/*
