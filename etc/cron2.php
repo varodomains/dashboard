@@ -53,7 +53,15 @@
 	$getRedirects = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` WHERE `type` = 'ALIAS' AND `system` = 1 AND `content` LIKE '%redirect.%'");
 	if ($getRedirects) {
 		foreach ($getRedirects as $key => $data) {
-			sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`records` SET `type` = 'LUA', `content` = ? WHERE `uuid` = ?", [luaAlias("redirect"), $data["uuid"]]);
+			sql("UPDATE `".$GLOBALS["sqlDatabaseDNS"]."`.`records` SET `type` = 'LUA', `content` = ? WHERE `uuid` = ?", [luaAlias("parking"), $data["uuid"]]);
+		}
+	}
+
+	// ADD MISSING LUA
+	$getWalletsOrRedirects = sql("SELECT a.* FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` a WHERE (a.`type` = 'WALLET' OR a.`type` = 'REDIRECT') AND NOT EXISTS (SELECT 1 FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`records` b WHERE b.`type` = 'LUA' AND b.`system` = 1 AND b.`name` = a.`name`)");
+	if ($getWalletsOrRedirects) {
+		foreach ($getWalletsOrRedirects as $key => $data) {
+			sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name, type, content, ttl, prio, uuid, system) VALUES (?,?,?,?,?,?,?,?)", [$data["domain_id"], $data["name"], "LUA", luaAlias("parking"), 20, 0, uuid(), 1]);
 		}
 	}
 
