@@ -69,4 +69,6 @@
 			$addRecord = sql("INSERT INTO `".$GLOBALS["sqlDatabaseDNS"]."`.`records` (domain_id, name) values (?,?)", [$data["domain_id"], "_tcp.".$data["name"]]);
 		}
 	}
+
+	shell_exec("service apache2 reload");
 ?>
