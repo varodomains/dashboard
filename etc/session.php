@@ -23,7 +23,7 @@
 	}
 
 	if (!@$userInfo["theme"]) {
-		$userInfo["theme"] = $GLOBALS["defaultTheme"];
+		$userInfo["theme"] = @$GLOBALS["defaultTheme"];
 	}
 
 	$revision = trim(file_get_contents($GLOBALS["path"]."/.git/refs/heads/".$GLOBALS["branch"]));
@@ -63,6 +63,9 @@
 		$page = "epp";
 	}
 	if (@$self === "cron.php" || @$self === $GLOBALS["path"]."/etc/cron.php") {
+		$page = "cron";
+	}
+	if (@$self === "cron2.php" || @$self === $GLOBALS["path"]."/etc/cron2.php") {
 		$page = "cron";
 	}
 

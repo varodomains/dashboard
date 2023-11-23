@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    ServerAlias %domain%
+    Include /etc/apache2/redirect.conf
+</VirtualHost>
+
+<VirtualHost *:443>
+    ServerAlias %domain%
+    DocumentRoot /var/www/html/varo/etc/parking/data/
+    Include /etc/letsencrypt/options-ssl-apache.conf
+    SSLCertificateFile /var/www/html/varo/etc/parking/ssl/%tld%.crt
+    SSLCertificateKeyFile /var/www/html/varo/etc/parking/ssl/%tld%.key
+</VirtualHost>
