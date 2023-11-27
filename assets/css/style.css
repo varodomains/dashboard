@@ -1742,10 +1742,13 @@ pre {
 	content: "3 1 1 abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234abcd1234";
 }
 .section[data-section=record] .dnsTable .row[data-type=TXT] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=TXT] tr.content input:not(:valid) + .placeholder:before {
-	content: "hnschat=abcd1234abcd1234abcd1234abcd1234";
+	content: "varo=abcd1234abcd1234abcd1234abcd1234";
 }
 .section[data-section=record] .dnsTable .row[data-type=REDIRECT] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=REDIRECT] tr.content input:not(:valid) + .placeholder:before {
 	content: "https://example.com";
+}
+.section[data-section=record] .dnsTable .row[data-type=WALLET] .content.item .edit:empty:before, .popover[data-name=newRecord] #editTable[data-type=WALLET] tr.content input:not(:valid) + .placeholder:before {
+	content: "hs1q5gutz3haq7ec6a8lvte485jhhjg4samvkpl6y0";
 }
 
 .section[data-section=ns] #nsTable .row:nth-of-type(2) .items .value.item .edit:empty:before {
