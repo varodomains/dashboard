@@ -129,13 +129,17 @@
 	}
 
 	function verifyTwoFactor($base32, $code) {
-		$secret = Base32::decode($base32);
-		$key = (new Totp())->GenerateToken($secret);
+	    $secret = Base32::decode($base32);
+	    $totp = new Totp();
 
-		if ($key == $code) {
-			return true;
-		}
-		return false;
+	    $currentKey = $totp->GenerateToken($secret);
+	    $previousKey = $totp->GenerateToken($secret, time() - 30);
+	    $nextKey = $totp->GenerateToken($secret, time() + 30);
+
+	    if ($code == $currentKey || $code == $previousKey || $code == $nextKey) {
+	        return true;
+	    }
+	    return false;
 	}
 
 	function userInfoByEmail($email) {
