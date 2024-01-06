@@ -186,6 +186,7 @@
 		case "stakeTLD":
 		case "unstakeTLD":
 		case "changePrice":
+		case "getWalletAddress":
 			$queryMutual = false;
 			break;
 
@@ -1735,6 +1736,27 @@
 				"nextUpdate" => $nextUpdate,
 				"price" => $price
 			];
+			break;
+
+		case "getWalletAddress":
+			if (!$data["domain"]) {
+				$output["message"] = "Missing domain.";
+				$output["success"] = false;
+				goto end;
+			}
+			if (!$data["currency"]) {
+				$output["message"] = "Missing currency.";
+				$output["success"] = false;
+				goto end;
+			}
+			$address = fetchAddressAlt($data["domain"], $data["currency"]);
+			if (!$address) {
+				$output["message"] = "Address not found or invalid.";
+				$output["success"] = false;
+				goto end;
+			}
+
+			$output["address"] = $address;
 			break;
 	}
 

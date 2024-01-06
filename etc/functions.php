@@ -1077,4 +1077,57 @@
 	function luaAlias($subdomain) {
 		return 'A ";local r=resolve(\''.$subdomain.'.'.$GLOBALS["icannHostname"].'\', pdns.A) local t={} for _,v in ipairs(r) do table.insert(t, v:toString()) end return t"';
 	}
+
+	function getContents($url) {
+		$curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_PROXY, "127.0.0.1:8080");
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, TRUE);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5); 
+        curl_setopt($curl, CURLOPT_TIMEOUT, 5);
+
+        curl_setopt($curl, CURLOPT_VERBOSE, true);
+		$fp = fopen('/var/www/html/hshub/errorlog.txt', 'w');
+        curl_setopt($curl, CURLOPT_STDERR, $fp);
+
+        $c = curl_exec($curl);
+        curl_close($curl);
+        return $c;
+	}
+
+	function fetchAddress($domain, $currency) {
+		$domain = strtolower($domain);
+		$currency = strtoupper($currency);
+		$url = "https://".$domain."/.well-known/wallets/".$currency;
+		$response = trim(getContents($url));
+		if (validateAddress($response)) {
+			return $response;
+		}
+		return false;
+	}
+
+	function fetchAddressAlt($domain, $currency) {
+		$domain = strtolower($domain);
+		$currency = strtoupper($currency);
+		$url = "https://".$domain."/.well-known/wallets/".$currency;
+		$address = trim(shell_exec("curl -k --doh-url https://hnsns.net/dns-query ".$url));
+		if (validateAddress($address)) {
+			return $address;
+		}
+		return false;
+	}
+
+	function validateAddress($address) {
+		$data = [
+			"method" => "validateaddress",
+			"params" => [$address],
+		];
+		$response = queryHSD($data);
+		
+		if (@$response["isvalid"] && @$response["isspendable"]) {
+			return true;
+		}
+        return false;
+	}
 ?>

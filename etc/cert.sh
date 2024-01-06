@@ -28,6 +28,7 @@ fi
 
 # Creating wildcard certificate
 wildcard_domain="*.$domain"
+wildcard_subdomain="*.*.$domain"
 
 openssl req -x509 -newkey rsa:2048 -sha256 -days 36500 -nodes \
   -keyout "$key_path" -out "$cert_path" -extensions ext  -config \
@@ -37,5 +38,5 @@ openssl req -x509 -newkey rsa:2048 -sha256 -days 36500 -nodes \
     echo "keyUsage=critical,digitalSignature,keyEncipherment";
     echo "extendedKeyUsage=serverAuth";
     echo "basicConstraints=critical,CA:FALSE";
-    echo "subjectAltName=DNS:$wildcard_domain,DNS:$domain";
+    echo "subjectAltName=DNS:$wildcard_subdomain,DNS:$wildcard_domain,DNS:$domain";
     ) -subj "/CN=varo"
