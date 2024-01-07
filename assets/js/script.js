@@ -112,7 +112,7 @@ function updatePricesFor(el) {
 			$(e).removeClass("HNS");
 		}
 
-		$(e).text(newPrice.toLocaleString("en-US"));
+		$(e).text(newPrice.toLocaleString());
 	});
 }
 
@@ -938,7 +938,7 @@ function domainRow(data, reserved=false) {
 		if (data.renew) {
 			autoRenew = " checked";
 		}
-		let date = new Date(expiration).toLocaleDateString("en-US");
+		let date = new Date(expiration).toLocaleDateString();
 
 		let live = true;
 		if (data.live == false) {
@@ -1028,7 +1028,7 @@ function manageDomainRow(data) {
 		if (data.renew) {
 			autoRenew = " checked";
 		}
-		let date = new Date(expiration).toLocaleDateString("en-US");
+		let date = new Date(expiration).toLocaleDateString();
 
 		let live = true;
 		var disabled = "";
@@ -1201,7 +1201,7 @@ function paymentMethodRow(data) {
 function salesRow(data) {
 	let name = data.name+"."+data.tld;
 	let type = data.type.toUpperCase();
-	let date = new Date(data.time * 1000).toLocaleDateString("en-US");
+	let date = new Date(data.time * 1000).toLocaleDateString();
 	let price = prettyMoney(data.price / 100);
 	let total = prettyMoney(data.total / 100);
 	let fee = prettyMoney(data.fee / 100);
