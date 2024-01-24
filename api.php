@@ -1141,7 +1141,7 @@
 					break;
 
 				case "renew":
-					if (!$domainAvailable && $user !== $sldInfo["account"]) {
+					if (!$domainAvailable && (Int)$user !== (Int)$sldInfo["account"]) {
 						$output["message"] = "This domain is no longer available.";
 						$output["success"] = false;
 						goto end;
