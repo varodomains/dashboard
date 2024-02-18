@@ -709,6 +709,7 @@
 
 		case "createZone":
 			$data["domain"] = rtrim($data["domain"], "/");
+			$data["domain"] = trim($data["domain"], ".");
 			$data["domain"] = encodePuny($data["domain"]);
 
 			if (strlen($data["domain"]) < 1) {
