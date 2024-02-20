@@ -288,7 +288,7 @@
 						$info = domainForZone($data["zone"]);
 						$domain = $info["name"];
 						$tld = tldForDomain($domain);
-						$staked = getStakedTLD($tld);
+						$staked = getStakedTLD($tld, false, false);
 
 						if ((Int)$user !== (Int)$staked["owner"]) {
 							$output["message"] = "You don't have access to this zone.";
