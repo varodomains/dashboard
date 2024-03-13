@@ -54,6 +54,6 @@
 
 	$GLOBALS["ipWhitelist"] = ["192.168.1.0/24"];
 
-	$GLOBALS["themes"] = ["black", "dark", "light", "the_shake"];
+	$GLOBALS["themes"] = ["black", "dark", "light", "the_shake", "shakestation" => "ShakeStation"];
 	$GLOBALS["defaultTheme"] = "dark";
 ?>

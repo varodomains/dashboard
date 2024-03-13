@@ -601,7 +601,7 @@
 
 		case "appearance":
 			$formatted = strtolower(str_replace(" ", "_", $data["theme"]));
-			if (in_array($formatted, array_keys($GLOBALS["themes"]))) {
+			if (in_array($formatted, array_keys($GLOBALS["themes"])) || in_array($formatted, array_values($GLOBALS["themes"]))) {
 				sql("UPDATE `users` SET `theme` = ? WHERE `id` = ?", [$formatted, $user]);
 				$output["data"]["theme"] = $formatted;
 			}
