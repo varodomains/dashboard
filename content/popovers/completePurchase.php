@@ -2,7 +2,12 @@
 	<div class="head">
 		<div class="titleHolder">
 			<div class="title">Purchase</div>
-			<div class="titleAction flex shown">HNS: <label class="cl-switch custom"><input type="checkbox" class="hnsPricing"><span class="switcher"></span></label></div>
+			<?php
+				if ($GLOBALS["stripeEnabeld"]) { ?>
+					<div class="titleAction flex shown">HNS: <label class="cl-switch custom"><input type="checkbox" class="hnsPricing"><span class="switcher"></span></label></div>
+				<?php
+				}
+			?>
 		</div>
 		<div class="icon action cancel" data-action="close"></div>
 	</div>

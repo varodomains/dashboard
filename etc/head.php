@@ -30,9 +30,20 @@
 <script type="text/javascript" src="/assets/js/chart.min.js?r=<?php echo $revision; ?>"></script>
 <script type="text/javascript" src="/assets/js/punycode.js?r=<?php echo $revision; ?>"></script>
 <script type="text/javascript" src="/assets/js/qr.js?r=<?php echo $revision; ?>"></script>
-<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+<?php
+	if ($GLOBALS["stripeEnabeld"]) { ?>
+		<script type="text/javascript" src="https://js.stripe.com/v2/"></script>
+	<?php
+	}
+?>
 <script type="text/javascript">
-	Stripe.setPublishableKey("<?php echo $GLOBALS["stripePublicKey"]; ?>");
+	var priceOptions = ["HNS"];
+	var stripeKey = "<?php echo $GLOBALS["stripePublicKey"]; ?>";
+	var stripeEnabled = stripeKey && stripeKey.length;
+	if (stripeEnabled) {
+		priceOptions.unshift('<?php echo strtoupper($GLOBALS["currency"]); ?>');
+		Stripe.setPublishableKey(stripeKey);
+	}
 	var discordLink = "<?php echo $GLOBALS["discordLink"]; ?>";
 </script>
 <?php

@@ -27,7 +27,12 @@
 <div class="section shown" data-section="slds">
 	<div class="titleHolder">
 		<div class="title">Featured Domains</div>
-		<div class="titleAction flex shown">HNS: <label class="cl-switch custom"><input type="checkbox" class="hnsPricing"><span class="switcher"></span></label></div>
+		<?php
+			if ($GLOBALS["stripeEnabeld"]) { ?>
+				<div class="titleAction flex shown">HNS: <label class="cl-switch custom"><input type="checkbox" class="hnsPricing"><span class="switcher"></span></label></div>
+			<?php
+			}
+		?>
 	</div>
 	<div class="box">
 		<div id="domainTable" class="table"></div>
