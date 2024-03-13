@@ -55,7 +55,7 @@
 					include "content/domains.php";
 				?>
 			</div>
-			<div class="footer">&copy; <?php echo date("Y"); ?>&nbsp;<a href="https://eskimosoftware" target="_blank">Eskimo Software</a></div>
+			<div class="footer">&copy; <?php echo date("Y"); ?>&nbsp;<a href="https://eskimo.software" target="_blank">Eskimo Software</a></div>
 		</div>
 	</div>
 </body>
