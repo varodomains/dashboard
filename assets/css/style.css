@@ -9,6 +9,9 @@
 	--quarteraryBackground: #323232;
 	--quinaryBackground: #222;
 
+	--switchBackground: #323232;
+	--switchForeground: #474748;
+
 	--errorForeground: #fff;
 	--errorBackground: #5d3737;
 
@@ -77,6 +80,9 @@ html[data-theme=light] {
 	--quarteraryBackground: #ddd;
 	--quinaryBackground: #e9e9e9;
 
+	--switchBackground: #ddd;
+	--switchForeground: #ccc;
+
 	--errorForeground: #fff;
 	--errorBackground: #e08686;
 
@@ -104,6 +110,9 @@ html[data-theme=the_shake] {
 	--tertiaryBackground: #8F9099;
 	--quarteraryBackground: #2B2F3F;
 	--quinaryBackground: #1D2132;
+
+	--switchBackground: #2B2F3F;
+	--switchForeground: #8F9099;
 
 	--errorForeground: #fff;
 	--errorBackground: #c23f3f;
@@ -133,6 +142,9 @@ html[data-theme=black] {
 	--tertiaryBackground: #3f3f3f;
 	--quarteraryBackground: #222;
 	--quinaryBackground: #070707;
+
+	--switchBackground: #222;
+	--switchForeground: #3f3f3f;
 
 	--errorForeground: #fff;
 	--errorBackground: #db4437;
@@ -193,9 +205,6 @@ html[data-theme=shakestation] .main .menu .item.current .icon {
 	background-color: var(--themeColor);
 }
 
-html[data-theme=shakestation] .cl-switch .switcher, html[data-theme=shakestation] .cl-switch .switcher:before {
-	background-color: var(--secondaryBackground) !important;
-}
 html[data-theme=shakestation] .popover {
 	background-color: #282828;
 }
@@ -1451,10 +1460,10 @@ input[name=domain][readonly] {
 	display: flex;
 }
 .cl-switch .switcher {
-	background-color: var(--quarteraryBackground) !important;
+	background-color: var(--switchBackground) !important;
 }
 .cl-switch .switcher:before {
-	background-color: var(--tertiaryBackground) !important;
+	background-color: var(--switchForeground) !important;
 }
 .custom input[type="checkbox"]:checked + .switcher {
 	background-color: var(--themeColorAlt) !important;
@@ -1463,10 +1472,10 @@ input[name=domain][readonly] {
 	background-color: var(--themeColor) !important;
 }
 div .cl-switch [disabled]:not([disabled="false"]) + .switcher {
-	background-color: var(--quarteraryBackground) !important;
+	background-color: var(--switchBackground) !important;
 }
 div .cl-switch [disabled]:not([disabled="false"]) + .switcher:before {
-	background-color: var(--tertiaryBackground) !important;
+	background-color: var(--switchForeground) !important;
 }
 .row[data-live=false] .cl-switch .switcher {
 	cursor: not-allowed !important;
