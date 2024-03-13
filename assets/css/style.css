@@ -304,6 +304,10 @@ html[data-theme=the_shake] .header select {
 	color: var(--secondaryForeground);
 }
 
+body:not(.stripe) .autoRenew {
+	display: none !important;
+}
+
 .select, pre, code {
 	-webkit-user-select: text;
 	-moz-user-select: text;

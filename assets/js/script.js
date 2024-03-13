@@ -961,7 +961,7 @@ function domainRow(data, reserved=false) {
 				<div class="items">
 					<div class="select">${emojifyIfNeeded(data.name)}</div>
 					<div>${state}: ${date}</div>
-					<div class="flex">Auto Renew: 
+					<div class="flex autoRenew">Auto Renew: 
 						<label class="cl-switch custom">
 							<input type="checkbox" class="autoRenew"${autoRenew}>
 							<span class="switcher"></span>
@@ -1051,7 +1051,7 @@ function manageDomainRow(data) {
 			<div class="row" data-id="${data.id}" data-live="${live}">
 				<div class="items">
 					<div class="secondary">${state}: ${date}</div>
-					<div class="flex">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"${autoRenew}><span class="switcher"></span></label></div>
+					<div class="flex autoRenew">Auto Renew: <label class="cl-switch custom"><input type="checkbox" class="autoRenew"${autoRenew}><span class="switcher"></span></label></div>
 					<div class="link${disabled}" data-action="renewDomain">Renew</div>
 					<div class="link" data-action="transferDomain">Transfer</div>
 				</div>
@@ -3277,5 +3277,9 @@ $(function(){
 				loadPage(1);
 			});
 			break;
+	}
+
+	if (stripeEnabled) {
+		$("body").addClass("stripe");
 	}
 });
