@@ -17,8 +17,6 @@ var css = getComputedStyle($("html")[0]);
 var errorMessage = "Something went wrong. Try again?";
 
 var hnsPrice;
-var priceOptions = ["USD", "HNS"];
-
 
 function log(string) {
 	return console.log(string);
@@ -468,16 +466,18 @@ function afterLoad(page) {
 			$("input[data-stripe=exp]").mask("00/00");
 			$("input[data-stripe=cvc]").mask("000");
 
-			getPaymentMethods().then(function(response){
-				if (response.success) {
-					$.each(response.data, function(key, value){
-						$(".section[data-section=billing] #paymentMethodsTable").append(paymentMethodRow(value));
-					});
-				}
+			if (stripeEnabled) {
+				getPaymentMethods().then(function(response){
+					if (response.success) {
+						$.each(response.data, function(key, value){
+							$(".section[data-section=billing] #paymentMethodsTable").append(paymentMethodRow(value));
+						});
+					}
 
-				$(".section[data-section=billing]").addClass("shown");
-				updatePaymentMethods();
-			});
+					$(".section[data-section=billing]").addClass("shown");
+					updatePaymentMethods();
+				});
+			}
 			break;
 
 		case "admin":
@@ -3107,27 +3107,31 @@ function secondsToHuman(seconds, withSeconds=false) {
 	return time;
 }
 
-function updateInfo() {
-	getInfo().then(function(response){
-		if (response.success) {
-			let blocks = response.data.nextUpdate;
-			let price = response.data.price;
+async function updateInfo() {
+	let done = new Promise(resolve => {
+		getInfo().then(function(response){
+			if (response.success) {
+				let blocks = response.data.nextUpdate;
+				let price = response.data.price;
 
-			if (price) {
-				hnsPrice = price;
-			}
+				if (price) {
+					hnsPrice = price;
+				}
 
-			if (!blocks) {
-				$("#nextUpdate span").html("6h");
+				if (!blocks) {
+					$("#nextUpdate span").html("6h");
+				}
+				else {
+					let seconds = (blocks * 10) * 60;
+					let time = secondsToHuman(seconds);
+					let string = Object.values(time).join(" ");
+					$("#nextUpdate span").html(string);
+				}
 			}
-			else {
-				let seconds = (blocks * 10) * 60;
-				let time = secondsToHuman(seconds);
-				let string = Object.values(time).join(" ");
-				$("#nextUpdate span").html(string);
-			}
-		}
+			resolve();
+		});
 	});
+	return await done;
 }
 
 function showTooltip(e, id, message) {
@@ -3221,9 +3225,14 @@ $("html").on("click", ".hamburger", function(e){
 	}
 });
 
-function setupUpdateInfo() {
-	updateInfo();
-	setInterval(updateInfo, 300000);
+async function setupUpdateInfo() {
+	let done = new Promise(resolve => {
+		updateInfo().then(() => {
+			setInterval(updateInfo, 300000);
+			resolve();
+		});
+	});
+	return await done;
 }
 
 function scrollToSectionIfNeeded() {
@@ -3250,20 +3259,23 @@ $(function(){
 			break;
 
 		case "tld":
-			loadPage(1);
-			setupUpdateInfo();
+			setupUpdateInfo().then(() => {
+				loadPage(1);
+			});
 			break;
 
 		case "sites":
 		case "manage":
 		case "staking":
-			loadZones();
-			setupUpdateInfo();
+			setupUpdateInfo().then(() => {
+				loadZones();
+			});
 			break;
 
 		default:
-			loadPage(1);
-			setupUpdateInfo();
+			setupUpdateInfo().then(() => {
+				loadPage(1);
+			});
 			break;
 	}
 });

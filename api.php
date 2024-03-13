@@ -397,10 +397,12 @@
 					if ($insert) {
 						$getUser = sql("SELECT `id` FROM `users` WHERE `email` = ?", [$data["email"]])[0];
 
-						$customer = $GLOBALS["stripe"]->customers->create([
-							'email' => $data["email"],
-						]);
-						sql("UPDATE `users` SET `stripe` = ? WHERE `id` = ?", [$customer["id"], $getUser["id"]]);
+						if (@$GLOBALS["stripeEnabled"]) {
+							$customer = $GLOBALS["stripe"]->customers->create([
+								'email' => $data["email"],
+							]);
+							sql("UPDATE `users` SET `stripe` = ? WHERE `id` = ?", [$customer["id"], $getUser["id"]]);
+						}
 						
 						$_SESSION["id"] = $getUser["id"];
 					}
@@ -599,7 +601,7 @@
 
 		case "appearance":
 			$formatted = strtolower(str_replace(" ", "_", $data["theme"]));
-			if (in_array($formatted, $GLOBALS["themes"])) {
+			if (in_array($formatted, array_keys($GLOBALS["themes"]))) {
 				sql("UPDATE `users` SET `theme` = ? WHERE `id` = ?", [$formatted, $user]);
 				$output["data"]["theme"] = $formatted;
 			}
@@ -781,6 +783,11 @@
 						$output["fields"][] = "content";
 					}
 					break;
+				case "WALLET":
+					if (addressIsInvalid($data["content"])) {
+						$output["fields"][] = "content";
+					}
+					break;
 
 				case "ALIAS":
 				case "CNAME":
@@ -828,6 +835,11 @@
 							break;
 						case "REDIRECT":
 							if (!hasScheme($data["value"])) {
+								$output["fields"][] = $data["column"];
+							}
+							break;
+						case "WALLET":
+							if (addressIsInvalid($data["value"])) {
 								$output["fields"][] = $data["column"];
 							}
 							break;
@@ -889,6 +901,11 @@
 					break;
 				case "REDIRECT":
 					if (!hasScheme($data["content"])) {
+						$output["fields"][] = "content";
+					}
+					break;
+				case "WALLET":
+					if (addressIsInvalid($data["content"])) {
 						$output["fields"][] = "content";
 					}
 					break;
@@ -1000,91 +1017,99 @@
 			break;
 
 		case "getPaymentMethods":
-			$customer = $GLOBALS["stripe"]->customers->retrieve(
-				$userInfo["stripe"],
-				[]
-			);
+			if (@$GLOBALS["stripe"]) {
+				$customer = $GLOBALS["stripe"]->customers->retrieve(
+					$userInfo["stripe"],
+					[]
+				);
 
-			$getPaymentMethods = sql("SELECT `id`,`brand`,`last4`,`expiration` FROM `cards` WHERE `user` = ?", [$user]);
-			if (!$getPaymentMethods) {
-				$output["success"] = false;
-			}
-			else {
-				foreach ($getPaymentMethods as $key => $data) {
-					if ($data["id"] === $customer["invoice_settings"]["default_payment_method"]) {
-						$getPaymentMethods[$key]["default"] = true;
-					}
-					else {
-						$getPaymentMethods[$key]["default"] = false;
-					}
+				$getPaymentMethods = sql("SELECT `id`,`brand`,`last4`,`expiration` FROM `cards` WHERE `user` = ?", [$user]);
+				if (!$getPaymentMethods) {
+					$output["success"] = false;
 				}
-				$output["data"] = $getPaymentMethods;
+				else {
+					foreach ($getPaymentMethods as $key => $data) {
+						if ($data["id"] === $customer["invoice_settings"]["default_payment_method"]) {
+							$getPaymentMethods[$key]["default"] = true;
+						}
+						else {
+							$getPaymentMethods[$key]["default"] = false;
+						}
+					}
+					$output["data"] = $getPaymentMethods;
+				}
 			}
 			break;
 
 		case "addPaymentMethod":
-			$addCard = $GLOBALS["stripe"]->customers->createSource(
-			  $userInfo["stripe"],
-			  ['source' => $data["token"]]
-			);
+			if (@$GLOBALS["stripe"]) {
+				$addCard = $GLOBALS["stripe"]->customers->createSource(
+				  $userInfo["stripe"],
+				  ['source' => $data["token"]]
+				);
 
-			if (@$addCard["id"]) {
-				$expiration = $addCard["exp_month"]."/".$addCard["exp_year"];
-				sql("INSERT INTO `cards` (id, user, brand, last4, expiration) VALUES (?,?,?,?,?)", [$addCard["id"], $user, $addCard["brand"], $addCard["last4"], $expiration]);
+				if (@$addCard["id"]) {
+					$expiration = $addCard["exp_month"]."/".$addCard["exp_year"];
+					sql("INSERT INTO `cards` (id, user, brand, last4, expiration) VALUES (?,?,?,?,?)", [$addCard["id"], $user, $addCard["brand"], $addCard["last4"], $expiration]);
 
-				$output["data"] = [
-					"id" => $addCard["id"],
-					"brand" => $addCard["brand"],
-					"last4" => $addCard["last4"],
-					"expiration" => $expiration
-				];
-			}
-			else {
-				$output["success"] = false;
+					$output["data"] = [
+						"id" => $addCard["id"],
+						"brand" => $addCard["brand"],
+						"last4" => $addCard["last4"],
+						"expiration" => $expiration
+					];
+				}
+				else {
+					$output["success"] = false;
+				}
 			}
 			break;
 
 		case "defaultPaymentMethod":
-			$defaultCard = $GLOBALS["stripe"]->customers->update(
-				$userInfo["stripe"],
-				['invoice_settings' => [
-					"default_payment_method" => $data["card"]
-				]]
-			);
+			if (@$GLOBALS["stripe"]) {
+				$defaultCard = $GLOBALS["stripe"]->customers->update(
+					$userInfo["stripe"],
+					['invoice_settings' => [
+						"default_payment_method" => $data["card"]
+					]]
+				);
 
-			if (@$defaultCard["invoice_settings"]["default_payment_method"] !== $data["card"]) {
-				$output["success"] = false;
+				if (@$defaultCard["invoice_settings"]["default_payment_method"] !== $data["card"]) {
+					$output["success"] = false;
+				}
 			}
 			break;
 
 		case "deletePaymentMethod":
-			$customer = $GLOBALS["stripe"]->customers->retrieve(
-				$userInfo["stripe"],
-				[]
-			);
+			if (@$GLOBALS["stripe"]) {
+				$customer = $GLOBALS["stripe"]->customers->retrieve(
+					$userInfo["stripe"],
+					[]
+				);
 
-			$deleteCard = $GLOBALS["stripe"]->customers->deleteSource(
-				$userInfo["stripe"],
-				$data["card"]
-			);
-			
-			if ($deleteCard["deleted"]) {
-				sql("DELETE FROM `cards` WHERE `id` = ?", [$data["card"]]);
+				$deleteCard = $GLOBALS["stripe"]->customers->deleteSource(
+					$userInfo["stripe"],
+					$data["card"]
+				);
+				
+				if ($deleteCard["deleted"]) {
+					sql("DELETE FROM `cards` WHERE `id` = ?", [$data["card"]]);
 
-				if ($data["card"] === $customer["invoice_settings"]["default_payment_method"]) {
-					$getPaymentMethods = @sql("SELECT `id` FROM `cards` WHERE `user` = ?", [$user])[0];
-					if ($getPaymentMethods) {
-						$GLOBALS["stripe"]->customers->update(
-							$userInfo["stripe"],
-							['invoice_settings' => [
-								"default_payment_method" => $getPaymentMethods["id"]
-							]]
-						);
+					if ($data["card"] === $customer["invoice_settings"]["default_payment_method"]) {
+						$getPaymentMethods = @sql("SELECT `id` FROM `cards` WHERE `user` = ?", [$user])[0];
+						if ($getPaymentMethods) {
+							$GLOBALS["stripe"]->customers->update(
+								$userInfo["stripe"],
+								['invoice_settings' => [
+									"default_payment_method" => $getPaymentMethods["id"]
+								]]
+							);
+						}
 					}
 				}
-			}
-			else {
-				$output["success"] = false;
+				else {
+					$output["success"] = false;
+				}
 			}
 			break;
 
@@ -1167,55 +1192,61 @@
 				}
 			}
 			else {
-				$paid = false;
-				if ($price > 0) {
-					$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
-					$paymentMethod = $customer["invoice_settings"]["default_payment_method"];
+				if (@$GLOBALS["stripeEnabled"]) {
+					$paid = false;
+					if ($price > 0) {
+						$customer = $GLOBALS["stripe"]->customers->retrieve($userInfo["stripe"]);
+						$paymentMethod = $customer["invoice_settings"]["default_payment_method"];
 
-					if (!$paymentMethod) {
-						$paymentMethod = $customer["default_source"];
-					}
-					if (!$paymentMethod) {
-						$output["needsPaymentMethod"] = true;
-						$output["success"] = false;
-						goto end;
-					}
+						if (!$paymentMethod) {
+							$paymentMethod = $customer["default_source"];
+						}
+						if (!$paymentMethod) {
+							$output["needsPaymentMethod"] = true;
+							$output["success"] = false;
+							goto end;
+						}
 
-					try {
-						$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
-							'customer' => $userInfo["stripe"],
-							'amount' => $total,
-							'currency' => $GLOBALS["currency"],
-							'description' => $description,
-							'payment_method' => $paymentMethod,
-							'confirm' => true,
-							'receipt_email' => $userInfo["email"]
-						]);
-					}
-					catch (Exception $e) {
-						$error = $e->getError();
-						$output["message"] = $error->message;
-						$output["success"] = false;
-					}
+						try {
+							$theCharge = $GLOBALS["stripe"]->paymentIntents->create([
+								'customer' => $userInfo["stripe"],
+								'amount' => $total,
+								'currency' => $GLOBALS["currency"],
+								'description' => $description,
+								'payment_method' => $paymentMethod,
+								'confirm' => true,
+								'receipt_email' => $userInfo["email"]
+							]);
+						}
+						catch (Exception $e) {
+							$error = $e->getError();
+							$output["message"] = $error->message;
+							$output["success"] = false;
+						}
 
-					if ($output["success"]) {
+						if ($output["success"]) {
+							$paid = true;
+						}
+					}
+					else {
 						$paid = true;
+					}
+
+					if ($paid) {
+						switch ($type) {
+							case "register":
+								registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
+								break;
+
+							case "renew":
+								renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
+								break;
+						}
 					}
 				}
 				else {
-					$paid = true;
-				}
-
-				if ($paid) {
-					switch ($type) {
-						case "register":
-							registerSLD($tldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
-							break;
-
-						case "renew":
-							renewSLD($sldInfo, $domain, $user, $sld, $tld, $type, $expiration, $price, $total, $fee, $GLOBALS["siteName"]);
-							break;
-					}
+					$output["message"] = "This payment method is currently disabled.";
+					$output["success"] = false;
 				}
 			}
 			break;
