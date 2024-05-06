@@ -94,13 +94,20 @@
 	$getExpiring = sql("SELECT * FROM `".$GLOBALS["sqlDatabaseDNS"]."`.`domains` WHERE `account` IS NOT NULL AND `registrar` IS NOT NULL AND `expiration` > ? AND `expiration` < ?", [time(), $thirtyDays]);
 	if ($getExpiring) {
 		foreach ($getExpiring as $key => $data) {
+			$domain = $data["name"];
+			$sld = sldForDomain($domain);
+			$tld = tldForDomain($domain);
+			$tldInfo = getStakedTLD($tld, true);
+
 			$action = "expire";
 			$type = "expiringSoon";
 
-			$getCards = sql("SELECT * FROM `cards` WHERE `user` = ? AND STR_TO_DATE(`expiration`, '%m/%Y') > ?", [$data["account"], date("Y-m-d")]);
-			if ($data["renew"] && $getCards) {
-				$action = "renew";
-				$type ="renewingSoon";
+			if ($tldInfo["live"]) {
+				$getCards = sql("SELECT * FROM `cards` WHERE `user` = ? AND STR_TO_DATE(`expiration`, '%m/%Y') > ?", [$data["account"], date("Y-m-d")]);
+				if ($data["renew"] && $getCards) {
+					$action = "renew";
+					$type ="renewingSoon";
+				}
 			}
 
 			$thirtyDaysAgo = strtotime("-30 days", $data["expiration"]);
